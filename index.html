@@ -85,10 +85,11 @@
       padding: 28px 56px;
       display: flex; justify-content: space-between; align-items: center;
     }
-    .nav-logo {
-      font-size: 13px; font-weight: 800;
-      letter-spacing: .25em; text-transform: uppercase;
-      color: var(--text); text-decoration: none;
+    .nav-logo { text-decoration: none; display: flex; align-items: center; }
+    .nav-logo img {
+      height: 40px; width: 40px;
+      object-fit: contain; border-radius: 50%;
+      filter: invert(1);
     }
     .nav-links { display: flex; gap: 36px; list-style: none; }
     .nav-links a {
@@ -238,7 +239,7 @@
     }
     .skills-grid {
       display: grid;
-      grid-template-columns: repeat(7, 1fr);
+      grid-template-columns: repeat(8, 1fr);
       gap: 0;
     }
     .skill-item {
@@ -531,6 +532,7 @@
       .section { padding: 80px 24px; }
       #skills-wrap { margin: 0 16px; }
       .skills-grid { grid-template-columns: repeat(4, 1fr); }
+      .nav-logo img { height: 32px; width: 32px; }
       .skill-item { padding: 32px 8px; }
       footer { flex-direction: column; gap: 8px; text-align: center; }
     }
@@ -551,7 +553,7 @@
 
 <!-- NAV -->
 <nav id="nav">
-  <a href="#hero" class="nav-logo">JC</a>
+  <a href="#hero" class="nav-logo"><img src="assets/logo.png" alt="Jorge Cabrera"></a>
   <ul class="nav-links">
     <li><a href="#about">Sobre mí</a></li>
     <li><a href="#skills-wrap">Skills</a></li>
@@ -652,6 +654,7 @@
     <div class="skill-item reveal"><img src="assets/skills/ai.png" alt="Illustrator" class="skill-icon"><span class="skill-name">Illustrator</span></div>
     <div class="skill-item reveal"><img src="assets/skills/zbrush.png" alt="ZBrush" class="skill-icon"><span class="skill-name">ZBrush</span></div>
     <div class="skill-item reveal"><img src="assets/skills/pt.png" alt="Substance" class="skill-icon"><span class="skill-name">Substance</span></div>
+    <div class="skill-item reveal"><img src="assets/skills/ae.svg" alt="After Effects" class="skill-icon"><span class="skill-name">After Effects</span></div>
   </div>
   <div class="skills-also">
     <p class="skills-also-label">También</p>
@@ -811,7 +814,7 @@
 
     <div class="tl-item">
       <div class="tl-dot"></div>
-      <p class="tl-date">2022 – 2025</p>
+      <p class="tl-date">2022 – 2026</p>
       <h3 class="tl-role">Grado en Diseño Digital y Tecnologías Multimedia</h3>
       <p class="tl-co">CITM UPC, Terrassa</p>
       <p class="tl-desc">Formación universitaria en diseño digital, modelado 3D, UX/UI, vídeo, motion graphics, programación y tecnologías multimedia emergentes.</p>
