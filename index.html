@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jorge Cabrera — Diseñador Digital & Multimedia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #080808;
+      --surface: #111111;
+      --border: #1c1c1c;
+      --text: #f0ece4;
+      --muted: #555;
+      --accent: #4da6ff;
+      --accent-dim: rgba(77, 166, 255, 0.08);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', system-ui, sans-serif;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ── CURSOR ── */
+    #cursor {
+      width: 10px; height: 10px;
+      background: var(--accent);
+      border-radius: 50%;
+      position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%, -50%);
+    }
+    #cursor-ring {
+      width: 36px; height: 36px;
+      border: 1px solid rgba(77,166,255,.35);
+      border-radius: 50%;
+      position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 9998;
+      transform: translate(-50%, -50%);
+    }
+
+    /* ── LOADER ── */
+    #loader {
+      position: fixed; inset: 0;
+      background: var(--bg);
+      z-index: 1000;
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 24px;
+    }
+    .loader-name {
+      font-size: 13px; font-weight: 700;
+      letter-spacing: .4em; text-transform: uppercase;
+      color: var(--muted);
+    }
+    .loader-bar-track {
+      width: 200px; height: 1px;
+      background: var(--border);
+      position: relative; overflow: hidden;
+    }
+    .loader-bar {
+      height: 100%; width: 0%;
+      background: var(--accent);
+      transition: width .05s linear;
+    }
+    .loader-pct {
+      font-size: 11px; letter-spacing: .15em;
+      color: var(--muted);
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; width: 100%;
+      z-index: 500;
+      padding: 28px 56px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .nav-logo {
+      font-size: 13px; font-weight: 800;
+      letter-spacing: .25em; text-transform: uppercase;
+      color: var(--text); text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a {
+      font-size: 11px; font-weight: 600;
+      letter-spacing: .15em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-contact {
+      display: inline-flex; align-items: center;
+      padding: 9px 22px;
+      background: var(--accent); color: #000;
+      font-size: 11px; font-weight: 800;
+      letter-spacing: .1em; text-transform: uppercase;
+      text-decoration: none; border-radius: 100px;
+      transition: opacity .2s, transform .15s;
+      margin-left: 8px;
+    }
+    .nav-contact:hover { opacity: .85; transform: scale(1.04); }
+
+    /* ── HERO ── */
+    #hero {
+      height: 100vh; min-height: 600px;
+      display: flex; flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 56px 72px;
+      position: relative; overflow: hidden;
+    }
+    .hero-tag {
+      font-size: 11px; font-weight: 600;
+      letter-spacing: .35em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 20px;
+      opacity: 0; transform: translateY(12px);
+    }
+    .hero-name {
+      font-size: clamp(72px, 11vw, 170px);
+      font-weight: 900; line-height: .88;
+      letter-spacing: -.04em; text-transform: uppercase;
+    }
+    .hero-line { display: block; overflow: hidden; }
+    .hero-line-inner { display: block; transform: translateY(110%); }
+    .hero-bottom {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      margin-top: 52px; opacity: 0;
+    }
+    .hero-sub {
+      font-size: 17px; font-weight: 300;
+      line-height: 1.6; color: var(--muted); max-width: 380px;
+    }
+    .hero-sub b { color: var(--text); font-weight: 600; }
+    .scroll-cue { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+    .scroll-cue span {
+      font-size: 9px; letter-spacing: .25em;
+      text-transform: uppercase; color: var(--muted);
+    }
+    .scroll-track {
+      width: 1px; height: 56px;
+      background: var(--border); position: relative; overflow: hidden;
+    }
+    .scroll-track::after {
+      content: ''; position: absolute; top: -100%; left: 0;
+      width: 100%; height: 100%;
+      background: var(--accent);
+      animation: drop 1.6s ease infinite;
+    }
+    @keyframes drop { to { top: 200%; } }
+
+    .hero-number {
+      position: absolute; bottom: 72px; right: 56px;
+      font-size: 140px; font-weight: 900;
+      letter-spacing: -.06em;
+      color: transparent;
+      -webkit-text-stroke: 1px var(--border);
+      line-height: 1; user-select: none;
+      z-index: -1;
+    }
+
+    /* ── SECTIONS BASE ── */
+    .section { padding: 140px 56px; }
+    .s-label {
+      font-size: 10px; font-weight: 700;
+      letter-spacing: .4em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 18px;
+    }
+    .s-title {
+      font-size: clamp(44px, 6vw, 88px);
+      font-weight: 900; line-height: .95;
+      letter-spacing: -.035em; text-transform: uppercase;
+      margin-bottom: 80px;
+    }
+    .reveal { opacity: 0; transform: translateY(40px); }
+
+    /* ── ABOUT ── */
+    #about {
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: 96px; align-items: center;
+    }
+    .about-img-wrap {
+      position: relative;
+    }
+    .about-img-wrap::before {
+      content: ''; position: absolute;
+      inset: -20px; border: 1px solid var(--border);
+      pointer-events: none;
+    }
+    .about-img {
+      width: 100%; aspect-ratio: 3/4;
+      object-fit: cover; object-position: top center;
+      display: block; filter: grayscale(15%);
+    }
+    .about-year {
+      position: absolute; bottom: -16px; right: -16px;
+      background: var(--accent); color: #000;
+      font-size: 11px; font-weight: 800;
+      letter-spacing: .2em; text-transform: uppercase;
+      padding: 8px 16px;
+    }
+    .about-text {
+      font-size: 19px; line-height: 1.75;
+      color: var(--muted); margin-bottom: 28px;
+    }
+    .about-text b { color: var(--text); }
+    .about-stats {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 40px 48px;
+      margin-top: 56px; padding-top: 48px;
+      border-top: 1px solid var(--border);
+    }
+    .stat-n {
+      font-size: 52px; font-weight: 900;
+      letter-spacing: -.04em; line-height: 1;
+      color: var(--text);
+    }
+    .stat-n span { color: var(--accent); }
+    .stat-l {
+      font-size: 11px; font-weight: 600;
+      letter-spacing: .15em; text-transform: uppercase;
+      color: var(--muted); margin-top: 6px;
+    }
+
+    /* ── SKILLS ── */
+    #skills-wrap {
+      background: var(--surface);
+      border-radius: 28px; margin: 0 32px;
+    }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 0;
+    }
+    .skill-item {
+      display: flex; flex-direction: column;
+      align-items: center; gap: 14px;
+      padding: 48px 16px;
+      border-right: 1px solid var(--border);
+      transition: background .3s;
+    }
+    .skill-item:last-child { border-right: none; }
+    .skill-item:hover { background: var(--accent-dim); }
+    .skill-icon {
+      width: 60px; height: 60px;
+      object-fit: contain;
+      transition: transform .3s;
+    }
+    .skill-item:hover .skill-icon { transform: scale(1.12) translateY(-4px); }
+    .skill-name {
+      font-size: 10px; font-weight: 700;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--muted); text-align: center;
+    }
+    .skills-also {
+      padding: 40px 56px; border-top: 1px solid var(--border);
+      display: flex; align-items: center; gap: 32px; flex-wrap: wrap;
+    }
+    .skills-also-label {
+      font-size: 10px; font-weight: 700;
+      letter-spacing: .3em; text-transform: uppercase; color: var(--muted);
+      white-space: nowrap;
+    }
+    .skills-tags { display: flex; gap: 10px; flex-wrap: wrap; }
+    .s-tag {
+      padding: 7px 18px;
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      font-size: 12px; font-weight: 500; color: var(--muted);
+      transition: all .2s;
+    }
+    .s-tag:hover { border-color: var(--accent); color: var(--text); }
+
+    /* ── PROJECTS HORIZONTAL ── */
+    #projects { padding: 140px 0; }
+    .projects-head { padding: 0 56px; margin-bottom: 72px; }
+    .projects-count {
+      font-size: 11px; font-weight: 600; letter-spacing: .3em;
+      text-transform: uppercase; color: var(--muted); margin-top: 16px;
+    }
+    .projects-track {
+      display: flex; gap: 20px;
+      padding: 0 56px 8px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      cursor: grab;
+      user-select: none;
+    }
+    .projects-track:active { cursor: grabbing; }
+    .projects-track::-webkit-scrollbar { display: none; }
+    .projects-nav {
+      display: flex; justify-content: flex-end; align-items: center; gap: 10px;
+      margin-top: 28px; padding: 0 56px;
+    }
+    .proj-arrow {
+      width: 44px; height: 44px; border-radius: 50%;
+      border: 1px solid var(--border); background: none;
+      color: var(--muted); font-size: 18px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all .2s;
+    }
+    .proj-arrow:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+    .proj-arrow:disabled { opacity: .25; cursor: default; pointer-events: none; }
+    .proj-card {
+      flex: 0 0 440px;
+      scroll-snap-align: start;
+      background: var(--surface);
+      border-radius: 20px; overflow: hidden;
+      border: 1px solid var(--border);
+      transition: border-color .3s;
+    }
+    .proj-card:hover { border-color: var(--accent); }
+    .proj-img-wrap { overflow: hidden; height: 300px; }
+    .proj-img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+      transition: transform .7s cubic-bezier(.25,.46,.45,.94);
+    }
+    .proj-card:hover .proj-img { transform: scale(1.06); }
+    .proj-info { padding: 28px 32px 32px; }
+    .proj-cat {
+      font-size: 9px; font-weight: 700;
+      letter-spacing: .35em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 10px;
+    }
+    .proj-title {
+      font-size: 26px; font-weight: 800;
+      letter-spacing: -.02em; margin-bottom: 12px;
+    }
+    .proj-desc {
+      font-size: 13px; line-height: 1.75; color: var(--muted);
+    }
+
+    /* project modal */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,.85); backdrop-filter: blur(12px);
+      z-index: 800; display: none;
+      align-items: center; justify-content: center;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-box {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 24px; width: min(900px, 90vw);
+      max-height: 85vh; overflow-y: auto;
+      padding: 48px;
+    }
+    .modal-close {
+      float: right; background: none; border: none;
+      color: var(--muted); font-size: 24px; cursor: pointer;
+      line-height: 1; transition: color .2s;
+    }
+    .modal-close:hover { color: var(--text); }
+    .modal-cat {
+      font-size: 9px; font-weight: 700; letter-spacing: .35em;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 12px; clear: both;
+    }
+    .modal-title {
+      font-size: 40px; font-weight: 900; letter-spacing: -.03em; margin-bottom: 16px;
+    }
+    .modal-desc {
+      font-size: 16px; line-height: 1.8; color: var(--muted); margin-bottom: 40px;
+    }
+    .modal-gallery {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+    }
+    .modal-gallery img {
+      width: 100%; border-radius: 10px; object-fit: cover;
+      aspect-ratio: 4/3; cursor: zoom-in;
+      transition: transform .2s, opacity .2s;
+    }
+    .modal-gallery img:hover { transform: scale(1.03); opacity: .88; }
+
+    /* ── LIGHTBOX ── */
+    #lightbox {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,.96);
+      z-index: 1200;
+      display: none; align-items: center; justify-content: center;
+    }
+    #lightbox.open { display: flex; }
+    #lbImg {
+      max-width: 88vw; max-height: 88vh;
+      object-fit: contain; border-radius: 8px;
+      pointer-events: none;
+    }
+    .lb-close {
+      position: absolute; top: 24px; right: 32px;
+      background: none; border: none; color: rgba(255,255,255,.6);
+      font-size: 22px; cursor: pointer; transition: color .2s;
+      line-height: 1;
+    }
+    .lb-close:hover { color: var(--text); }
+    .lb-arrow {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);
+      border-radius: 50%; width: 48px; height: 48px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text); font-size: 20px; cursor: pointer;
+      transition: background .2s, border-color .2s;
+    }
+    .lb-arrow:hover { background: var(--accent-dim); border-color: var(--accent); color: var(--accent); }
+    #lbPrev { left: 24px; }
+    #lbNext { right: 24px; }
+    .lb-counter {
+      position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%);
+      font-size: 11px; letter-spacing: .2em; color: var(--muted);
+    }
+
+    /* ── EXPERIENCE TIMELINE ── */
+    #experience .timeline {
+      max-width: 760px; margin: 0 auto;
+      position: relative;
+    }
+    #experience .timeline::before {
+      content: ''; position: absolute;
+      left: 0; top: 8px; width: 1px;
+      background: linear-gradient(to bottom, var(--accent), var(--border));
+      height: calc(100% - 8px);
+    }
+    .tl-item {
+      padding: 0 0 72px 48px;
+      position: relative;
+    }
+    .tl-dot {
+      position: absolute; left: -5px; top: 8px;
+      width: 11px; height: 11px;
+      background: var(--accent); border-radius: 50%;
+    }
+    .tl-date {
+      font-size: 10px; font-weight: 700;
+      letter-spacing: .3em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 10px;
+    }
+    .tl-role {
+      font-size: 30px; font-weight: 800;
+      letter-spacing: -.025em; margin-bottom: 4px;
+    }
+    .tl-co {
+      font-size: 16px; font-weight: 500;
+      color: var(--muted); margin-bottom: 18px;
+    }
+    .tl-desc {
+      font-size: 15px; line-height: 1.8; color: var(--muted);
+    }
+
+    /* ── CONTACT ── */
+    #contact { text-align: center; }
+    .contact-cta {
+      font-size: clamp(13px, 1.2vw, 17px);
+      font-weight: 500; color: var(--muted);
+      letter-spacing: .05em; margin-bottom: 12px;
+    }
+    .contact-email {
+      display: inline-block;
+      font-size: clamp(28px, 4.5vw, 72px);
+      font-weight: 900; letter-spacing: -.035em;
+      text-decoration: none; color: var(--text);
+      transition: color .25s; margin: 36px 0 24px;
+      line-height: 1;
+    }
+    .contact-email:hover { color: var(--accent); }
+    .contact-phone {
+      font-size: 16px; color: var(--muted); margin-bottom: 56px;
+    }
+    .contact-socials {
+      display: flex; justify-content: center;
+      gap: 12px; flex-wrap: wrap;
+    }
+    .soc-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 24px;
+      border: 1px solid var(--border); border-radius: 100px;
+      font-size: 12px; font-weight: 600; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--muted);
+      text-decoration: none; transition: all .25s;
+    }
+    .soc-btn:hover {
+      border-color: var(--accent);
+      color: var(--text); background: var(--accent-dim);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 32px 56px;
+      display: flex; justify-content: space-between; align-items: center;
+      border-top: 1px solid var(--border);
+    }
+    footer span { font-size: 12px; color: var(--muted); }
+    .footer-accent { color: var(--accent); }
+
+    /* ── MARQUEE ── */
+    .marquee-wrap {
+      overflow: hidden; padding: 40px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      margin: 80px 0;
+    }
+    .marquee-track {
+      display: flex; gap: 48px; width: max-content;
+      animation: marquee 20s linear infinite;
+    }
+    .marquee-track:hover { animation-play-state: paused; }
+    .marquee-item {
+      font-size: 13px; font-weight: 700; letter-spacing: .2em;
+      text-transform: uppercase; color: var(--muted); white-space: nowrap;
+    }
+    .marquee-dot { color: var(--accent); margin-right: 48px; }
+    @keyframes marquee { to { transform: translateX(-50%); } }
+
+    /* responsive */
+    @media (max-width: 900px) {
+      nav { padding: 20px 24px; }
+      .nav-links { display: none; }
+      #hero { padding: 0 24px 56px; }
+      .hero-number { font-size: 80px; right: 24px; bottom: 56px; }
+      #about { grid-template-columns: 1fr; gap: 48px; padding: 80px 24px; }
+      .section { padding: 80px 24px; }
+      #skills-wrap { margin: 0 16px; }
+      .skills-grid { grid-template-columns: repeat(4, 1fr); }
+      .skill-item { padding: 32px 8px; }
+      footer { flex-direction: column; gap: 8px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- LOADER -->
+<div id="loader">
+  <p class="loader-name">Jorge Cabrera</p>
+  <div class="loader-bar-track"><div class="loader-bar" id="loaderBar"></div></div>
+  <p class="loader-pct" id="loaderPct">0%</p>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#hero" class="nav-logo">JC</a>
+  <ul class="nav-links">
+    <li><a href="#about">Sobre mí</a></li>
+    <li><a href="#skills-wrap">Skills</a></li>
+    <li><a href="#projects">Proyectos</a></li>
+    <li><a href="#experience">Experiencia</a></li>
+  </ul>
+  <a href="mailto:jcabreracarrasquer@gmail.com" class="nav-contact">Contáctame</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <p class="hero-tag">Diseño Digital &amp; Multimedia</p>
+  <h1 class="hero-name">
+    <span class="hero-line"><span class="hero-line-inner">Jorge</span></span>
+    <span class="hero-line"><span class="hero-line-inner">Cabrera</span></span>
+  </h1>
+  <div class="hero-bottom">
+    <p class="hero-sub">
+      <b>UX · Gráfico · 3D · Vídeo</b><br>
+      Estudiante en CITM UPC, Terrassa.<br>
+      Creatividad e innovación en cada proyecto.
+    </p>
+    <div class="scroll-cue">
+      <div class="scroll-track"></div>
+      <span>Scroll</span>
+    </div>
+  </div>
+  <div class="hero-number">01</div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="section">
+  <div class="about-img-wrap reveal">
+    <img src="assets/profile.png" alt="Jorge Cabrera" class="about-img">
+    <div class="about-year">CITM UPC '25</div>
+  </div>
+  <div class="about-content">
+    <p class="s-label">Sobre mí</p>
+    <p class="about-text reveal">
+      Soy <b>Jorge Cabrera</b>, diseñador digital especializado en
+      <b>UX, diseño gráfico, modelado 3D y edición de vídeo</b>.
+    </p>
+    <p class="about-text reveal">
+      Me apasiona la <b>creatividad y la innovación</b>. He colaborado con
+      equipos de fútbol, empresas industriales y agencias digitales,
+      siempre buscando soluciones visuales que comuniquen de verdad.
+    </p>
+    <div class="about-stats">
+      <div class="reveal">
+        <div class="stat-n">3<span>+</span></div>
+        <p class="stat-l">Años de experiencia</p>
+      </div>
+      <div class="reveal">
+        <div class="stat-n">6<span>+</span></div>
+        <p class="stat-l">Proyectos</p>
+      </div>
+      <div class="reveal">
+        <div class="stat-n">3</div>
+        <p class="stat-l">Idiomas</p>
+      </div>
+      <div class="reveal">
+        <div class="stat-n">7<span>+</span></div>
+        <p class="stat-l">Herramientas</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track" id="marquee">
+    <span class="marquee-item">Diseño UX <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Diseño Gráfico <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Modelado 3D <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Edición de Vídeo <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Identidad Visual <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Realidad Virtual <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Motion Graphics <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Diseño UX <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Diseño Gráfico <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Modelado 3D <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Edición de Vídeo <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Identidad Visual <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Realidad Virtual <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Motion Graphics <span class="marquee-dot">✦</span></span>
+  </div>
+</div>
+
+<!-- SKILLS -->
+<div id="skills-wrap" class="section">
+  <p class="s-label">Habilidades</p>
+  <h2 class="s-title reveal">Mi Stack</h2>
+  <div class="skills-grid">
+    <div class="skill-item reveal"><img src="assets/skills/ps.png" alt="Photoshop" class="skill-icon"><span class="skill-name">Photoshop</span></div>
+    <div class="skill-item reveal"><img src="assets/skills/figma.png" alt="Figma" class="skill-icon"><span class="skill-name">Figma</span></div>
+    <div class="skill-item reveal"><img src="assets/skills/maya.png" alt="Maya" class="skill-icon"><span class="skill-name">Maya</span></div>
+    <div class="skill-item reveal"><img src="assets/skills/pr.png" alt="Premiere" class="skill-icon"><span class="skill-name">Premiere</span></div>
+    <div class="skill-item reveal"><img src="assets/skills/ai.png" alt="Illustrator" class="skill-icon"><span class="skill-name">Illustrator</span></div>
+    <div class="skill-item reveal"><img src="assets/skills/zbrush.png" alt="ZBrush" class="skill-icon"><span class="skill-name">ZBrush</span></div>
+    <div class="skill-item reveal"><img src="assets/skills/pt.png" alt="Substance" class="skill-icon"><span class="skill-name">Substance</span></div>
+  </div>
+  <div class="skills-also">
+    <p class="skills-also-label">También</p>
+    <div class="skills-tags">
+      <span class="s-tag">Blender</span>
+      <span class="s-tag">Unity</span>
+      <span class="s-tag">3ds Max</span>
+      <span class="s-tag">After Effects</span>
+      <span class="s-tag">Adobe XD</span>
+      <span class="s-tag">Suite Office</span>
+    </div>
+  </div>
+</div>
+
+<!-- PROJECTS HORIZONTAL SCROLL -->
+<section id="projects">
+  <div class="projects-head">
+    <p class="s-label">Proyectos</p>
+    <h2 class="s-title reveal">Mi Trabajo</h2>
+    <p class="projects-count reveal">07 proyectos seleccionados</p>
+  </div>
+  <div class="projects-track" id="projectsTrack">
+
+    <div class="proj-card" data-project="beyond">
+      <div class="proj-img-wrap">
+        <img src="assets/projects/beyond/captura.png" alt="Beyond Reality" class="proj-img">
+      </div>
+      <div class="proj-info">
+        <p class="proj-cat">3D · VR · Unity</p>
+        <h3 class="proj-title">Beyond Reality</h3>
+        <p class="proj-desc">Experiencia de realidad virtual inmersiva desarrollada en Unity. Modelado 3D completo, texturas y diseño de entornos interactivos.</p>
+      </div>
+    </div>
+
+    <div class="proj-card" data-project="fragatina">
+      <div class="proj-img-wrap">
+        <img src="assets/projects/fragatina/1.png" alt="Fragatina" class="proj-img">
+      </div>
+      <div class="proj-info">
+        <p class="proj-cat">Diseño Gráfico · Identidad Visual</p>
+        <h3 class="proj-title">Fútbol Peña Fragatina</h3>
+        <p class="proj-desc">Identidad visual completa y gestión de redes sociales para el equipo de fútbol. Trabajo continuo desde 2022.</p>
+      </div>
+    </div>
+
+    <div class="proj-card" data-project="acbp">
+      <div class="proj-img-wrap">
+        <img src="assets/projects/acbp/1.png" alt="ACBP" class="proj-img">
+      </div>
+      <div class="proj-info">
+        <p class="proj-cat">UX Design · Software Industrial</p>
+        <h3 class="proj-title">ACBP — UX Industrial</h3>
+        <p class="proj-desc">Prácticas de verano 2024. Diseño de interfaces de usuario para programas industriales, mejorando usabilidad y flujo de trabajo.</p>
+      </div>
+    </div>
+
+    <div class="proj-card" data-project="ikea">
+      <div class="proj-img-wrap">
+        <img src="assets/projects/ikea/portada.jpg" alt="IKEA" class="proj-img">
+      </div>
+      <div class="proj-info">
+        <p class="proj-cat">Diseño · Producto · 3D</p>
+        <h3 class="proj-title">Proyecto IKEA</h3>
+        <p class="proj-desc">Proyecto universitario de diseño de producto: identidad, maquetación y visualización 3D inspirado en la filosofía IKEA.</p>
+      </div>
+    </div>
+
+    <div class="proj-card" data-project="bagon">
+      <div class="proj-img-wrap">
+        <img src="assets/projects/bagon/1.jpg" alt="Bagon" class="proj-img">
+      </div>
+      <div class="proj-info">
+        <p class="proj-cat">3D · Modelado · Render</p>
+        <h3 class="proj-title">Bagon</h3>
+        <p class="proj-desc">Proyecto de modelado y diseño 3D. Exploración de formas orgánicas, texturas procedurales y render fotorrealista.</p>
+      </div>
+    </div>
+
+    <div class="proj-card" data-project="otros">
+      <div class="proj-img-wrap">
+        <img src="assets/projects/otros/lamine.png" alt="Graphic Playground" class="proj-img">
+      </div>
+      <div class="proj-info">
+        <p class="proj-cat">Diseño Gráfico · Deporte · Social</p>
+        <h3 class="proj-title">Gráficas Deportivas</h3>
+        <p class="proj-desc">Diseño de contenido gráfico de todo tipo</p>
+      </div>
+    </div>
+
+    <div class="proj-card" data-project="portfolio">
+      <div class="proj-img-wrap">
+        <img src="assets/projects/portfolio/portfolio.png" alt="Portfolio Design" class="proj-img">
+      </div>
+      <div class="proj-info">
+        <p class="proj-cat">UX/UI · Diseño Web · Figma</p>
+        <h3 class="proj-title">Portfolio Design</h3>
+        <p class="proj-desc">Diseño y prototipado del portfolio personal. Research, wireframing, diseño visual y prototipos interactivos en Figma.</p>
+      </div>
+    </div>
+
+  </div>
+  <div class="projects-nav">
+    <button class="proj-arrow" id="projPrev" aria-label="Anterior">&#8592;</button>
+    <button class="proj-arrow" id="projNext" aria-label="Siguiente">&#8594;</button>
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div id="lightbox">
+  <button class="lb-close" id="lbClose">✕</button>
+  <button class="lb-arrow" id="lbPrev">&#8249;</button>
+  <img id="lbImg" src="" alt="">
+  <button class="lb-arrow" id="lbNext">&#8250;</button>
+  <p class="lb-counter" id="lbCounter"></p>
+</div>
+
+<!-- PROJECT MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal-box">
+    <button class="modal-close" id="modalClose">✕</button>
+    <p class="modal-cat" id="modalCat"></p>
+    <h2 class="modal-title" id="modalTitle"></h2>
+    <p class="modal-desc" id="modalDesc"></p>
+    <div class="modal-gallery" id="modalGallery"></div>
+  </div>
+</div>
+
+<!-- EXPERIENCE -->
+<section id="experience" class="section">
+  <p class="s-label">Trayectoria</p>
+  <h2 class="s-title reveal">Experiencia</h2>
+  <div class="timeline">
+
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <p class="tl-date">Marzo 2026 - Actualidad</p>
+      <h3 class="tl-role">Diseñador Multimedia</h3>
+      <p class="tl-co">Hiberus, Zaragoza</p>
+      <p class="tl-desc">Formo parte del equipo de Comunicación de hiberus, desarrollando contenido multimedia para diferentes campañas internas y externas de la empresa.</p>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <p class="tl-date">Jul – Ago 2024</p>
+      <h3 class="tl-role">Diseñador UX</h3>
+      <p class="tl-co">ACBP</p>
+      <p class="tl-desc">Prácticas no curriculares de verano. Diseño de interfaces para los programas industriales que desarrolla ACBP, aplicando metodologías UX centradas en el usuario.</p>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <p class="tl-date">2022 – Presente</p>
+      <h3 class="tl-role">Diseñador Gráfico</h3>
+      <p class="tl-co">Fútbol Peña Fragatina</p>
+      <p class="tl-desc">Diseño de la propuesta gráfica del equipo y gestión visual de las redes sociales (@futbol_pfragatina). Identidad visual, matchday graphics y comunicación digital continuada.</p>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <p class="tl-date">2022 – 2025</p>
+      <h3 class="tl-role">Grado en Diseño Digital y Tecnologías Multimedia</h3>
+      <p class="tl-co">CITM UPC, Terrassa</p>
+      <p class="tl-desc">Formación universitaria en diseño digital, modelado 3D, UX/UI, vídeo, motion graphics, programación y tecnologías multimedia emergentes.</p>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <p class="tl-date">2016 – 2022</p>
+      <h3 class="tl-role">Bachillerato Tecnológico</h3>
+      <p class="tl-co">IES Ramón J. Sender, Fraga</p>
+      <p class="tl-desc">Bachillerato Tecnológico. Trilingüe Castellano – Catalán – Inglés. Convenio con British Council (First Certificate B2).</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="section">
+  <p class="s-label">¿Trabajamos juntos?</p>
+  <h2 class="s-title reveal">Contacto</h2>
+  <p class="contact-cta reveal">Disponible para proyectos freelance y nuevas oportunidades</p>
+  <a href="mailto:jcabreracarrasquer@gmail.com" class="contact-email reveal">
+    jcabreracarrasquer@gmail.com
+  </a>
+  <p class="contact-phone reveal">640 282 291 · Fraga, Huesca</p>
+  <div class="contact-socials reveal">
+    <a href="https://www.linkedin.com/in/jorge-cabrera-carrasquer-6bb2b6380" target="_blank" class="soc-btn">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.76 0-5 2.24-5 5v14c0 2.76 2.24 5 5 5h14c2.76 0 5-2.24 5-5v-14c0-2.76-2.24-5-5-5zm-11 19h-3v-10h3v10zm-1.5-11.27c-.97 0-1.75-.79-1.75-1.76s.78-1.76 1.75-1.76 1.75.79 1.75 1.76-.78 1.76-1.75 1.76zm13.5 11.27h-3v-5.5c0-1.38-.03-3.16-1.93-3.16-1.93 0-2.23 1.51-2.23 3.06v5.6h-3v-10h2.88v1.37h.04c.4-.76 1.38-1.56 2.84-1.56 3.04 0 3.6 2 3.6 4.59v5.6z"/></svg>
+      LinkedIn
+    </a>
+    <a href="https://www.instagram.com/jcabreradesign/" target="_blank" class="soc-btn">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+      Instagram
+    </a>
+    <a href="mailto:jcabreracarrasquer@gmail.com" class="soc-btn">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
+      Email
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2026 <span class="footer-accent">Jorge Cabrera</span></span>
+  <span>Diseño Digital &amp; Multimedia · CITM UPC</span>
+</footer>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+/* ── LOADER ── */
+const bar = document.getElementById('loaderBar');
+const pct = document.getElementById('loaderPct');
+let prog = 0;
+const tick = setInterval(() => {
+  prog += Math.random() * 18;
+  if (prog > 100) prog = 100;
+  bar.style.width = prog + '%';
+  pct.textContent = Math.floor(prog) + '%';
+  if (prog === 100) {
+    clearInterval(tick);
+    setTimeout(() => {
+      gsap.to('#loader', { opacity: 0, duration: .6, ease: 'power2.inOut', onComplete: () => {
+        document.getElementById('loader').style.display = 'none';
+        initAnimations();
+      }});
+    }, 300);
+  }
+}, 60);
+
+function initAnimations() {
+  /* cursor */
+  const cur = document.getElementById('cursor');
+  const ring = document.getElementById('cursor-ring');
+  document.addEventListener('mousemove', e => {
+    gsap.to(cur,  { x: e.clientX, y: e.clientY, duration: .08 });
+    gsap.to(ring, { x: e.clientX, y: e.clientY, duration: .35 });
+  });
+  document.querySelectorAll('a, button, .proj-card').forEach(el => {
+    el.addEventListener('mouseenter', () => gsap.to(ring, { scale: 2, opacity: .5, duration: .2 }));
+    el.addEventListener('mouseleave', () => gsap.to(ring, { scale: 1, opacity: 1, duration: .2 }));
+  });
+
+  /* hero */
+  gsap.to('.hero-tag', { opacity: 1, y: 0, duration: .9, delay: .2, ease: 'power3.out' });
+  gsap.to('.hero-line-inner', {
+    y: 0, duration: 1.1, delay: .35, stagger: .12, ease: 'power4.out'
+  });
+  gsap.to('.hero-bottom', { opacity: 1, duration: .9, delay: .9, ease: 'power3.out' });
+
+  /* nav fade */
+  gsap.from('#nav', { y: -20, opacity: 0, duration: .8, delay: 1.2, ease: 'power3.out' });
+
+  /* generic reveals */
+  gsap.utils.toArray('.reveal').forEach(el => {
+    gsap.to(el, {
+      scrollTrigger: { trigger: el, start: 'top 88%' },
+      opacity: 1, y: 0, duration: .75, ease: 'power3.out'
+    });
+  });
+
+  /* skills stagger */
+  gsap.from('.skill-item', {
+    scrollTrigger: { trigger: '.skills-grid', start: 'top 80%' },
+    opacity: 0, y: 30, duration: .5, stagger: .07, ease: 'power3.out'
+  });
+
+  /* PROJECTS — drag-to-scroll + snap */
+  const track = document.getElementById('projectsTrack');
+  let isDragging = false, dragStartX = 0, dragScrollLeft = 0, dragMoved = false;
+
+  track.addEventListener('mousedown', e => {
+    isDragging = true; dragMoved = false;
+    dragStartX = e.pageX - track.offsetLeft;
+    dragScrollLeft = track.scrollLeft;
+    track.style.cursor = 'grabbing';
+  });
+  ['mouseleave','mouseup'].forEach(evt => track.addEventListener(evt, () => {
+    isDragging = false; track.style.cursor = 'grab';
+  }));
+  track.addEventListener('mousemove', e => {
+    if (!isDragging) return;
+    e.preventDefault();
+    dragMoved = true;
+    track.scrollLeft = dragScrollLeft - (e.pageX - track.offsetLeft - dragStartX) * 1.5;
+  });
+  track.addEventListener('click', e => {
+    if (dragMoved) e.stopPropagation();
+  }, true);
+
+  /* project arrow navigation */
+  const projCards = track.querySelectorAll('.proj-card');
+  const btnPrev = document.getElementById('projPrev');
+  const btnNext = document.getElementById('projNext');
+  let currentCard = 0;
+
+  function scrollToCard(idx) {
+    currentCard = Math.max(0, Math.min(idx, projCards.length - 1));
+    track.scrollTo({ left: projCards[currentCard].offsetLeft - 56, behavior: 'smooth' });
+    btnPrev.disabled = currentCard === 0;
+    btnNext.disabled = currentCard === projCards.length - 1;
+  }
+  btnPrev.addEventListener('click', () => scrollToCard(currentCard - 1));
+  btnNext.addEventListener('click', () => scrollToCard(currentCard + 1));
+  btnPrev.disabled = true;
+
+  const cardObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        currentCard = [...projCards].indexOf(entry.target);
+        btnPrev.disabled = currentCard === 0;
+        btnNext.disabled = currentCard === projCards.length - 1;
+      }
+    });
+  }, { root: track, threshold: 0.55 });
+  projCards.forEach(c => cardObserver.observe(c));
+
+  /* timeline items — set initial state explicitly, then animate in */
+  gsap.set('.tl-item', { opacity: 0, x: -40 });
+  gsap.utils.toArray('.tl-item').forEach((el, i) => {
+    gsap.to(el, {
+      scrollTrigger: { trigger: el, start: 'top 92%', toggleActions: 'play none none none' },
+      opacity: 1, x: 0, duration: .7,
+      delay: i * .04, ease: 'power3.out'
+    });
+  });
+
+  /* contact reveal */
+  gsap.from('#contact .s-title', {
+    scrollTrigger: { trigger: '#contact', start: 'top 80%' },
+    y: 60, opacity: 0, duration: .9, ease: 'power3.out'
+  });
+
+  /* refresh after pin setup to recalculate positions */
+  setTimeout(() => ScrollTrigger.refresh(), 200);
+}
+
+/* ── PROJECT MODAL ── */
+const projects = {
+  beyond: {
+    cat: '3D · VR · Unity',
+    title: 'Beyond Reality',
+    desc: 'Experiencia de realidad virtual inmersiva desarrollada en Unity para CAVE (Cave Automatic Virtual Environment). Incluye modelado 3D completo de escena y objetos interactivos con Maya y ZBrush, texturizado con Substance Painter y programación de interacciones en C#.',
+    imgs: [
+      'assets/projects/beyond/captura.png','assets/projects/beyond/captura1.png',
+      'assets/projects/beyond/captura2.png','assets/projects/beyond/captura3.png',
+      'assets/projects/beyond/captura4.png','assets/projects/beyond/captura5.png',
+      'assets/projects/beyond/DA2.png','assets/projects/beyond/DA3.png','assets/projects/beyond/DA4.png',
+      'assets/projects/beyond/dardo2.png','assets/projects/beyond/Dardos.png',
+      'assets/projects/beyond/Cuadro.png','assets/projects/beyond/Planta.png',
+      'assets/projects/beyond/Billar.png','assets/projects/beyond/Reloj.png',
+      'assets/projects/beyond/estanteria1.png','assets/projects/beyond/estanteria2.png',
+      'assets/projects/beyond/estanteria3.png','assets/projects/beyond/logo.png'
+    ]
+  },
+  fragatina: {
+    cat: 'Diseño Gráfico · Identidad Visual',
+    title: 'Fútbol Peña Fragatina',
+    desc: 'Diseño de la propuesta gráfica completa del equipo de fútbol Peña Fragatina desde 2022. Matchday graphics, anuncios de partido, celebraciones de goles y gestión visual de las redes sociales @futbol_pfragatina.',
+    imgs: [
+      'assets/projects/fragatina/1.png','assets/projects/fragatina/2.png',
+      'assets/projects/fragatina/3.png','assets/projects/fragatina/4.png',
+      'assets/projects/fragatina/5.png','assets/projects/fragatina/6.png',
+      'assets/projects/fragatina/7.png','assets/projects/fragatina/8.png',
+      'assets/projects/fragatina/9.png','assets/projects/fragatina/10.jpg',
+      'assets/projects/fragatina/11.png','assets/projects/fragatina/12.png',
+      'assets/projects/fragatina/13.png','assets/projects/fragatina/14.png',
+      'assets/projects/fragatina/15.png','assets/projects/fragatina/16.png'
+    ]
+  },
+  acbp: {
+    cat: 'UX Design · Software Industrial',
+    title: 'ACBP — UX Industrial',
+    desc: 'Prácticas de verano 2024 en ACBP (Julio–Agosto). Diseño de interfaces de usuario para el software industrial que desarrolla la empresa, aplicando metodologías centradas en el usuario: research, wireframing, prototipado en Figma y validación con usuarios reales.',
+    imgs: ['assets/projects/acbp/1.png','assets/projects/acbp/2.png','assets/projects/acbp/3.png']
+  },
+  ikea: {
+    cat: 'Diseño · Producto · 3D',
+    title: 'Proyecto IKEA',
+    desc: 'Proyecto universitario inspirado en la filosofía de diseño de IKEA. Incluye investigación, diseño conceptual, maquetación editorial y visualización 3D de producto.',
+    imgs: [
+      'assets/projects/ikea/portada.jpg','assets/projects/ikea/1.png',
+      'assets/projects/ikea/2.png','assets/projects/ikea/3.png',
+      'assets/projects/ikea/4.png','assets/projects/ikea/5.png'
+    ]
+  },
+  bagon: {
+    cat: '3D · Modelado · Texturizado',
+    title: 'Bagon',
+    desc: 'Proyecto de modelado y diseño 3D explorando formas orgánicas y técnicas de texturizado. Trabajo completo de modelado en Maya/ZBrush, texturizado en Substance Painter y render fotorrealista.',
+    imgs: ['assets/projects/bagon/1.jpg','assets/projects/bagon/2.png','assets/projects/bagon/3.png','assets/projects/bagon/4.jpg']
+  },
+  otros: {
+    cat: 'Diseño Gráfico · Deporte · Social Media',
+    title: 'Gráficas Deportivas',
+    desc: 'Diseño de contenido gráfico para redes sociales con temática deportiva. Jugadores como Lamine Yamal, Neymar y equipos como el Real Zaragoza. Piezas de alto impacto visual optimizadas para Instagram.',
+    imgs: [
+      'assets/projects/otros/lamine.png','assets/projects/otros/neymar.png',
+      'assets/projects/otros/matchday.png','assets/projects/otros/leganes.png',
+      'assets/projects/otros/quevedo.jpg','assets/projects/otros/ejemplo3.jpg',
+      'assets/projects/otros/racing.png','assets/projects/otros/camisantos.png',
+      'assets/projects/otros/fichaje.png','assets/projects/otros/v2.png',
+      'assets/projects/otros/francho.png','assets/projects/otros/zgzalbacete.jpg',
+      'assets/projects/otros/danisefe.png','assets/projects/otros/golzgzhuesca.png'
+    ]
+  },
+  portfolio: {
+    cat: 'UX/UI · Diseño Web · Figma',
+    title: 'Portfolio Design',
+    desc: 'Diseño y prototipado del portfolio personal. Research, wireframing, diseño visual y prototipos interactivos en Figma. Proceso completo desde el concepto hasta el diseño final.',
+    imgs: [
+      'assets/projects/portfolio/portfolio.png','assets/projects/portfolio/1.png',
+      'assets/projects/portfolio/2.png','assets/projects/portfolio/3.png',
+      'assets/projects/portfolio/4.png','assets/projects/portfolio/wireframes.png',
+      'assets/projects/portfolio/wireframes1.png'
+    ]
+  }
+};
+
+/* ── LIGHTBOX ── */
+let lbImgs = [], lbIdx = 0;
+
+function openLightbox(idx) {
+  lbIdx = idx;
+  document.getElementById('lbImg').src = lbImgs[idx];
+  document.getElementById('lbCounter').textContent = (idx + 1) + ' / ' + lbImgs.length;
+  document.getElementById('lightbox').classList.add('open');
+}
+function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); }
+
+document.getElementById('lbClose').addEventListener('click', closeLightbox);
+document.getElementById('lbPrev').addEventListener('click', () => {
+  openLightbox((lbIdx - 1 + lbImgs.length) % lbImgs.length);
+});
+document.getElementById('lbNext').addEventListener('click', () => {
+  openLightbox((lbIdx + 1) % lbImgs.length);
+});
+document.getElementById('lightbox').addEventListener('click', e => {
+  if (e.target === document.getElementById('lightbox')) closeLightbox();
+});
+
+document.getElementById('modalGallery').addEventListener('click', e => {
+  if (e.target.tagName === 'IMG') {
+    openLightbox(parseInt(e.target.dataset.idx));
+  }
+});
+
+/* ── PROJECT MODAL ── */
+document.querySelectorAll('.proj-card').forEach(card => {
+  card.addEventListener('click', () => {
+    if (card.closest('#projectsTrack') && window._dragMoved) return;
+    const key = card.dataset.project;
+    const p = projects[key];
+    document.getElementById('modalCat').textContent = p.cat;
+    document.getElementById('modalTitle').textContent = p.title;
+    document.getElementById('modalDesc').textContent = p.desc;
+    lbImgs = p.imgs;
+    const gallery = document.getElementById('modalGallery');
+    gallery.innerHTML = p.imgs.map((src, i) =>
+      `<img src="${src}" alt="" data-idx="${i}">`
+    ).join('');
+    document.getElementById('modal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  });
+});
+
+document.getElementById('modalClose').addEventListener('click', closeModal);
+document.getElementById('modal').addEventListener('click', e => {
+  if (e.target === document.getElementById('modal')) closeModal();
+});
+function closeModal() {
+  document.getElementById('modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => {
+  const lb = document.getElementById('lightbox');
+  if (lb.classList.contains('open')) {
+    if (e.key === 'ArrowLeft') openLightbox((lbIdx - 1 + lbImgs.length) % lbImgs.length);
+    if (e.key === 'ArrowRight') openLightbox((lbIdx + 1) % lbImgs.length);
+    if (e.key === 'Escape') closeLightbox();
+    return;
+  }
+  if (e.key === 'Escape') closeModal();
+});
+
+/* nav background on scroll */
+window.addEventListener('scroll', () => {
+  const nav = document.getElementById('nav');
+  if (window.scrollY > 60) {
+    nav.style.background = 'rgba(8,8,8,.9)';
+    nav.style.backdropFilter = 'blur(12px)';
+  } else {
+    nav.style.background = '';
+    nav.style.backdropFilter = '';
+  }
+});
+</script>
+</body>
+</html>
