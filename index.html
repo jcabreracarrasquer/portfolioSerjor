@@ -18,11 +18,11 @@
       --border: #1c1c1c;
       --text: #f0ece4;
       --muted: #555;
-      --accent: #4da6ff;
-      --accent-dim: rgba(77, 166, 255, 0.08);
+      --accent: #FF6B35;
+      --accent-dim: rgba(255,107,53,0.08);
     }
 
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: auto; }
 
     body {
       background: var(--bg);
@@ -32,51 +32,72 @@
       cursor: none;
     }
 
+    /* ── INTRO OVERLAY ── */
+    #intro-overlay {
+      position: fixed; inset: 0; z-index: 2000;
+      pointer-events: all;
+    }
+    .intro-strip {
+      position: absolute; left: 0; right: 0;
+      background: var(--bg);
+      height: 20vh;
+    }
+    .intro-strip:nth-child(1) { top: 0; }
+    .intro-strip:nth-child(2) { top: 20vh; }
+    .intro-strip:nth-child(3) { top: 40vh; }
+    .intro-strip:nth-child(4) { top: 60vh; }
+    .intro-strip:nth-child(5) { top: 80vh; }
+    .intro-count {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: clamp(72px, 14vw, 160px);
+      font-weight: 900; letter-spacing: -.06em;
+      color: var(--text);
+      pointer-events: none;
+      line-height: 1;
+    }
+    .intro-name {
+      position: absolute; bottom: 40px; left: 56px;
+      font-size: 11px; font-weight: 700;
+      letter-spacing: .4em; text-transform: uppercase;
+      color: var(--muted);
+    }
+    .intro-line {
+      position: absolute; bottom: 48px; right: 56px;
+      width: 0%; height: 1px;
+      background: var(--accent);
+      transition: none;
+    }
+
     /* ── CURSOR ── */
     #cursor {
-      width: 10px; height: 10px;
+      width: 8px; height: 8px;
       background: var(--accent);
       border-radius: 50%;
       position: fixed; top: 0; left: 0;
       pointer-events: none; z-index: 9999;
       transform: translate(-50%, -50%);
+      transition: opacity .15s;
     }
     #cursor-ring {
       width: 36px; height: 36px;
-      border: 1px solid rgba(77,166,255,.35);
+      border: 1px solid rgba(255,107,53,.4);
       border-radius: 50%;
       position: fixed; top: 0; left: 0;
       pointer-events: none; z-index: 9998;
       transform: translate(-50%, -50%);
-    }
-
-    /* ── LOADER ── */
-    #loader {
-      position: fixed; inset: 0;
-      background: var(--bg);
-      z-index: 1000;
       display: flex; align-items: center; justify-content: center;
-      flex-direction: column; gap: 24px;
+      transition: background .25s, border-color .25s;
+      overflow: hidden;
     }
-    .loader-name {
-      font-size: 13px; font-weight: 700;
-      letter-spacing: .4em; text-transform: uppercase;
-      color: var(--muted);
+    .cursor-label {
+      font-size: 8px; font-weight: 800;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: #000; white-space: nowrap;
+      opacity: 0;
+      transition: opacity .2s;
     }
-    .loader-bar-track {
-      width: 200px; height: 1px;
-      background: var(--border);
-      position: relative; overflow: hidden;
-    }
-    .loader-bar {
-      height: 100%; width: 0%;
-      background: var(--accent);
-      transition: width .05s linear;
-    }
-    .loader-pct {
-      font-size: 11px; letter-spacing: .15em;
-      color: var(--muted);
-    }
+    #cursor-ring.expanded .cursor-label { opacity: 1; }
 
     /* ── NAV ── */
     nav {
@@ -129,9 +150,12 @@
       font-size: clamp(72px, 11vw, 170px);
       font-weight: 900; line-height: .88;
       letter-spacing: -.04em; text-transform: uppercase;
+      perspective: 800px;
     }
     .hero-line { display: block; overflow: hidden; }
-    .hero-line-inner { display: block; transform: translateY(110%); }
+    .hero-line-inner {
+      display: block; transform: translateY(110%);
+    }
     .hero-bottom {
       display: flex; justify-content: space-between; align-items: flex-end;
       margin-top: 52px; opacity: 0;
@@ -168,6 +192,13 @@
       z-index: -1;
     }
 
+    /* ── LETTER FLIP ── */
+    .letter {
+      display: inline-block;
+      transform-style: preserve-3d;
+      will-change: transform;
+    }
+
     /* ── SECTIONS BASE ── */
     .section { padding: 140px 56px; }
     .s-label {
@@ -180,6 +211,8 @@
       font-weight: 900; line-height: .95;
       letter-spacing: -.035em; text-transform: uppercase;
       margin-bottom: 80px;
+      perspective: 800px;
+      transform-style: preserve-3d;
     }
     .reveal { opacity: 0; transform: translateY(40px); }
 
@@ -189,26 +222,73 @@
       grid-template-columns: 1fr 1.1fr;
       gap: 96px; align-items: center;
     }
-    .about-img-wrap {
+
+    /* typographic visual — no photo */
+    .about-visual {
       position: relative;
+      aspect-ratio: 3/4;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
     }
-    .about-img-wrap::before {
-      content: ''; position: absolute;
-      inset: -20px; border: 1px solid var(--border);
-      pointer-events: none;
+    .av-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+      background-size: 44px 44px;
     }
-    .about-img {
-      width: 100%; aspect-ratio: 3/4;
-      object-fit: cover; object-position: top center;
-      display: block; filter: grayscale(15%);
+    .av-h-line {
+      position: absolute; left: 0; right: 0;
+      top: 35%; height: 1px; background: var(--border);
     }
-    .about-year {
-      position: absolute; bottom: -16px; right: -16px;
+    .av-v-line {
+      position: absolute; top: 0; bottom: 0;
+      left: 40%; width: 1px; background: var(--border);
+    }
+    .av-monogram {
+      position: relative; z-index: 2;
+      font-size: clamp(90px, 14vw, 160px);
+      font-weight: 900; letter-spacing: -.06em;
+      color: var(--accent); line-height: 1;
+      user-select: none;
+    }
+    .av-ghost {
+      position: absolute; z-index: 1;
+      font-size: clamp(180px, 28vw, 320px);
+      font-weight: 900; letter-spacing: -.07em;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(255,255,255,.04);
+      line-height: 1; user-select: none;
+      bottom: -30px; right: -20px;
+    }
+    .av-disciplines {
+      position: absolute; bottom: 28px; left: 28px;
+      z-index: 3;
+      display: flex; flex-direction: column; gap: 5px;
+    }
+    .av-disciplines span {
+      font-size: 9px; font-weight: 700;
+      letter-spacing: .3em; text-transform: uppercase;
+      color: var(--muted);
+    }
+    .av-badge {
+      position: absolute; top: 24px; right: 24px;
+      z-index: 3;
       background: var(--accent); color: #000;
-      font-size: 11px; font-weight: 800;
+      font-size: 9px; font-weight: 800;
       letter-spacing: .2em; text-transform: uppercase;
-      padding: 8px 16px;
+      padding: 7px 14px;
     }
+    .av-dot {
+      position: absolute; top: 35%; left: 40%;
+      z-index: 4;
+      width: 8px; height: 8px;
+      background: var(--accent); border-radius: 50%;
+      transform: translate(-50%, -50%);
+    }
+
     .about-text {
       font-size: 19px; line-height: 1.75;
       color: var(--muted); margin-bottom: 28px;
@@ -281,56 +361,52 @@
     }
     .s-tag:hover { border-color: var(--accent); color: var(--text); }
 
-    /* ── PROJECTS HORIZONTAL ── */
-    #projects { padding: 140px 0; }
-    .projects-head { padding: 0 56px; margin-bottom: 72px; }
+    /* ── PROJECTS HORIZONTAL GSAP ── */
+    #projects {
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      padding: 72px 0 48px;
+    }
+    .projects-head {
+      padding: 0 56px;
+      flex-shrink: 0;
+      margin-bottom: 40px;
+    }
+    .projects-head .s-title { margin-bottom: 0; }
     .projects-count {
       font-size: 11px; font-weight: 600; letter-spacing: .3em;
       text-transform: uppercase; color: var(--muted); margin-top: 16px;
     }
     .projects-track {
       display: flex; gap: 20px;
-      padding: 0 56px 8px;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      scroll-behavior: smooth;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-      cursor: grab;
-      user-select: none;
+      padding: 0 56px;
+      flex: 1;
+      align-items: stretch;
+      width: max-content;
+      will-change: transform;
     }
-    .projects-track:active { cursor: grabbing; }
-    .projects-track::-webkit-scrollbar { display: none; }
-    .projects-nav {
-      display: flex; justify-content: flex-end; align-items: center; gap: 10px;
-      margin-top: 28px; padding: 0 56px;
-    }
-    .proj-arrow {
-      width: 44px; height: 44px; border-radius: 50%;
-      border: 1px solid var(--border); background: none;
-      color: var(--muted); font-size: 18px; cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      transition: all .2s;
-    }
-    .proj-arrow:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
-    .proj-arrow:disabled { opacity: .25; cursor: default; pointer-events: none; }
     .proj-card {
-      flex: 0 0 440px;
-      scroll-snap-align: start;
+      flex: 0 0 clamp(300px, 36vw, 460px);
+      height: 100%;
       background: var(--surface);
       border-radius: 20px; overflow: hidden;
       border: 1px solid var(--border);
-      transition: border-color .3s;
+      transition: border-color .4s;
+      display: flex; flex-direction: column;
+      cursor: none;
     }
     .proj-card:hover { border-color: var(--accent); }
-    .proj-img-wrap { overflow: hidden; height: 300px; }
+    .proj-img-wrap { overflow: hidden; flex: 0 0 55%; }
     .proj-img {
       width: 100%; height: 100%;
       object-fit: cover; display: block;
-      transition: transform .7s cubic-bezier(.25,.46,.45,.94);
+      transition: transform .8s cubic-bezier(.25,.46,.45,.94);
     }
     .proj-card:hover .proj-img { transform: scale(1.06); }
-    .proj-info { padding: 28px 32px 32px; }
+    .proj-info { padding: 28px 32px 32px; flex: 1; }
     .proj-cat {
       font-size: 9px; font-weight: 700;
       letter-spacing: .35em; text-transform: uppercase;
@@ -339,15 +415,29 @@
     .proj-title {
       font-size: 26px; font-weight: 800;
       letter-spacing: -.02em; margin-bottom: 12px;
+      perspective: 400px;
     }
     .proj-desc {
       font-size: 13px; line-height: 1.75; color: var(--muted);
     }
 
-    /* project modal */
+    /* progress bar */
+    .projects-progress-wrap {
+      flex-shrink: 0;
+      margin: 24px 56px 0;
+      height: 1px;
+      background: var(--border);
+    }
+    .projects-progress-bar {
+      height: 100%;
+      width: 0%;
+      background: var(--accent);
+    }
+
+    /* ── PROJECT MODAL ── */
     .modal-overlay {
       position: fixed; inset: 0;
-      background: rgba(0,0,0,.85); backdrop-filter: blur(12px);
+      background: rgba(0,0,0,.88); backdrop-filter: blur(14px);
       z-index: 800; display: none;
       align-items: center; justify-content: center;
     }
@@ -467,7 +557,7 @@
     }
     .contact-email {
       display: inline-block;
-      font-size: clamp(28px, 4.5vw, 72px);
+      font-size: clamp(24px, 4vw, 64px);
       font-weight: 900; letter-spacing: -.035em;
       text-decoration: none; color: var(--text);
       transition: color .25s; margin: 36px 0 24px;
@@ -522,7 +612,7 @@
     .marquee-dot { color: var(--accent); margin-right: 48px; }
     @keyframes marquee { to { transform: translateX(-50%); } }
 
-    /* responsive */
+    /* ── RESPONSIVE ── */
     @media (max-width: 900px) {
       nav { padding: 20px 24px; }
       .nav-links { display: none; }
@@ -535,21 +625,30 @@
       .nav-logo img { height: 32px; width: 32px; }
       .skill-item { padding: 32px 8px; }
       footer { flex-direction: column; gap: 8px; text-align: center; }
+      #projects { height: auto; overflow: visible; }
+      .projects-track { overflow-x: auto; width: auto; padding-bottom: 8px; scroll-snap-type: x mandatory; }
+      .proj-card { flex: 0 0 min(360px, 85vw); height: 480px; scroll-snap-align: start; }
+      .intro-name { left: 24px; }
     }
   </style>
 </head>
 <body>
 
+<!-- INTRO STRIPS -->
+<div id="intro-overlay">
+  <div class="intro-strip"></div>
+  <div class="intro-strip"></div>
+  <div class="intro-strip"></div>
+  <div class="intro-strip"></div>
+  <div class="intro-strip"></div>
+  <div class="intro-count" id="introCount">00</div>
+  <p class="intro-name">Jorge Cabrera</p>
+  <div class="intro-line" id="introLine"></div>
+</div>
+
 <!-- CURSOR -->
 <div id="cursor"></div>
-<div id="cursor-ring"></div>
-
-<!-- LOADER -->
-<div id="loader">
-  <p class="loader-name">Jorge Cabrera</p>
-  <div class="loader-bar-track"><div class="loader-bar" id="loaderBar"></div></div>
-  <p class="loader-pct" id="loaderPct">0%</p>
-</div>
+<div id="cursor-ring"><span class="cursor-label" id="cursorLabel">VER</span></div>
 
 <!-- NAV -->
 <nav id="nav">
@@ -567,8 +666,8 @@
 <section id="hero">
   <p class="hero-tag">Diseño Digital &amp; Multimedia</p>
   <h1 class="hero-name">
-    <span class="hero-line"><span class="hero-line-inner">Jorge</span></span>
-    <span class="hero-line"><span class="hero-line-inner">Cabrera</span></span>
+    <span class="hero-line"><span class="hero-line-inner" data-text="Jorge">Jorge</span></span>
+    <span class="hero-line"><span class="hero-line-inner" data-text="Cabrera">Cabrera</span></span>
   </h1>
   <div class="hero-bottom">
     <p class="hero-sub">
@@ -586,9 +685,20 @@
 
 <!-- ABOUT -->
 <section id="about" class="section">
-  <div class="about-img-wrap reveal">
-    <img src="assets/profile.png" alt="Jorge Cabrera" class="about-img">
-    <div class="about-year">CITM UPC '25</div>
+  <div class="about-visual reveal">
+    <div class="av-grid"></div>
+    <div class="av-h-line"></div>
+    <div class="av-v-line"></div>
+    <div class="av-dot"></div>
+    <div class="av-monogram">JC</div>
+    <div class="av-ghost">JC</div>
+    <div class="av-disciplines">
+      <span>UX Design</span>
+      <span>Diseño Gráfico</span>
+      <span>Modelado 3D</span>
+      <span>Edición de Vídeo</span>
+    </div>
+    <div class="av-badge">CITM UPC '26</div>
   </div>
   <div class="about-content">
     <p class="s-label">Sobre mí</p>
@@ -603,19 +713,19 @@
     </p>
     <div class="about-stats">
       <div class="reveal">
-        <div class="stat-n">3<span>+</span></div>
+        <div class="stat-n" data-target="3" data-suffix="+">3<span>+</span></div>
         <p class="stat-l">Años de experiencia</p>
       </div>
       <div class="reveal">
-        <div class="stat-n">6<span>+</span></div>
+        <div class="stat-n" data-target="6" data-suffix="+">6<span>+</span></div>
         <p class="stat-l">Proyectos</p>
       </div>
       <div class="reveal">
-        <div class="stat-n">3</div>
+        <div class="stat-n" data-target="3">3</div>
         <p class="stat-l">Idiomas</p>
       </div>
       <div class="reveal">
-        <div class="stat-n">7<span>+</span></div>
+        <div class="stat-n" data-target="7" data-suffix="+">7<span>+</span></div>
         <p class="stat-l">Herramientas</p>
       </div>
     </div>
@@ -624,7 +734,7 @@
 
 <!-- MARQUEE -->
 <div class="marquee-wrap">
-  <div class="marquee-track" id="marquee">
+  <div class="marquee-track">
     <span class="marquee-item">Diseño UX <span class="marquee-dot">✦</span></span>
     <span class="marquee-item">Diseño Gráfico <span class="marquee-dot">✦</span></span>
     <span class="marquee-item">Modelado 3D <span class="marquee-dot">✦</span></span>
@@ -662,14 +772,13 @@
       <span class="s-tag">Blender</span>
       <span class="s-tag">Unity</span>
       <span class="s-tag">3ds Max</span>
-      <span class="s-tag">After Effects</span>
       <span class="s-tag">Adobe XD</span>
       <span class="s-tag">Suite Office</span>
     </div>
   </div>
 </div>
 
-<!-- PROJECTS HORIZONTAL SCROLL -->
+<!-- PROJECTS HORIZONTAL -->
 <section id="projects">
   <div class="projects-head">
     <p class="s-label">Proyectos</p>
@@ -707,7 +816,7 @@
       <div class="proj-info">
         <p class="proj-cat">UX Design · Software Industrial</p>
         <h3 class="proj-title">ACBP — UX Industrial</h3>
-        <p class="proj-desc">Prácticas de verano 2024. Diseño de interfaces de usuario para programas industriales, mejorando usabilidad y flujo de trabajo.</p>
+        <p class="proj-desc">Prácticas de verano 2024. Diseño de interfaces para programas industriales, mejorando usabilidad y flujo de trabajo.</p>
       </div>
     </div>
 
@@ -718,7 +827,7 @@
       <div class="proj-info">
         <p class="proj-cat">Diseño · Producto · 3D</p>
         <h3 class="proj-title">Proyecto IKEA</h3>
-        <p class="proj-desc">Proyecto universitario de diseño de producto: identidad, maquetación y visualización 3D inspirado en la filosofía IKEA.</p>
+        <p class="proj-desc">Proyecto universitario: identidad, maquetación y visualización 3D inspirado en la filosofía IKEA.</p>
       </div>
     </div>
 
@@ -729,36 +838,35 @@
       <div class="proj-info">
         <p class="proj-cat">3D · Modelado · Render</p>
         <h3 class="proj-title">Bagon</h3>
-        <p class="proj-desc">Proyecto de modelado y diseño 3D. Exploración de formas orgánicas, texturas procedurales y render fotorrealista.</p>
+        <p class="proj-desc">Modelado y diseño 3D. Formas orgánicas, texturas procedurales y render fotorrealista.</p>
       </div>
     </div>
 
     <div class="proj-card" data-project="otros">
       <div class="proj-img-wrap">
-        <img src="assets/projects/otros/lamine.png" alt="Graphic Playground" class="proj-img">
+        <img src="assets/projects/otros/lamine.png" alt="Gráficas" class="proj-img">
       </div>
       <div class="proj-info">
         <p class="proj-cat">Diseño Gráfico · Deporte · Social</p>
         <h3 class="proj-title">Gráficas Deportivas</h3>
-        <p class="proj-desc">Diseño de contenido gráfico de todo tipo</p>
+        <p class="proj-desc">Diseño de contenido gráfico de alto impacto para redes sociales con temática deportiva.</p>
       </div>
     </div>
 
     <div class="proj-card" data-project="portfolio">
       <div class="proj-img-wrap">
-        <img src="assets/projects/portfolio/portfolio.png" alt="Portfolio Design" class="proj-img">
+        <img src="assets/projects/portfolio/portfolio.png" alt="Portfolio" class="proj-img">
       </div>
       <div class="proj-info">
         <p class="proj-cat">UX/UI · Diseño Web · Figma</p>
         <h3 class="proj-title">Portfolio Design</h3>
-        <p class="proj-desc">Diseño y prototipado del portfolio personal. Research, wireframing, diseño visual y prototipos interactivos en Figma.</p>
+        <p class="proj-desc">Diseño y prototipado del portfolio personal. Research, wireframing y prototipos en Figma.</p>
       </div>
     </div>
 
   </div>
-  <div class="projects-nav">
-    <button class="proj-arrow" id="projPrev" aria-label="Anterior">&#8592;</button>
-    <button class="proj-arrow" id="projNext" aria-label="Siguiente">&#8594;</button>
+  <div class="projects-progress-wrap">
+    <div class="projects-progress-bar" id="projProgressBar"></div>
   </div>
 </section>
 
@@ -790,7 +898,7 @@
 
     <div class="tl-item">
       <div class="tl-dot"></div>
-      <p class="tl-date">Marzo 2026 - Actualidad</p>
+      <p class="tl-date">Marzo 2026 – Actualidad</p>
       <h3 class="tl-role">Diseñador Multimedia</h3>
       <p class="tl-co">Hiberus, Zaragoza</p>
       <p class="tl-desc">Formo parte del equipo de Comunicación de hiberus, desarrollando contenido multimedia para diferentes campañas internas y externas de la empresa.</p>
@@ -809,7 +917,7 @@
       <p class="tl-date">2022 – Presente</p>
       <h3 class="tl-role">Diseñador Gráfico</h3>
       <p class="tl-co">Fútbol Peña Fragatina</p>
-      <p class="tl-desc">Diseño de la propuesta gráfica del equipo y gestión visual de las redes sociales (@futbol_pfragatina). Identidad visual, matchday graphics y comunicación digital continuada.</p>
+      <p class="tl-desc">Diseño de la propuesta gráfica del equipo y gestión visual de redes sociales. Identidad visual, matchday graphics y comunicación digital continuada.</p>
     </div>
 
     <div class="tl-item">
@@ -865,134 +973,251 @@
 <script>
 gsap.registerPlugin(ScrollTrigger);
 
-/* ── LOADER ── */
-const bar = document.getElementById('loaderBar');
-const pct = document.getElementById('loaderPct');
-let prog = 0;
-const tick = setInterval(() => {
-  prog += Math.random() * 18;
-  if (prog > 100) prog = 100;
-  bar.style.width = prog + '%';
-  pct.textContent = Math.floor(prog) + '%';
-  if (prog === 100) {
-    clearInterval(tick);
-    setTimeout(() => {
-      gsap.to('#loader', { opacity: 0, duration: .6, ease: 'power2.inOut', onComplete: () => {
-        document.getElementById('loader').style.display = 'none';
-        initAnimations();
-      }});
-    }, 300);
+/* ─────────────────────────────────────────
+   INTRO — cinematic strips + counter
+───────────────────────────────────────── */
+const introCount = document.getElementById('introCount');
+const introLine  = document.getElementById('introLine');
+let count = 0;
+let introExited = false;
+
+// Animate the orange line under the counter
+gsap.to(introLine, { width: '100%', duration: 1.8, ease: 'power2.inOut' });
+
+const ticker = setInterval(() => {
+  count += Math.floor(Math.random() * 9 + 3);
+  if (count >= 100) { count = 100; }
+  introCount.textContent = String(count).padStart(2, '0');
+  if (count >= 100 && !introExited) {
+    introExited = true;
+    clearInterval(ticker);
+    setTimeout(exitIntro, 420);
   }
-}, 60);
+}, 52);
 
+function exitIntro() {
+  const strips = document.querySelectorAll('.intro-strip');
+  gsap.to(introCount, { opacity: 0, y: -20, duration: 0.25, ease: 'power2.in' });
+  gsap.to('.intro-name', { opacity: 0, duration: 0.2 });
+  gsap.to(introLine, { opacity: 0, duration: 0.2 });
+
+  gsap.to(strips, {
+    xPercent: 105,
+    duration: 0.9,
+    stagger: { each: 0.07, from: 'start' },
+    ease: 'power4.inOut',
+    onComplete: () => {
+      document.getElementById('intro-overlay').style.display = 'none';
+      initAnimations();
+    }
+  });
+}
+
+/* ─────────────────────────────────────────
+   SCRAMBLE TEXT
+───────────────────────────────────────── */
+function scramble(el, durationMs) {
+  const text = el.dataset.text || el.textContent;
+  const pool = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#@%&';
+  let startTs = null;
+
+  function step(ts) {
+    if (!startTs) startTs = ts;
+    const p = Math.min((ts - startTs) / durationMs, 1);
+
+    el.textContent = text.split('').map((ch, i) => {
+      if (ch === ' ') return ' ';
+      const revealThreshold = (i / text.length) * 0.82;
+      if (p >= revealThreshold) return ch;
+      return pool[Math.floor(Math.random() * pool.length)];
+    }).join('');
+
+    if (p < 1) requestAnimationFrame(step);
+    else el.textContent = text;
+  }
+  requestAnimationFrame(step);
+}
+
+/* ─────────────────────────────────────────
+   SPLIT LETTERS for flip effect
+───────────────────────────────────────── */
+function splitAndFlip(el) {
+  const raw = el.textContent;
+  el.innerHTML = raw.split('').map(ch =>
+    ch === ' ' ? '&nbsp;' : `<span class="letter">${ch}</span>`
+  ).join('');
+
+  el.querySelectorAll('.letter').forEach(letter => {
+    letter.addEventListener('mouseenter', () => {
+      gsap.fromTo(letter,
+        { rotationY: 0 },
+        { rotationY: 360, duration: 0.52, ease: 'power2.inOut' }
+      );
+    });
+  });
+}
+
+/* ─────────────────────────────────────────
+   COUNTER ANIMATION
+───────────────────────────────────────── */
+function animateCounter(el) {
+  const target = parseInt(el.dataset.target, 10);
+  const suffix = el.dataset.suffix || '';
+  const obj = { val: 0 };
+
+  el.innerHTML = '0' + (suffix ? `<span>${suffix}</span>` : '');
+
+  gsap.to(obj, {
+    scrollTrigger: { trigger: el, start: 'top 90%', once: true },
+    val: target,
+    duration: 1.6,
+    ease: 'power2.out',
+    onUpdate() {
+      el.innerHTML = Math.floor(obj.val) + (suffix ? `<span>${suffix}</span>` : '');
+    }
+  });
+}
+
+/* ─────────────────────────────────────────
+   MAIN INIT (called after intro exits)
+───────────────────────────────────────── */
 function initAnimations() {
-  /* cursor */
-  const cur = document.getElementById('cursor');
+
+  /* — cursor — */
+  const cur  = document.getElementById('cursor');
   const ring = document.getElementById('cursor-ring');
+  const cursorLabel = document.getElementById('cursorLabel');
+
   document.addEventListener('mousemove', e => {
-    gsap.to(cur,  { x: e.clientX, y: e.clientY, duration: .08 });
-    gsap.to(ring, { x: e.clientX, y: e.clientY, duration: .35 });
-  });
-  document.querySelectorAll('a, button, .proj-card').forEach(el => {
-    el.addEventListener('mouseenter', () => gsap.to(ring, { scale: 2, opacity: .5, duration: .2 }));
-    el.addEventListener('mouseleave', () => gsap.to(ring, { scale: 1, opacity: 1, duration: .2 }));
+    gsap.to(cur,  { x: e.clientX, y: e.clientY, duration: 0.07 });
+    gsap.to(ring, { x: e.clientX, y: e.clientY, duration: 0.32 });
   });
 
-  /* hero */
-  gsap.to('.hero-tag', { opacity: 1, y: 0, duration: .9, delay: .2, ease: 'power3.out' });
+  // generic hover — links / buttons
+  document.querySelectorAll('a, button, .skill-item').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      if (ring.classList.contains('expanded')) return;
+      gsap.to(ring, { scale: 1.8, opacity: 0.6, duration: 0.2 });
+    });
+    el.addEventListener('mouseleave', () => {
+      if (ring.classList.contains('expanded')) return;
+      gsap.to(ring, { scale: 1, opacity: 1, duration: 0.25 });
+    });
+  });
+
+  // project cards — morph cursor to VER
+  document.querySelectorAll('.proj-card').forEach(card => {
+    card.addEventListener('mouseenter', () => {
+      gsap.to(cur, { scale: 0, duration: 0.18 });
+      gsap.to(ring, {
+        width: 86, height: 86,
+        background: 'var(--accent)',
+        borderColor: 'var(--accent)',
+        scale: 1, opacity: 1,
+        duration: 0.3, ease: 'power3.out'
+      });
+      ring.classList.add('expanded');
+    });
+    card.addEventListener('mouseleave', () => {
+      gsap.to(cur, { scale: 1, duration: 0.18 });
+      gsap.to(ring, {
+        width: 36, height: 36,
+        background: 'transparent',
+        borderColor: 'rgba(255,107,53,.4)',
+        duration: 0.3, ease: 'power3.out'
+      });
+      ring.classList.remove('expanded');
+    });
+  });
+
+  /* — hero — */
+  gsap.to('.hero-tag', { opacity: 1, y: 0, duration: 0.9, delay: 0.1, ease: 'power3.out' });
   gsap.to('.hero-line-inner', {
-    y: 0, duration: 1.1, delay: .35, stagger: .12, ease: 'power4.out'
+    y: 0, duration: 1.15, delay: 0.2, stagger: 0.14, ease: 'power4.out'
   });
-  gsap.to('.hero-bottom', { opacity: 1, duration: .9, delay: .9, ease: 'power3.out' });
+  gsap.to('.hero-bottom', { opacity: 1, duration: 0.9, delay: 0.85, ease: 'power3.out' });
+  gsap.from('#nav', { y: -20, opacity: 0, duration: 0.8, delay: 1.1, ease: 'power3.out' });
 
-  /* nav fade */
-  gsap.from('#nav', { y: -20, opacity: 0, duration: .8, delay: 1.2, ease: 'power3.out' });
+  // scramble on hero line inners
+  document.querySelectorAll('.hero-line-inner').forEach((el, i) => {
+    scramble(el, 950 + i * 120);
+  });
 
-  /* generic reveals */
+  /* — generic reveals — */
   gsap.utils.toArray('.reveal').forEach(el => {
     gsap.to(el, {
       scrollTrigger: { trigger: el, start: 'top 88%' },
-      opacity: 1, y: 0, duration: .75, ease: 'power3.out'
+      opacity: 1, y: 0, duration: 0.75, ease: 'power3.out'
     });
   });
 
-  /* skills stagger */
+  /* — skills stagger — */
   gsap.from('.skill-item', {
     scrollTrigger: { trigger: '.skills-grid', start: 'top 80%' },
-    opacity: 0, y: 30, duration: .5, stagger: .07, ease: 'power3.out'
+    opacity: 0, y: 30, duration: 0.5, stagger: 0.07, ease: 'power3.out'
   });
 
-  /* PROJECTS — drag-to-scroll + snap */
-  const track = document.getElementById('projectsTrack');
-  let isDragging = false, dragStartX = 0, dragScrollLeft = 0, dragMoved = false;
+  /* — letter flip on section titles — */
+  document.querySelectorAll('.s-title').forEach(el => splitAndFlip(el));
 
-  track.addEventListener('mousedown', e => {
-    isDragging = true; dragMoved = false;
-    dragStartX = e.pageX - track.offsetLeft;
-    dragScrollLeft = track.scrollLeft;
-    track.style.cursor = 'grabbing';
-  });
-  ['mouseleave','mouseup'].forEach(evt => track.addEventListener(evt, () => {
-    isDragging = false; track.style.cursor = 'grab';
-  }));
-  track.addEventListener('mousemove', e => {
-    if (!isDragging) return;
-    e.preventDefault();
-    dragMoved = true;
-    track.scrollLeft = dragScrollLeft - (e.pageX - track.offsetLeft - dragStartX) * 1.5;
-  });
-  track.addEventListener('click', e => {
-    if (dragMoved) e.stopPropagation();
-  }, true);
+  /* — stat counters — */
+  document.querySelectorAll('.stat-n[data-target]').forEach(el => animateCounter(el));
 
-  /* project arrow navigation */
-  const projCards = track.querySelectorAll('.proj-card');
-  const btnPrev = document.getElementById('projPrev');
-  const btnNext = document.getElementById('projNext');
-  let currentCard = 0;
+  /* — GSAP horizontal scroll for projects — */
+  initHorizontalProjects();
 
-  function scrollToCard(idx) {
-    currentCard = Math.max(0, Math.min(idx, projCards.length - 1));
-    track.scrollTo({ left: projCards[currentCard].offsetLeft - 56, behavior: 'smooth' });
-    btnPrev.disabled = currentCard === 0;
-    btnNext.disabled = currentCard === projCards.length - 1;
-  }
-  btnPrev.addEventListener('click', () => scrollToCard(currentCard - 1));
-  btnNext.addEventListener('click', () => scrollToCard(currentCard + 1));
-  btnPrev.disabled = true;
-
-  const cardObserver = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        currentCard = [...projCards].indexOf(entry.target);
-        btnPrev.disabled = currentCard === 0;
-        btnNext.disabled = currentCard === projCards.length - 1;
-      }
-    });
-  }, { root: track, threshold: 0.55 });
-  projCards.forEach(c => cardObserver.observe(c));
-
-  /* timeline items — set initial state explicitly, then animate in */
+  /* — timeline — */
   gsap.set('.tl-item', { opacity: 0, x: -40 });
   gsap.utils.toArray('.tl-item').forEach((el, i) => {
     gsap.to(el, {
       scrollTrigger: { trigger: el, start: 'top 92%', toggleActions: 'play none none none' },
-      opacity: 1, x: 0, duration: .7,
-      delay: i * .04, ease: 'power3.out'
+      opacity: 1, x: 0, duration: 0.7, delay: i * 0.04, ease: 'power3.out'
     });
   });
 
-  /* contact reveal */
+  /* — contact title — */
   gsap.from('#contact .s-title', {
     scrollTrigger: { trigger: '#contact', start: 'top 80%' },
-    y: 60, opacity: 0, duration: .9, ease: 'power3.out'
+    y: 60, opacity: 0, duration: 0.9, ease: 'power3.out'
   });
 
-  /* refresh after pin setup to recalculate positions */
-  setTimeout(() => ScrollTrigger.refresh(), 200);
+  setTimeout(() => ScrollTrigger.refresh(), 300);
 }
 
-/* ── PROJECT MODAL ── */
+/* ─────────────────────────────────────────
+   GSAP HORIZONTAL PROJECTS SCROLL
+───────────────────────────────────────── */
+function initHorizontalProjects() {
+  // Skip on mobile where overflow-x is used instead
+  if (window.innerWidth <= 900) return;
+
+  const section = document.getElementById('projects');
+  const track   = document.getElementById('projectsTrack');
+  const progBar = document.getElementById('projProgressBar');
+
+  const getScrollDist = () => Math.max(0, track.scrollWidth - window.innerWidth);
+
+  gsap.to(track, {
+    x: () => -getScrollDist(),
+    ease: 'none',
+    scrollTrigger: {
+      trigger: section,
+      start: 'top top',
+      end: () => '+=' + getScrollDist(),
+      pin: true,
+      scrub: 1.2,
+      anticipatePin: 1,
+      invalidateOnRefresh: true,
+      onUpdate(self) {
+        progBar.style.width = (self.progress * 100) + '%';
+      }
+    }
+  });
+}
+
+/* ─────────────────────────────────────────
+   PROJECT DATA
+───────────────────────────────────────── */
 const projects = {
   beyond: {
     cat: '3D · VR · Unity',
@@ -1013,7 +1238,7 @@ const projects = {
   fragatina: {
     cat: 'Diseño Gráfico · Identidad Visual',
     title: 'Fútbol Peña Fragatina',
-    desc: 'Diseño de la propuesta gráfica completa del equipo de fútbol Peña Fragatina desde 2022. Matchday graphics, anuncios de partido, celebraciones de goles y gestión visual de las redes sociales @futbol_pfragatina.',
+    desc: 'Diseño de la propuesta gráfica completa del equipo de fútbol Peña Fragatina desde 2022. Matchday graphics, anuncios de partido, celebraciones de goles y gestión visual de redes sociales @futbol_pfragatina.',
     imgs: [
       'assets/projects/fragatina/1.png','assets/projects/fragatina/2.png',
       'assets/projects/fragatina/3.png','assets/projects/fragatina/4.png',
@@ -1044,7 +1269,7 @@ const projects = {
   bagon: {
     cat: '3D · Modelado · Texturizado',
     title: 'Bagon',
-    desc: 'Proyecto de modelado y diseño 3D explorando formas orgánicas y técnicas de texturizado. Trabajo completo de modelado en Maya/ZBrush, texturizado en Substance Painter y render fotorrealista.',
+    desc: 'Proyecto de modelado y diseño 3D explorando formas orgánicas y técnicas de texturizado. Modelado en Maya/ZBrush, texturizado en Substance Painter y render fotorrealista.',
     imgs: ['assets/projects/bagon/1.jpg','assets/projects/bagon/2.png','assets/projects/bagon/3.png','assets/projects/bagon/4.jpg']
   },
   otros: {
@@ -1074,7 +1299,9 @@ const projects = {
   }
 };
 
-/* ── LIGHTBOX ── */
+/* ─────────────────────────────────────────
+   LIGHTBOX
+───────────────────────────────────────── */
 let lbImgs = [], lbIdx = 0;
 
 function openLightbox(idx) {
@@ -1086,34 +1313,29 @@ function openLightbox(idx) {
 function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); }
 
 document.getElementById('lbClose').addEventListener('click', closeLightbox);
-document.getElementById('lbPrev').addEventListener('click', () => {
-  openLightbox((lbIdx - 1 + lbImgs.length) % lbImgs.length);
-});
-document.getElementById('lbNext').addEventListener('click', () => {
-  openLightbox((lbIdx + 1) % lbImgs.length);
-});
+document.getElementById('lbPrev').addEventListener('click', () => openLightbox((lbIdx - 1 + lbImgs.length) % lbImgs.length));
+document.getElementById('lbNext').addEventListener('click', () => openLightbox((lbIdx + 1) % lbImgs.length));
 document.getElementById('lightbox').addEventListener('click', e => {
   if (e.target === document.getElementById('lightbox')) closeLightbox();
 });
 
 document.getElementById('modalGallery').addEventListener('click', e => {
-  if (e.target.tagName === 'IMG') {
-    openLightbox(parseInt(e.target.dataset.idx));
-  }
+  if (e.target.tagName === 'IMG') openLightbox(parseInt(e.target.dataset.idx));
 });
 
-/* ── PROJECT MODAL ── */
+/* ─────────────────────────────────────────
+   PROJECT MODAL
+───────────────────────────────────────── */
+let dragMoved = false;
 document.querySelectorAll('.proj-card').forEach(card => {
   card.addEventListener('click', () => {
-    if (card.closest('#projectsTrack') && window._dragMoved) return;
-    const key = card.dataset.project;
-    const p = projects[key];
-    document.getElementById('modalCat').textContent = p.cat;
+    if (dragMoved) return;
+    const p = projects[card.dataset.project];
+    document.getElementById('modalCat').textContent   = p.cat;
     document.getElementById('modalTitle').textContent = p.title;
-    document.getElementById('modalDesc').textContent = p.desc;
+    document.getElementById('modalDesc').textContent  = p.desc;
     lbImgs = p.imgs;
-    const gallery = document.getElementById('modalGallery');
-    gallery.innerHTML = p.imgs.map((src, i) =>
+    document.getElementById('modalGallery').innerHTML = p.imgs.map((src, i) =>
       `<img src="${src}" alt="" data-idx="${i}">`
     ).join('');
     document.getElementById('modal').classList.add('open');
@@ -1129,10 +1351,11 @@ function closeModal() {
   document.getElementById('modal').classList.remove('open');
   document.body.style.overflow = '';
 }
+
 document.addEventListener('keydown', e => {
   const lb = document.getElementById('lightbox');
   if (lb.classList.contains('open')) {
-    if (e.key === 'ArrowLeft') openLightbox((lbIdx - 1 + lbImgs.length) % lbImgs.length);
+    if (e.key === 'ArrowLeft')  openLightbox((lbIdx - 1 + lbImgs.length) % lbImgs.length);
     if (e.key === 'ArrowRight') openLightbox((lbIdx + 1) % lbImgs.length);
     if (e.key === 'Escape') closeLightbox();
     return;
@@ -1140,12 +1363,14 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Escape') closeModal();
 });
 
-/* nav background on scroll */
+/* ─────────────────────────────────────────
+   NAV background on scroll
+───────────────────────────────────────── */
 window.addEventListener('scroll', () => {
   const nav = document.getElementById('nav');
   if (window.scrollY > 60) {
-    nav.style.background = 'rgba(8,8,8,.9)';
-    nav.style.backdropFilter = 'blur(12px)';
+    nav.style.background = 'rgba(8,8,8,.92)';
+    nav.style.backdropFilter = 'blur(14px)';
   } else {
     nav.style.background = '';
     nav.style.backdropFilter = '';
