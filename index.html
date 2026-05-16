@@ -285,6 +285,23 @@
     }
     .proj-grid-card:hover .pgc-accent-line { width: 100%; }
 
+    /* AI project card — special badge */
+    .pgc-ai .pgc-tag {
+      color: var(--accent);
+      border-color: rgba(255,107,53,.25);
+      background: rgba(255,107,53,.07);
+    }
+    .pgc-ai::after {
+      content: 'Made with AI';
+      position: absolute; top: 14px; right: 14px;
+      background: rgba(255,107,53,.12); border: 1px solid rgba(255,107,53,.3);
+      border-radius: 100px; padding: 5px 12px;
+      font-size: 8px; font-weight: 700; letter-spacing: .25em;
+      text-transform: uppercase; color: var(--accent);
+      opacity: 0; transition: opacity .35s;
+    }
+    .pgc-ai:hover::after { opacity: 1; }
+
     /* ── ABOUT ── */
     #about {
       display: grid; grid-template-columns: 1fr 1.1fr;
@@ -474,6 +491,7 @@
     }
     .modal-title { font-size: 40px; font-weight: 900; letter-spacing: -.03em; margin-bottom: 16px; }
     .modal-desc { font-size: 16px; line-height: 1.8; color: var(--muted); margin-bottom: 40px; }
+    .modal-desc p + p { margin-top: 16px; }
     .modal-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
     .modal-gallery img {
       width: 100%; border-radius: 10px; object-fit: cover;
@@ -812,15 +830,15 @@
       <div class="pgc-accent-line"></div>
     </div>
 
-    <!-- 05 Gráficas Deportivas — featured -->
-    <div class="proj-grid-card pgc-featured" data-project="otros">
+    <!-- 05 Portfolio Personal — featured AI showcase -->
+    <div class="proj-grid-card pgc-featured pgc-ai" data-project="portfolio">
       <div class="pgc-img-wrap">
-        <img src="assets/projects/otros/lamine.png" alt="Gráficas" class="pgc-img">
+        <img src="assets/projects/portfolio/portfolio.png" alt="Portfolio Personal" class="pgc-img">
         <div class="pgc-shine"></div>
-        <span class="pgc-tag">Diseño Gráfico · Deporte</span>
+        <span class="pgc-tag">Claude Code · GSAP · Figma</span>
       </div>
       <div class="pgc-info">
-        <h3 class="pgc-title">Gráficas Deportivas</h3>
+        <h3 class="pgc-title">Portfolio Personal</h3>
         <div class="pgc-arrow">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
             <path d="M3 11L11 3M11 3H5M11 3V9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
@@ -830,15 +848,15 @@
       <div class="pgc-accent-line"></div>
     </div>
 
-    <!-- 06 Portfolio -->
-    <div class="proj-grid-card" data-project="portfolio">
+    <!-- 06 Gráficas Deportivas -->
+    <div class="proj-grid-card" data-project="otros">
       <div class="pgc-img-wrap">
-        <img src="assets/projects/portfolio/portfolio.png" alt="Portfolio" class="pgc-img">
+        <img src="assets/projects/otros/lamine.png" alt="Gráficas" class="pgc-img">
         <div class="pgc-shine"></div>
-        <span class="pgc-tag">UX/UI · Figma</span>
+        <span class="pgc-tag">Diseño Gráfico · Deporte</span>
       </div>
       <div class="pgc-info">
-        <h3 class="pgc-title">Portfolio Design</h3>
+        <h3 class="pgc-title">Gráficas Deportivas</h3>
         <div class="pgc-arrow">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
             <path d="M3 11L11 3M11 3H5M11 3V9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
@@ -1338,13 +1356,16 @@ const projects = {
     ]
   },
   portfolio: {
-    cat: 'UX/UI · Diseño Web · Figma',
-    title: 'Portfolio Design',
-    desc: 'Diseño y prototipado del portfolio personal. Research, wireframing, diseño visual y prototipos interactivos en Figma. Proceso completo desde el concepto hasta el diseño final.',
+    cat: 'AI Workflow · UX/UI · Desarrollo Web',
+    title: 'Portfolio Personal — Diseñado y construido con IA',
+    desc: 'Este portfolio es en sí mismo un caso de estudio. Diseñado en Figma (investigación, wireframes, sistema visual completo) y desarrollado íntegramente con Claude Code de Anthropic — sin plantillas, sin frameworks, código limpio de cero.\n\nResultado: animaciones GSAP 3 con ScrollTrigger, intro cinematográfico por strips, cursor personalizado con estela luminosa, sistema de proyectos con modal y lightbox, bento grid de habilidades y timeline de experiencia. Todo en un único HTML optimizado.\n\nDemostración real de cómo la IA comprime el ciclo diseño → producción de días a horas, sin sacrificar criterio creativo ni calidad técnica.',
     imgs: [
-      'assets/projects/portfolio/portfolio.png','assets/projects/portfolio/1.png',
-      'assets/projects/portfolio/2.png','assets/projects/portfolio/3.png',
-      'assets/projects/portfolio/4.png','assets/projects/portfolio/wireframes.png',
+      'assets/projects/portfolio/portfolio.png',
+      'assets/projects/portfolio/1.png',
+      'assets/projects/portfolio/2.png',
+      'assets/projects/portfolio/3.png',
+      'assets/projects/portfolio/4.png',
+      'assets/projects/portfolio/wireframes.png',
       'assets/projects/portfolio/wireframes1.png'
     ]
   }
@@ -1376,7 +1397,7 @@ document.querySelectorAll('.proj-grid-card').forEach(card => {
     const p = projects[card.dataset.project];
     document.getElementById('modalCat').textContent   = p.cat;
     document.getElementById('modalTitle').textContent = p.title;
-    document.getElementById('modalDesc').textContent  = p.desc;
+    document.getElementById('modalDesc').innerHTML    = p.desc.split('\n\n').map(t => `<p>${t}</p>`).join('');
     lbImgs = p.imgs;
     document.getElementById('modalGallery').innerHTML = p.imgs.map((src, i) =>
       `<img src="${src}" alt="" data-idx="${i}">`
