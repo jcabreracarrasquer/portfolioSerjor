@@ -1,4 +1,9 @@
+# Videos — too large for GitHub (use Git LFS or external hosting)
+assets/projects/beyond/video.mp4
+assets/projects/portfolio/video.mp4
+VideosPortfolio/
+
+# OS files
 .DS_Store
-.claude/
-CLAUDE.md
-INSTRUCCIONES.md
+Thumbs.db
+desktop.ini

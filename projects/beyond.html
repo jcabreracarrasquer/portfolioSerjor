@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Beyond Reality — Jorge Cabrera</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #080808; --surface: #111111; --border: #1c1c1c;
+      --text: #f0ece4; --muted: #555; --accent: #FF6B35;
+      --vr: #00c8b4;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', system-ui, sans-serif; overflow-x: hidden; cursor: none; }
+
+    .grain {
+      position: fixed; inset: 0; pointer-events: none; z-index: 3; opacity: .032;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 128px;
+    }
+
+    #cursor { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); }
+    #cursor-ring { width: 36px; height: 36px; border: 1px solid rgba(255,107,53,.4); border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); }
+
+    /* ── NAV ── */
+    #nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 56px; height: 64px; transition: all .4s;
+    }
+    #nav.scrolled { background: rgba(8,8,8,.92); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); }
+    .nav-back {
+      display: flex; align-items: center; gap: 10px;
+      color: var(--muted); text-decoration: none; font-size: 12px; font-weight: 600;
+      letter-spacing: .15em; text-transform: uppercase; transition: color .2s;
+    }
+    .nav-back:hover { color: var(--text); }
+    .nav-back svg { transition: transform .25s; }
+    .nav-back:hover svg { transform: translateX(-4px); }
+    .nav-project-title { font-size: 12px; font-weight: 600; letter-spacing: .15em; text-transform: uppercase; color: var(--muted); }
+
+    /* ── HERO ── */
+    .hero { position: relative; width: 100%; height: 100vh; overflow: hidden; display: flex; align-items: flex-end; }
+    .hero-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; }
+    .hero-overlay {
+      position: absolute; inset: 0; z-index: 1;
+      background: linear-gradient(to top, rgba(8,8,8,.95) 0%, rgba(8,8,8,.35) 50%, rgba(8,8,8,.1) 100%);
+    }
+    .hero-content { position: relative; z-index: 2; padding: 0 80px 72px; width: 100%; }
+    .hero-cat {
+      font-size: 10px; font-weight: 700; letter-spacing: .4em; text-transform: uppercase;
+      color: var(--vr); margin-bottom: 20px;
+      display: flex; align-items: center; gap: 16px;
+    }
+    .hero-cat::before { content: ''; width: 32px; height: 1px; background: var(--vr); }
+    .hero-title { font-size: clamp(48px, 7vw, 96px); font-weight: 900; letter-spacing: -.04em; line-height: .95; margin-bottom: 32px; max-width: 800px; }
+    .hero-tags { display: flex; gap: 10px; flex-wrap: wrap; }
+    .hero-tag { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); border-radius: 100px; padding: 6px 16px; font-size: 10px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); }
+    .hero-scroll { position: absolute; bottom: 32px; right: 80px; z-index: 2; display: flex; align-items: center; gap: 12px; font-size: 9px; font-weight: 700; letter-spacing: .3em; text-transform: uppercase; color: var(--muted); }
+    .hero-scroll-line { width: 40px; height: 1px; background: var(--muted); }
+
+    /* ── OVERVIEW ── */
+    .overview { display: grid; grid-template-columns: repeat(4, 1fr); border-bottom: 1px solid var(--border); }
+    .ov-item { padding: 40px 48px; border-right: 1px solid var(--border); }
+    .ov-item:last-child { border-right: none; }
+    .ov-label { font-size: 9px; font-weight: 700; letter-spacing: .35em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+    .ov-value { font-size: 16px; font-weight: 700; color: var(--text); }
+
+    /* ── SECTIONS ── */
+    .section { padding: 120px 80px; max-width: 1400px; margin: 0 auto; }
+    .section-sm { padding: 80px 80px 0; max-width: 1400px; margin: 0 auto; }
+    .s-label { font-size: 9px; font-weight: 700; letter-spacing: .4em; text-transform: uppercase; color: var(--vr); margin-bottom: 16px; }
+    .s-title { font-size: clamp(32px, 4vw, 52px); font-weight: 900; letter-spacing: -.03em; margin-bottom: 48px; }
+
+    /* ── DESCRIPTION ── */
+    .desc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+    .desc-main { font-size: 20px; line-height: 1.8; color: var(--muted); }
+    .desc-main p + p { margin-top: 24px; }
+    .desc-main b { color: var(--text); font-weight: 700; }
+    .desc-aside { display: flex; flex-direction: column; gap: 32px; padding-top: 8px; }
+    .aside-label { font-size: 9px; font-weight: 700; letter-spacing: .35em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+    .aside-value { font-size: 15px; font-weight: 600; color: var(--text); line-height: 1.6; }
+    .aside-divider { height: 1px; background: var(--border); }
+
+    /* ── ASSETS GRID (3D objects) ── */
+    .assets-strip {
+      padding: 0 80px 80px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+    .asset-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+      overflow: hidden; aspect-ratio: 1; position: relative;
+      transition: border-color .3s, transform .3s;
+    }
+    .asset-card:hover { border-color: rgba(0,200,180,.3); transform: translateY(-4px); }
+    .asset-card img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s; }
+    .asset-card:hover img { transform: scale(1.06); }
+    .asset-card-label {
+      position: absolute; bottom: 10px; left: 10px;
+      background: rgba(8,8,8,.75); backdrop-filter: blur(6px);
+      border: 1px solid rgba(255,255,255,.08); border-radius: 100px;
+      padding: 4px 10px; font-size: 8px; font-weight: 700;
+      letter-spacing: .2em; text-transform: uppercase; color: var(--muted);
+    }
+
+    /* ── GALLERY ── */
+    .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: 0 80px 120px; }
+    .gallery-grid img { width: 100%; border-radius: 12px; object-fit: cover; aspect-ratio: 16/10; cursor: zoom-in; transition: transform .4s, opacity .3s; border: 1px solid var(--border); }
+    .gallery-grid img:hover { transform: scale(1.02); opacity: .88; }
+    .gallery-grid img.wide { grid-column: span 2; aspect-ratio: 16/7; }
+
+    /* ── PROJECT NAV ── */
+    .proj-nav { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--border); }
+    .proj-nav-item { padding: 48px 80px; display: flex; flex-direction: column; gap: 12px; text-decoration: none; transition: background .3s; }
+    .proj-nav-item:first-child { border-right: 1px solid var(--border); }
+    .proj-nav-item:hover { background: var(--surface); }
+    .proj-nav-dir { font-size: 9px; font-weight: 700; letter-spacing: .35em; text-transform: uppercase; color: var(--muted); }
+    .proj-nav-title { font-size: 22px; font-weight: 800; letter-spacing: -.02em; color: var(--text); }
+
+    /* ── LIGHTBOX ── */
+    #lightbox { position: fixed; inset: 0; background: rgba(0,0,0,.96); z-index: 500; display: none; align-items: center; justify-content: center; }
+    #lightbox.open { display: flex; }
+    #lbImg { max-width: 90vw; max-height: 90vh; border-radius: 8px; }
+    .lb-close { position: absolute; top: 24px; right: 32px; background: none; border: none; color: var(--muted); font-size: 28px; cursor: none; transition: color .2s; }
+    .lb-close:hover { color: var(--text); }
+    .lb-arrow { position: absolute; background: none; border: none; color: var(--muted); font-size: 48px; cursor: none; padding: 24px; transition: color .2s; }
+    .lb-arrow:hover { color: var(--text); }
+    #lbPrev { left: 16px; } #lbNext { right: 16px; }
+
+    .reveal { opacity: 0; transform: translateY(28px); }
+
+    @media (max-width: 900px) {
+      #nav { padding: 0 24px; }
+      .hero-content { padding: 0 32px 56px; }
+      .hero-scroll { right: 32px; }
+      .overview { grid-template-columns: 1fr 1fr; }
+      .ov-item:nth-child(2) { border-right: none; }
+      .ov-item:nth-child(3) { border-top: 1px solid var(--border); }
+      .section { padding: 80px 32px; }
+      .section-sm { padding: 56px 32px 0; }
+      .desc-grid { grid-template-columns: 1fr; gap: 48px; }
+      .assets-strip { grid-template-columns: repeat(2, 1fr); padding: 0 32px 56px; }
+      .gallery-grid { grid-template-columns: 1fr 1fr; padding: 0 32px 80px; }
+      .gallery-grid img.wide { grid-column: span 2; }
+      .proj-nav-item { padding: 40px 32px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="grain"></div>
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="../index.html" class="nav-back">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+      <path d="M10 3L5 8L10 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    Volver al portfolio
+  </a>
+  <span class="nav-project-title">Beyond Reality</span>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <video class="hero-video" autoplay muted loop playsinline poster="../assets/projects/beyond/captura.png">
+    <source src="../assets/projects/beyond/video.mp4" type="video/mp4">
+  </video>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <p class="hero-cat">Experiencia VR · 3D</p>
+    <h1 class="hero-title">Beyond<br>Reality</h1>
+    <div class="hero-tags">
+      <span class="hero-tag">Unity</span>
+      <span class="hero-tag">3ds Max</span>
+      <span class="hero-tag">Cooperativo</span>
+      <span class="hero-tag">Modelado 3D</span>
+      <span class="hero-tag">Diseño Procedural</span>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="hero-scroll-line"></div>
+    Scroll
+  </div>
+</section>
+
+<!-- OVERVIEW -->
+<div class="overview">
+  <div class="ov-item reveal">
+    <p class="ov-label">Tipo</p>
+    <p class="ov-value">Videojuego cooperativo</p>
+  </div>
+  <div class="ov-item reveal">
+    <p class="ov-label">Mi rol</p>
+    <p class="ov-value">Modelado 3D de todos los assets</p>
+  </div>
+  <div class="ov-item reveal">
+    <p class="ov-label">Herramientas</p>
+    <p class="ov-value">Unity · 3ds Max</p>
+  </div>
+  <div class="ov-item reveal">
+    <p class="ov-label">Centro</p>
+    <p class="ov-value">CITM UPC</p>
+  </div>
+</div>
+
+<!-- DESCRIPTION -->
+<div class="section">
+  <p class="s-label reveal">Sobre el proyecto</p>
+  <h2 class="s-title reveal">Percepción, comunicación<br>y realidad alterada</h2>
+  <div class="desc-grid">
+    <div class="desc-main reveal">
+      <p><b>Beyond Reality</b> es un videojuego cooperativo académico desarrollado en Unity que explora los límites entre la realidad y la ilusión. Dos jugadores deben colaborar para determinar si una habitación pertenece al mundo real o si están atrapados en un sueño.</p>
+      <p>Uno de los jugadores <b>explora la sala en primera persona</b>, mientras que el otro, sin acceso visual, consulta un manual con las descripciones exactas de cómo deberían ser las habitaciones reales. La coordinación, la comunicación y la atención al detalle son fundamentales para superar el reto.</p>
+      <p>El juego cuenta con <b>seis objetos por sala, cada uno con diez variantes posibles</b> (cinco reales y cinco anómalas), generadas de forma procedural con probabilidades ajustadas para equilibrar realidad y sueño. La mecánica de decisión final se realiza desde un ascensor.</p>
+    </div>
+    <div class="desc-aside">
+      <div class="aside-block reveal">
+        <p class="aside-label">Mi rol</p>
+        <p class="aside-value">Modelado 3D — responsable de todos los assets del juego</p>
+      </div>
+      <div class="aside-divider"></div>
+      <div class="aside-block reveal">
+        <p class="aside-label">Equipo</p>
+        <p class="aside-value">Diseño: Pablo Garcia · 3D: Jorge Cabrera · Player 2: Pau Galy · Programación: Unai Fernández</p>
+      </div>
+      <div class="aside-divider"></div>
+      <div class="aside-block reveal">
+        <p class="aside-label">Assets modelados</p>
+        <p class="aside-value">Mesa de billar · Diana · Dardos · Estantería · Reloj · Cuadros · Plantas · Decoración de sala</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 3D ASSETS -->
+<div class="section-sm">
+  <p class="s-label reveal">Assets 3D</p>
+  <h2 class="s-title reveal">Objetos modelados</h2>
+</div>
+<div class="assets-strip">
+  <div class="asset-card reveal">
+    <img src="../assets/projects/beyond/Billar.png" alt="Mesa de billar">
+    <span class="asset-card-label">Mesa de billar</span>
+  </div>
+  <div class="asset-card reveal">
+    <img src="../assets/projects/beyond/Dardos.png" alt="Diana de dardos">
+    <span class="asset-card-label">Diana</span>
+  </div>
+  <div class="asset-card reveal">
+    <img src="../assets/projects/beyond/Reloj.png" alt="Reloj">
+    <span class="asset-card-label">Reloj</span>
+  </div>
+  <div class="asset-card reveal">
+    <img src="../assets/projects/beyond/Planta.png" alt="Planta">
+    <span class="asset-card-label">Planta</span>
+  </div>
+  <div class="asset-card reveal">
+    <img src="../assets/projects/beyond/estanteria1.png" alt="Estantería">
+    <span class="asset-card-label">Estantería</span>
+  </div>
+  <div class="asset-card reveal">
+    <img src="../assets/projects/beyond/Cuadro.png" alt="Cuadro">
+    <span class="asset-card-label">Cuadro</span>
+  </div>
+  <div class="asset-card reveal">
+    <img src="../assets/projects/beyond/dardo2.png" alt="Dardos detalle">
+    <span class="asset-card-label">Dardos</span>
+  </div>
+  <div class="asset-card reveal">
+    <img src="../assets/projects/beyond/DA2.png" alt="Detalle entorno">
+    <span class="asset-card-label">Entorno</span>
+  </div>
+</div>
+
+<!-- GALLERY -->
+<div class="section-sm">
+  <p class="s-label reveal">Capturas in-game</p>
+  <h2 class="s-title reveal">El entorno completo</h2>
+</div>
+<div class="gallery-grid">
+  <img class="wide" src="../assets/projects/beyond/captura.png" alt="Vista general">
+  <img src="../assets/projects/beyond/captura1.png" alt="Captura 1">
+  <img src="../assets/projects/beyond/captura2.png" alt="Captura 2">
+  <img src="../assets/projects/beyond/captura3.png" alt="Captura 3">
+  <img src="../assets/projects/beyond/captura4.png" alt="Captura 4">
+  <img src="../assets/projects/beyond/captura5.png" alt="Captura 5">
+</div>
+
+<!-- PROJECT NAV -->
+<div class="proj-nav">
+  <a href="portfolio.html" class="proj-nav-item">
+    <span class="proj-nav-dir">← Proyecto anterior</span>
+    <span class="proj-nav-title">Portfolio Personal</span>
+  </a>
+  <a href="../index.html" class="proj-nav-item" style="text-align:right">
+    <span class="proj-nav-dir">Volver →</span>
+    <span class="proj-nav-title">Todos los proyectos</span>
+  </a>
+</div>
+
+<!-- LIGHTBOX -->
+<div id="lightbox">
+  <button class="lb-close" id="lbClose">✕</button>
+  <button class="lb-arrow" id="lbPrev">&#8249;</button>
+  <img id="lbImg" src="" alt="">
+  <button class="lb-arrow" id="lbNext">&#8250;</button>
+</div>
+
+<script>
+  gsap.registerPlugin(ScrollTrigger);
+
+  const cur = document.getElementById('cursor');
+  const ring = document.getElementById('cursor-ring');
+  window.addEventListener('mousemove', e => {
+    gsap.to(cur,  { x: e.clientX, y: e.clientY, duration: .08 });
+    gsap.to(ring, { x: e.clientX, y: e.clientY, duration: .22 });
+  });
+
+  window.addEventListener('scroll', () => {
+    document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 80);
+  });
+
+  gsap.utils.toArray('.reveal').forEach((el, i) => {
+    gsap.to(el, {
+      scrollTrigger: { trigger: el, start: 'top 88%', once: true },
+      opacity: 1, y: 0, duration: .7, delay: (i % 4) * .08, ease: 'power3.out'
+    });
+  });
+
+  gsap.from('.hero-cat',   { opacity: 0, y: 20, duration: .8, delay: .3 });
+  gsap.from('.hero-title', { opacity: 0, y: 40, duration: 1,  delay: .5, ease: 'power3.out' });
+  gsap.from('.hero-tags',  { opacity: 0, y: 20, duration: .7, delay: .8 });
+
+  gsap.utils.toArray('.gallery-grid img').forEach((img, i) => {
+    gsap.from(img, {
+      scrollTrigger: { trigger: img, start: 'top 90%', once: true },
+      opacity: 0, y: 24, scale: .98, duration: .6, delay: i * .06, ease: 'power3.out'
+    });
+  });
+
+  /* lightbox — combina assets + gallery */
+  const allImgs = [...document.querySelectorAll('.asset-card img, .gallery-grid img')].map(i => i.src);
+  let idx = 0;
+  const lb = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lbImg');
+
+  document.querySelectorAll('.asset-card img, .gallery-grid img').forEach((img, i) => {
+    img.style.cursor = 'zoom-in';
+    img.addEventListener('click', () => { idx = i; lbImg.src = allImgs[i]; lb.classList.add('open'); });
+  });
+  document.getElementById('lbClose').addEventListener('click', () => lb.classList.remove('open'));
+  document.getElementById('lbPrev').addEventListener('click', () => { idx = (idx - 1 + allImgs.length) % allImgs.length; lbImg.src = allImgs[idx]; });
+  document.getElementById('lbNext').addEventListener('click', () => { idx = (idx + 1) % allImgs.length; lbImg.src = allImgs[idx]; });
+  lb.addEventListener('click', e => { if (e.target === lb) lb.classList.remove('open'); });
+  document.addEventListener('keydown', e => {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'ArrowLeft')  { idx = (idx - 1 + allImgs.length) % allImgs.length; lbImg.src = allImgs[idx]; }
+    if (e.key === 'ArrowRight') { idx = (idx + 1) % allImgs.length; lbImg.src = allImgs[idx]; }
+    if (e.key === 'Escape') lb.classList.remove('open');
+  });
+</script>
+</body>
+</html>

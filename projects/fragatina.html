@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Peña Fragatina — Jorge Cabrera</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root { --bg:#080808;--surface:#111111;--border:#1c1c1c;--text:#f0ece4;--muted:#555;--accent:#FF6B35;--ac2:#e63946; }
+    html { scroll-behavior: smooth; }
+    body { background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;overflow-x:hidden;cursor:none; }
+    .grain { position:fixed;inset:0;pointer-events:none;z-index:3;opacity:.032;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:128px; }
+    #cursor { width:8px;height:8px;background:var(--accent);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transform:translate(-50%,-50%); }
+    #cursor-ring { width:36px;height:36px;border:1px solid rgba(255,107,53,.4);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;transform:translate(-50%,-50%); }
+
+    #nav { position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 56px;height:64px;transition:all .4s; }
+    #nav.scrolled { background:rgba(8,8,8,.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--border); }
+    .nav-back { display:flex;align-items:center;gap:10px;color:var(--muted);text-decoration:none;font-size:12px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;transition:color .2s; }
+    .nav-back:hover { color:var(--text); }
+    .nav-back svg { transition:transform .25s; }
+    .nav-back:hover svg { transform:translateX(-4px); }
+    .nav-project-title { font-size:12px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--muted); }
+
+    .hero { position:relative;width:100%;height:100vh;overflow:hidden;display:flex;align-items:flex-end; }
+    .hero-img { position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0; }
+    .hero-overlay { position:absolute;inset:0;z-index:1;background:linear-gradient(to top,rgba(8,8,8,.97) 0%,rgba(8,8,8,.5) 45%,rgba(8,8,8,.15) 100%); }
+    .hero-content { position:relative;z-index:2;padding:0 80px 72px;width:100%; }
+    .hero-cat { font-size:10px;font-weight:700;letter-spacing:.4em;text-transform:uppercase;color:var(--ac2);margin-bottom:20px;display:flex;align-items:center;gap:16px; }
+    .hero-cat::before { content:'';width:32px;height:1px;background:var(--ac2); }
+    .hero-title { font-size:clamp(48px,7vw,96px);font-weight:900;letter-spacing:-.04em;line-height:.95;margin-bottom:32px;max-width:800px; }
+    .hero-tags { display:flex;gap:10px;flex-wrap:wrap; }
+    .hero-tag { background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:100px;padding:6px 16px;font-size:10px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted); }
+    .hero-scroll { position:absolute;bottom:32px;right:80px;z-index:2;display:flex;align-items:center;gap:12px;font-size:9px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--muted); }
+    .hero-scroll-line { width:40px;height:1px;background:var(--muted); }
+
+    .overview { display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--border); }
+    .ov-item { padding:40px 48px;border-right:1px solid var(--border); }
+    .ov-item:last-child { border-right:none; }
+    .ov-label { font-size:9px;font-weight:700;letter-spacing:.35em;text-transform:uppercase;color:var(--muted);margin-bottom:10px; }
+    .ov-value { font-size:16px;font-weight:700;color:var(--text); }
+
+    .section { padding:120px 80px;max-width:1400px;margin:0 auto; }
+    .section-sm { padding:80px 80px 0;max-width:1400px;margin:0 auto; }
+    .s-label { font-size:9px;font-weight:700;letter-spacing:.4em;text-transform:uppercase;color:var(--ac2);margin-bottom:16px; }
+    .s-title { font-size:clamp(32px,4vw,52px);font-weight:900;letter-spacing:-.03em;margin-bottom:48px; }
+
+    .desc-grid { display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start; }
+    .desc-main { font-size:20px;line-height:1.8;color:var(--muted); }
+    .desc-main p+p { margin-top:24px; }
+    .desc-main b { color:var(--text);font-weight:700; }
+    .desc-aside { display:flex;flex-direction:column;gap:32px;padding-top:8px; }
+    .aside-label { font-size:9px;font-weight:700;letter-spacing:.35em;text-transform:uppercase;color:var(--muted);margin-bottom:10px; }
+    .aside-value { font-size:15px;font-weight:600;color:var(--text);line-height:1.6; }
+    .aside-divider { height:1px;background:var(--border); }
+
+    .gallery-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:0 80px 120px; }
+    .gallery-grid img { width:100%;border-radius:12px;object-fit:cover;aspect-ratio:4/3;cursor:zoom-in;transition:transform .4s,opacity .3s;border:1px solid var(--border); }
+    .gallery-grid img:hover { transform:scale(1.02);opacity:.88; }
+    .gallery-grid img.wide { grid-column:span 3;aspect-ratio:21/8; }
+    .gallery-grid img.half { grid-column:span 1; }
+
+    .proj-nav { display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--border); }
+    .proj-nav-item { padding:48px 80px;display:flex;flex-direction:column;gap:12px;text-decoration:none;transition:background .3s; }
+    .proj-nav-item:first-child { border-right:1px solid var(--border); }
+    .proj-nav-item:hover { background:var(--surface); }
+    .proj-nav-dir { font-size:9px;font-weight:700;letter-spacing:.35em;text-transform:uppercase;color:var(--muted); }
+    .proj-nav-title { font-size:22px;font-weight:800;letter-spacing:-.02em;color:var(--text); }
+
+    #lightbox { position:fixed;inset:0;background:rgba(0,0,0,.96);z-index:500;display:none;align-items:center;justify-content:center; }
+    #lightbox.open { display:flex; }
+    #lbImg { max-width:90vw;max-height:90vh;border-radius:8px; }
+    .lb-close { position:absolute;top:24px;right:32px;background:none;border:none;color:var(--muted);font-size:28px;cursor:none;transition:color .2s; }
+    .lb-close:hover { color:var(--text); }
+    .lb-arrow { position:absolute;background:none;border:none;color:var(--muted);font-size:48px;cursor:none;padding:24px;transition:color .2s; }
+    .lb-arrow:hover { color:var(--text); }
+    #lbPrev { left:16px; } #lbNext { right:16px; }
+    .reveal { opacity:0;transform:translateY(28px); }
+
+    @media(max-width:900px){
+      #nav{padding:0 24px;}.hero-content{padding:0 32px 56px;}.hero-scroll{right:32px;}
+      .overview{grid-template-columns:1fr 1fr;}.ov-item:nth-child(2){border-right:none;}.ov-item:nth-child(3){border-top:1px solid var(--border);}
+      .section{padding:80px 32px;}.section-sm{padding:56px 32px 0;}.desc-grid{grid-template-columns:1fr;gap:48px;}
+      .gallery-grid{grid-template-columns:1fr 1fr;padding:0 32px 80px;}.gallery-grid img.wide{grid-column:span 2;}.proj-nav-item{padding:40px 32px;}
+    }
+  </style>
+</head>
+<body>
+<div class="grain"></div>
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<nav id="nav">
+  <a href="../index.html" class="nav-back">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8L10 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Volver al portfolio
+  </a>
+  <span class="nav-project-title">Peña Fragatina</span>
+</nav>
+
+<section class="hero">
+  <img class="hero-img" src="../assets/projects/fragatina/1.png" alt="Peña Fragatina">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <p class="hero-cat">Identidad Visual · Branding</p>
+    <h1 class="hero-title">Peña<br>Fragatina</h1>
+    <div class="hero-tags">
+      <span class="hero-tag">Diseño Gráfico</span>
+      <span class="hero-tag">Redes Sociales</span>
+      <span class="hero-tag">Carteles</span>
+      <span class="hero-tag">Photoshop</span>
+      <span class="hero-tag">Illustrator</span>
+    </div>
+  </div>
+  <div class="hero-scroll"><div class="hero-scroll-line"></div>Scroll</div>
+</section>
+
+<div class="overview">
+  <div class="ov-item reveal"><p class="ov-label">Tipo</p><p class="ov-value">Diseño para redes sociales</p></div>
+  <div class="ov-item reveal"><p class="ov-label">Rol</p><p class="ov-value">Diseñador gráfico</p></div>
+  <div class="ov-item reveal"><p class="ov-label">Herramientas</p><p class="ov-value">Photoshop · Illustrator</p></div>
+  <div class="ov-item reveal"><p class="ov-label">Entregables</p><p class="ov-value">Posts · Carteles · Stories</p></div>
+</div>
+
+<div class="section">
+  <p class="s-label reveal">Sobre el proyecto</p>
+  <h2 class="s-title reveal">Posts y carteles<br>para la Peña Fragatina</h2>
+  <div class="desc-grid">
+    <div class="desc-main reveal">
+      <p>Diseño de <b>contenido gráfico para redes sociales</b> de la Peña Fragatina, un grupo de aficionados al fútbol. El trabajo consiste en crear posts, carteles y piezas visuales para mantener activa su presencia digital con un estilo consistente y llamativo.</p>
+      <p>Cada pieza combina <b>tipografía de impacto, composición dinámica y recursos visuales relacionados con el fútbol</b> para generar contenido que conecta con la comunidad de seguidores. El objetivo es que cada publicación se sienta energética y reconocible al instante.</p>
+      <p>El trabajo incluye desde <b>anuncios de partidos y celebraciones de victorias</b> hasta carteles para eventos y quedadas de la peña, adaptando el estilo a cada tipo de contenido sin perder coherencia visual.</p>
+    </div>
+    <div class="desc-aside">
+      <div class="aside-block reveal"><p class="aside-label">Tipo de piezas</p><p class="aside-value">Posts de partido · Carteles de eventos · Stories · Anuncios de resultados</p></div>
+      <div class="aside-divider"></div>
+      <div class="aside-block reveal"><p class="aside-label">Técnicas</p><p class="aside-value">Composición tipográfica · Retoque fotográfico · Ilustración vectorial · Diseño para mobile</p></div>
+      <div class="aside-divider"></div>
+      <div class="aside-block reveal"><p class="aside-label">Plataformas</p><p class="aside-value">Instagram · Facebook · WhatsApp</p></div>
+    </div>
+  </div>
+</div>
+
+<div class="section-sm">
+  <p class="s-label reveal">Galería</p>
+  <h2 class="s-title reveal">Todas las piezas</h2>
+</div>
+<div class="gallery-grid">
+  <img class="wide" src="../assets/projects/fragatina/1.png" alt="Fragatina portada">
+  <img src="../assets/projects/fragatina/2.png" alt="">
+  <img src="../assets/projects/fragatina/3.png" alt="">
+  <img src="../assets/projects/fragatina/4.png" alt="">
+  <img src="../assets/projects/fragatina/5.png" alt="">
+  <img src="../assets/projects/fragatina/6.png" alt="">
+  <img src="../assets/projects/fragatina/7.png" alt="">
+  <img src="../assets/projects/fragatina/8.png" alt="">
+  <img src="../assets/projects/fragatina/9.png" alt="">
+  <img src="../assets/projects/fragatina/10.jpg" alt="">
+  <img src="../assets/projects/fragatina/11.png" alt="">
+  <img src="../assets/projects/fragatina/12.png" alt="">
+  <img src="../assets/projects/fragatina/13.png" alt="">
+  <img src="../assets/projects/fragatina/14.png" alt="">
+  <img src="../assets/projects/fragatina/15.png" alt="">
+  <img src="../assets/projects/fragatina/16.png" alt="">
+</div>
+
+<div class="proj-nav">
+  <a href="beyond.html" class="proj-nav-item"><span class="proj-nav-dir">← Proyecto anterior</span><span class="proj-nav-title">Beyond Reality</span></a>
+  <a href="ikea.html" class="proj-nav-item" style="text-align:right"><span class="proj-nav-dir">Siguiente proyecto →</span><span class="proj-nav-title">Proyecto IKEA</span></a>
+</div>
+
+<div id="lightbox">
+  <button class="lb-close" id="lbClose">✕</button>
+  <button class="lb-arrow" id="lbPrev">&#8249;</button>
+  <img id="lbImg" src="" alt="">
+  <button class="lb-arrow" id="lbNext">&#8250;</button>
+</div>
+
+<script>
+  gsap.registerPlugin(ScrollTrigger);
+  const cur=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');
+  window.addEventListener('mousemove',e=>{gsap.to(cur,{x:e.clientX,y:e.clientY,duration:.08});gsap.to(ring,{x:e.clientX,y:e.clientY,duration:.22});});
+  window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',scrollY>80));
+  gsap.utils.toArray('.reveal').forEach(el=>gsap.to(el,{scrollTrigger:{trigger:el,start:'top 88%',once:true},opacity:1,y:0,duration:.7,ease:'power3.out'}));
+  gsap.from('.hero-cat',{opacity:0,y:20,duration:.8,delay:.3});
+  gsap.from('.hero-title',{opacity:0,y:40,duration:1,delay:.5,ease:'power3.out'});
+  gsap.from('.hero-tags',{opacity:0,y:20,duration:.7,delay:.8});
+  gsap.utils.toArray('.gallery-grid img').forEach((img,i)=>gsap.from(img,{scrollTrigger:{trigger:img,start:'top 90%',once:true},opacity:0,y:24,scale:.98,duration:.6,delay:i*.05,ease:'power3.out'}));
+
+  const imgs=[...document.querySelectorAll('.gallery-grid img')].map(i=>i.src);
+  let idx=0;const lb=document.getElementById('lightbox'),lbImg=document.getElementById('lbImg');
+  document.querySelectorAll('.gallery-grid img').forEach((img,i)=>img.addEventListener('click',()=>{idx=i;lbImg.src=imgs[i];lb.classList.add('open');}));
+  document.getElementById('lbClose').addEventListener('click',()=>lb.classList.remove('open'));
+  document.getElementById('lbPrev').addEventListener('click',()=>{idx=(idx-1+imgs.length)%imgs.length;lbImg.src=imgs[idx];});
+  document.getElementById('lbNext').addEventListener('click',()=>{idx=(idx+1)%imgs.length;lbImg.src=imgs[idx];});
+  lb.addEventListener('click',e=>{if(e.target===lb)lb.classList.remove('open');});
+  document.addEventListener('keydown',e=>{if(!lb.classList.contains('open'))return;if(e.key==='ArrowLeft'){idx=(idx-1+imgs.length)%imgs.length;lbImg.src=imgs[idx];}if(e.key==='ArrowRight'){idx=(idx+1)%imgs.length;lbImg.src=imgs[idx];}if(e.key==='Escape')lb.classList.remove('open');});
+</script>
+</body>
+</html>

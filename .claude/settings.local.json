@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -sL \"https://cafecomercialmadrid.com\" -A \"Mozilla/5.0 \\(Macintosh; Intel Mac OS X 10_15_7\\)\" -o /tmp/cafecomercial.html)",
+      "Read(//tmp/**)",
+      "Read(//private/tmp/**)",
+      "PowerShell(& \"C:\\\\Users\\\\Jorge\\\\Downloads\\\\PortableGit\\\\bin\\\\git.exe\" -C \"c:\\\\Users\\\\Jorge\\\\Downloads\\\\10 SKILLS ADRI Y JUANPE\\\\10 SKILLS ADRI Y JUANPE\\\\kit-web-scrolling\" remote -v)"
+    ]
+  }
+}
