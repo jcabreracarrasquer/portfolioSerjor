@@ -108,7 +108,8 @@
       display: flex; justify-content: space-between; align-items: center;
     }
     .nav-logo { text-decoration: none; display: flex; align-items: center; }
-    .nav-logo img { height: 40px; width: 40px; object-fit: contain; border-radius: 50%; filter: invert(1); }
+    .nav-logo img { height: 40px; width: 40px; object-fit: cover; object-position: center 15%; border-radius: 50%; border: 1.5px solid rgba(255,107,53,.35); transition: border-color .3s; }
+    .nav-logo:hover img { border-color: rgba(255,107,53,.8); }
     .nav-links { display: flex; gap: 36px; list-style: none; }
     .nav-links a {
       font-size: 11px; font-weight: 600;
@@ -315,6 +316,17 @@
       position: relative; aspect-ratio: 3/4;
       background: var(--surface); border: 1px solid var(--border);
       overflow: hidden; display: flex; align-items: center; justify-content: center;
+      will-change: transform;
+      transition: box-shadow .4s;
+    }
+    .about-visual:hover {
+      box-shadow: 0 32px 80px rgba(0,0,0,.55), 0 0 0 1px rgba(255,107,53,.18);
+    }
+    .av-shine {
+      position: absolute; inset: 0; z-index: 10;
+      pointer-events: none;
+      background: radial-gradient(circle at 50% 50%, rgba(255,255,255,.12) 0%, transparent 55%);
+      opacity: 0; mix-blend-mode: screen;
     }
     .av-grid {
       position: absolute; inset: 0;
@@ -671,7 +683,7 @@
 
 <!-- NAV -->
 <nav id="nav">
-  <a href="#hero" class="nav-logo"><img src="assets/logo.png" alt="Jorge Cabrera"></a>
+  <a href="#hero" class="nav-logo"><img src="assets/foto.jpg" alt="Jorge Cabrera"></a>
   <ul class="nav-links">
     <li><a href="#projects">Proyectos</a></li>
     <li><a href="#about">Sobre mí</a></li>
@@ -712,7 +724,8 @@
     <div class="av-corner av-corner--tr"></div>
     <div class="av-corner av-corner--bl"></div>
     <div class="av-corner av-corner--br"></div>
-    <img src="assets/avatar.png" alt="Jorge Cabrera" class="av-portrait">
+    <img src="assets/foto.jpg" alt="Jorge Cabrera" class="av-portrait">
+    <div class="av-shine"></div>
     <div class="av-disciplines">
       <span>UX Design</span>
       <span>Diseño Gráfico</span>
@@ -1460,6 +1473,48 @@ window.addEventListener('scroll', () => {
     nav.style.backdropFilter = '';
   }
 });
+
+/* ── ABOUT VISUAL 3D TILT ── */
+(function () {
+  const visual  = document.querySelector('.about-visual');
+  if (!visual) return;
+  const photo   = visual.querySelector('.av-portrait');
+  const discip  = visual.querySelector('.av-disciplines');
+  const badge   = visual.querySelector('.av-badge');
+  const corners = visual.querySelectorAll('.av-corner');
+  const shine   = visual.querySelector('.av-shine');
+
+  gsap.set(visual, { transformPerspective: 900 });
+
+  visual.addEventListener('mousemove', e => {
+    const r  = visual.getBoundingClientRect();
+    const dx = (e.clientX - r.left  - r.width  / 2) / (r.width  / 2);
+    const dy = (e.clientY - r.top   - r.height / 2) / (r.height / 2);
+    const rx = -dy * 13;
+    const ry =  dx * 13;
+
+    gsap.to(visual, { rotateX: rx, rotateY: ry, scale: 1.025, duration: .35, ease: 'power2.out' });
+
+    /* parallax layers — deeper = less movement */
+    gsap.to(photo,              { x: dx*5,   y: dy*5,  duration: .35 });
+    gsap.to(discip,             { x: dx*16,  y: dy*10, duration: .3  });
+    gsap.to(badge,              { x: dx*20,  y:-dy*14, duration: .3  });
+    corners.forEach(c => gsap.to(c, { x: dx*4, y: dy*4, duration: .45 }));
+
+    /* shine follows cursor */
+    const sx = (dx + 1) / 2 * 100;
+    const sy = (dy + 1) / 2 * 100;
+    shine.style.background = `radial-gradient(circle at ${sx}% ${sy}%, rgba(255,255,255,.14) 0%, transparent 52%)`;
+    gsap.to(shine, { opacity: 1, duration: .25 });
+  });
+
+  visual.addEventListener('mouseleave', () => {
+    gsap.to(visual,                   { rotateX: 0, rotateY: 0, scale: 1, duration: .9, ease: 'elastic.out(1,.6)' });
+    gsap.to([photo, discip, badge],   { x: 0, y: 0, duration: .7, ease: 'power3.out' });
+    corners.forEach(c => gsap.to(c,   { x: 0, y: 0, duration: .7, ease: 'power3.out' }));
+    gsap.to(shine,                    { opacity: 0, duration: .4 });
+  });
+})();
 
 /* ── HERO PARTICLE FIELD ── */
 (function() {
