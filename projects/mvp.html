@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Proyecto IKEA — Jorge Cabrera</title>
+  <title>MVP Academy — Jorge Cabrera</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
@@ -11,7 +11,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <style>
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
-    :root{--bg:#080808;--surface:#111111;--border:#1c1c1c;--text:#f0ece4;--muted:#555;--accent:#FF6B35;--ac2:#0058a3;}
+    :root{--bg:#080808;--surface:#111111;--border:#1c1c1c;--text:#f0ece4;--muted:#555;--accent:#FF6B35;--ac2:#FF6B35;}
     html{scroll-behavior:smooth;}
     body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;overflow-x:hidden;cursor:none;}
     .grain{position:fixed;inset:0;pointer-events:none;z-index:3;opacity:.032;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:128px;}
@@ -30,8 +30,8 @@
     .hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;}
     .hero-overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(to top,rgba(8,8,8,.97) 0%,rgba(8,8,8,.5) 45%,rgba(8,8,8,.15) 100%);}
     .hero-content{position:relative;z-index:2;padding:0 80px 72px;width:100%;}
-    .hero-cat{font-size:10px;font-weight:700;letter-spacing:.4em;text-transform:uppercase;color:#4a9eff;margin-bottom:20px;display:flex;align-items:center;gap:16px;}
-    .hero-cat::before{content:'';width:32px;height:1px;background:#4a9eff;}
+    .hero-cat{font-size:10px;font-weight:700;letter-spacing:.4em;text-transform:uppercase;color:var(--ac2);margin-bottom:20px;display:flex;align-items:center;gap:16px;}
+    .hero-cat::before{content:'';width:32px;height:1px;background:var(--ac2);}
     .hero-title{font-size:clamp(48px,7vw,96px);font-weight:900;letter-spacing:-.04em;line-height:.95;margin-bottom:32px;max-width:800px;}
     .hero-tags{display:flex;gap:10px;flex-wrap:wrap;}
     .hero-tag{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:100px;padding:6px 16px;font-size:10px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);}
@@ -46,7 +46,7 @@
 
     .section{padding:120px 80px;max-width:1400px;margin:0 auto;}
     .section-sm{padding:80px 80px 0;max-width:1400px;margin:0 auto;}
-    .s-label{font-size:9px;font-weight:700;letter-spacing:.4em;text-transform:uppercase;color:#4a9eff;margin-bottom:16px;}
+    .s-label{font-size:9px;font-weight:700;letter-spacing:.4em;text-transform:uppercase;color:var(--ac2);margin-bottom:16px;}
     .s-title{font-size:clamp(32px,4vw,52px);font-weight:900;letter-spacing:-.03em;margin-bottom:48px;}
     .desc-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;}
     .desc-main{font-size:20px;line-height:1.8;color:var(--muted);}
@@ -61,6 +61,7 @@
     .gallery-grid img{width:100%;border-radius:12px;object-fit:cover;aspect-ratio:4/3;cursor:zoom-in;transition:transform .4s,opacity .3s;border:1px solid var(--border);}
     .gallery-grid img:hover{transform:scale(1.02);opacity:.88;}
     .gallery-grid img.wide{grid-column:span 3;aspect-ratio:21/8;}
+    .gallery-grid img.half{grid-column:span 1;}
 
     .proj-nav{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--border);}
     .proj-nav-item{padding:48px 80px;display:flex;flex-direction:column;gap:12px;text-decoration:none;transition:background .3s;}
@@ -91,78 +92,68 @@
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8L10 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
     Volver al portfolio
   </a>
-  <span class="nav-project-title">Proyecto IKEA</span>
+  <span class="nav-project-title">MVP Academy</span>
 </nav>
 
 <section class="hero">
-  <img class="hero-img" src="../assets/projects/ikea/portada.jpg" alt="Proyecto IKEA">
+  <img class="hero-img" src="../assets/projects/mvp/portada.jpg" alt="MVP Academy">
   <div class="hero-overlay"></div>
   <div class="hero-content">
-    <p class="hero-cat">Diseño de Producto · 3D</p>
-    <h1 class="hero-title">Proyecto<br>IKEA</h1>
+    <p class="hero-cat">Diseño Gráfico · Redes Sociales</p>
+    <h1 class="hero-title">MVP<br>Academy</h1>
     <div class="hero-tags">
-      <span class="hero-tag">Producción Audiovisual</span>
-      <span class="hero-tag">Anuncio Publicitario</span>
-      <span class="hero-tag">3D</span>
+      <span class="hero-tag">Diseño Gráfico</span>
+      <span class="hero-tag">Redes Sociales</span>
+      <span class="hero-tag">Branding</span>
       <span class="hero-tag">Photoshop</span>
-      <span class="hero-tag">Premiere</span>
+      <span class="hero-tag">Illustrator</span>
     </div>
   </div>
   <div class="hero-scroll"><div class="hero-scroll-line"></div>Scroll</div>
 </section>
 
 <div class="overview">
-  <div class="ov-item reveal"><p class="ov-label">Tipo</p><p class="ov-value">Proyecto académico en grupo</p></div>
-  <div class="ov-item reveal"><p class="ov-label">Rol</p><p class="ov-value">Diseño gráfico · 3D · Edición</p></div>
-  <div class="ov-item reveal"><p class="ov-label">Herramientas</p><p class="ov-value">Photoshop · Premiere · 3ds Max</p></div>
-  <div class="ov-item reveal"><p class="ov-label">Centro</p><p class="ov-value">CITM UPC</p></div>
+  <div class="ov-item reveal"><p class="ov-label">Tipo</p><p class="ov-value">Diseño para redes sociales</p></div>
+  <div class="ov-item reveal"><p class="ov-label">Rol</p><p class="ov-value">Diseñador gráfico</p></div>
+  <div class="ov-item reveal"><p class="ov-label">Herramientas</p><p class="ov-value">Photoshop · Illustrator</p></div>
+  <div class="ov-item reveal"><p class="ov-label">Instagram</p><p class="ov-value">@mvp_academy23</p></div>
 </div>
 
 <div class="section">
   <p class="s-label reveal">Sobre el proyecto</p>
-  <h2 class="s-title reveal">Anuncio publicitario<br>inspirado en IKEA</h2>
+  <h2 class="s-title reveal">Identidad visual para una<br>academia de fútbol</h2>
   <div class="desc-grid">
     <div class="desc-main reveal">
-      <p>Proyecto académico en grupo cuyo objetivo era <b>producir un anuncio publicitario de ficción inspirado en la estética y el lenguaje visual de IKEA</b>. El trabajo no es oficial ni está vinculado con la marca; es un ejercicio de producción audiovisual universitaria.</p>
-      <p>El equipo se encargó de todo el proceso: <b>concepto creativo, guion, diseño gráfico, elementos 3D y edición final</b>. El reto fue replicar el tono minimalista y cercano que caracteriza la comunicación de IKEA, combinando piezas 3D generadas en 3ds Max con composición en Photoshop.</p>
-      <p>El resultado es un <b>anuncio de ficción completo</b>, con el look and feel propio de la marca y la narrativa visual que la caracteriza: sencillez, hogar y accesibilidad.</p>
+      <p><b>MVP Academy</b> es una academia de tecnificación de futbolistas orientada al desarrollo individual del jugador. El proyecto consistió en crear <b>piezas de diseño gráfico para su presencia en redes sociales</b>, construyendo una identidad visual reconocible y enérgica.</p>
+      <p>El trabajo abarca desde el <b>diseño de carteles y posts de Instagram</b> hasta materiales de imagen de marca como camisetas y material promocional. Cada pieza busca transmitir dinamismo, profesionalidad y el espíritu competitivo de la academia.</p>
+      <p>La paleta naranja y roja, combinada con tipografías de alto impacto y composiciones directas, define un estilo <b>moderno y reconocible</b> que conecta con el público joven deportista al que se dirige MVP Academy.</p>
     </div>
     <div class="desc-aside">
-      <div class="aside-block reveal"><p class="aside-label">Formato</p><p class="aside-value">Anuncio audiovisual de ficción (proyecto no oficial)</p></div>
+      <div class="aside-block reveal"><p class="aside-label">Tipo de piezas</p><p class="aside-value">Posts de Instagram · Carteles · Diseño de camiseta · Material promocional</p></div>
       <div class="aside-divider"></div>
-      <div class="aside-block reveal"><p class="aside-label">Pipeline</p><p class="aside-value">Concepto → Storyboard → 3D + Gráficos → Composición → Edición final</p></div>
+      <div class="aside-block reveal"><p class="aside-label">Estilo visual</p><p class="aside-value">Tipografía de impacto · Paleta naranja/roja · Composición dinámica · Look deportivo</p></div>
       <div class="aside-divider"></div>
-      <div class="aside-block reveal"><p class="aside-label">Mi rol</p><p class="aside-value">Diseño gráfico · Modelado 3D · Edición de vídeo</p></div>
+      <div class="aside-block reveal"><p class="aside-label">Canal</p><p class="aside-value">Instagram — @mvp_academy23</p></div>
     </div>
   </div>
 </div>
 
 <div class="section-sm">
-  <p class="s-label reveal">Ver el anuncio</p>
-  <h2 class="s-title reveal">Resultado final</h2>
-</div>
-<div class="section-sm" style="padding-bottom:80px;">
-  <div class="reveal" style="position:relative;width:100%;aspect-ratio:16/9;border-radius:16px;overflow:hidden;border:1px solid var(--border);">
-    <iframe src="https://www.youtube.com/embed/kqduFN6LFmk" title="Proyecto IKEA — Anuncio publicitario" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;"></iframe>
-  </div>
-</div>
-
-<div class="section-sm">
-  <p class="s-label reveal">Piezas del proyecto</p>
-  <h2 class="s-title reveal">Capturas del proceso</h2>
+  <p class="s-label reveal">Galería</p>
+  <h2 class="s-title reveal">Piezas del proyecto</h2>
 </div>
 <div class="gallery-grid">
-  <img class="wide" src="../assets/projects/ikea/portada.jpg" alt="IKEA portada">
-  <img src="../assets/projects/ikea/1.png" alt="Vista 1">
-  <img src="../assets/projects/ikea/2.png" alt="Vista 2">
-  <img src="../assets/projects/ikea/3.png" alt="Vista 3">
-  <img src="../assets/projects/ikea/4.png" alt="Vista 4">
-  <img src="../assets/projects/ikea/5.png" alt="Vista 5">
+  <img class="wide" src="../assets/projects/mvp/portada.jpg" alt="MVP Academy portada">
+  <img src="../assets/projects/mvp/cartelv2.png" alt="Cartel MVP">
+  <img src="../assets/projects/mvp/mvp1_05.jpg" alt="MVP post">
+  <img src="../assets/projects/mvp/v1.png" alt="MVP diseño v1">
+  <img src="../assets/projects/mvp/camisetaMVPv1.png" alt="Camiseta MVP v1">
+  <img src="../assets/projects/mvp/camisetasPercha.png" alt="Camisetas MVP">
 </div>
 
 <div class="proj-nav">
-  <a href="fragatina.html" class="proj-nav-item"><span class="proj-nav-dir">← Proyecto anterior</span><span class="proj-nav-title">Peña Fragatina</span></a>
-  <a href="bagon.html" class="proj-nav-item" style="text-align:right"><span class="proj-nav-dir">Siguiente proyecto →</span><span class="proj-nav-title">Bagon 3D</span></a>
+  <a href="bagon.html" class="proj-nav-item"><span class="proj-nav-dir">← Proyecto anterior</span><span class="proj-nav-title">Bagon 3D</span></a>
+  <a href="graficas.html" class="proj-nav-item" style="text-align:right"><span class="proj-nav-dir">Siguiente proyecto →</span><span class="proj-nav-title">Diseño Freelance</span></a>
 </div>
 
 <div id="lightbox">
