@@ -138,8 +138,9 @@
     #hero {
       height: 100vh; min-height: 600px;
       display: flex; flex-direction: column;
-      justify-content: flex-end;
-      padding: 0 56px 72px;
+      justify-content: center;
+      align-items: center;
+      padding: 0 56px;
       position: relative; overflow: hidden;
     }
     .hero-grid {
@@ -157,23 +158,48 @@
       width: 100%; height: 100%; pointer-events: all;
     }
     .hero-tag {
-      font-size: 11px; font-weight: 600;
-      letter-spacing: .35em; text-transform: uppercase;
-      color: var(--accent); margin-bottom: 20px;
+      font-size: 10px; font-weight: 700;
+      letter-spacing: .45em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 40px;
       opacity: 0; transform: translateY(12px);
       position: relative; z-index: 1;
+      display: flex; align-items: center; gap: 18px;
+    }
+    .hero-tag::before, .hero-tag::after {
+      content: ''; width: 48px; height: 1px;
+      background: var(--accent); opacity: .55; flex-shrink: 0;
     }
     .hero-name {
-      font-size: clamp(72px, 11vw, 170px);
-      font-weight: 900; line-height: .88;
-      letter-spacing: -.04em; text-transform: uppercase;
-      perspective: 800px; position: relative; z-index: 1;
+      line-height: 1; perspective: 800px;
+      position: relative; z-index: 1;
+      text-align: center; width: 100%;
     }
     .hero-line { display: block; overflow: hidden; }
     .hero-line-inner { display: block; transform: translateY(110%); }
+
+    /* ── first name: outline italic ── */
+    .hero-line:first-child .hero-line-inner {
+      font-family: 'Inter', system-ui, sans-serif;
+      font-weight: 900; font-style: italic;
+      font-size: clamp(72px, 12vw, 175px);
+      letter-spacing: -.04em; text-transform: uppercase;
+      color: transparent;
+      -webkit-text-stroke: 1.5px rgba(240,236,228,.65);
+      line-height: .9;
+    }
+    /* ── last name: solid heavy ── */
+    .hero-line:last-child .hero-line-inner {
+      font-family: 'Inter', system-ui, sans-serif;
+      font-weight: 900;
+      font-size: clamp(32px, 5.2vw, 80px);
+      letter-spacing: .22em; text-transform: uppercase;
+      color: var(--text);
+      margin-top: 16px;
+    }
     .hero-bottom {
       display: flex; justify-content: space-between; align-items: flex-end;
-      margin-top: 52px; opacity: 0; position: relative; z-index: 1;
+      position: absolute; bottom: 72px; left: 56px; right: 56px;
+      opacity: 0; z-index: 1;
     }
     .hero-sub { font-size: 17px; font-weight: 300; line-height: 1.6; color: var(--muted); max-width: 380px; }
     .hero-sub b { color: var(--text); font-weight: 600; }
@@ -350,13 +376,20 @@
       color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,.04);
       line-height: 1; user-select: none; bottom: -30px; right: -20px;
     }
-    .av-disciplines {
-      position: absolute; bottom: 28px; left: 28px; z-index: 3;
-      display: flex; flex-direction: column; gap: 5px;
+    .av-nameplate {
+      position: absolute; bottom: 0; left: 0; right: 0; z-index: 5;
+      padding: 80px 28px 28px;
+      background: linear-gradient(to top, rgba(8,8,8,.97) 45%, transparent 100%);
     }
-    .av-disciplines span {
+    .av-np-role {
       font-size: 9px; font-weight: 700;
-      letter-spacing: .3em; text-transform: uppercase; color: var(--muted);
+      letter-spacing: .35em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 10px;
+    }
+    .av-np-name {
+      font-size: clamp(30px, 3vw, 44px);
+      font-weight: 900; letter-spacing: -.03em;
+      line-height: .95; color: var(--text);
     }
     .av-badge {
       position: absolute; top: 24px; right: 24px; z-index: 3;
@@ -833,8 +866,8 @@
   <canvas id="hero-canvas"></canvas>
   <p class="hero-tag">Diseño Digital &amp; Multimedia</p>
   <h1 class="hero-name">
-    <span class="hero-line"><span class="hero-line-inner" data-text="Jorge">Jorge</span></span>
-    <span class="hero-line"><span class="hero-line-inner" data-text="Cabrera">Cabrera</span></span>
+    <span class="hero-line"><span class="hero-line-inner" data-text="IMAGINA">IMAGINA</span></span>
+    <span class="hero-line"><span class="hero-line-inner" data-text="CONSTRUYE">CONSTRUYE</span></span>
   </h1>
   <div class="hero-bottom">
     <p class="hero-sub">
@@ -860,13 +893,11 @@
     <div class="av-corner av-corner--br"></div>
     <img src="assets/foto.jpg" alt="Jorge Cabrera" class="av-portrait">
     <div class="av-shine"></div>
-    <div class="av-disciplines">
-      <span>UX Design</span>
-      <span>Diseño Gráfico</span>
-      <span>Modelado 3D</span>
-      <span>Edición de Vídeo</span>
-    </div>
     <div class="av-badge">CITM UPC '26</div>
+    <div class="av-nameplate">
+      <p class="av-np-role">Diseñador Digital &amp; Multimedia</p>
+      <p class="av-np-name">Jorge<br>Cabrera</p>
+    </div>
   </div>
   <div class="about-content">
     <p class="s-label">Sobre mí</p>
@@ -1397,6 +1428,88 @@ function initAnimations() {
       card.querySelector('.pgc-arrow svg').style.transform = 'rotate(0deg)';
     });
   });
+
+  /* ── POLYGON BACKGROUND ── */
+  (function() {
+    const canvas = document.getElementById('hero-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const COLS = 16, ROWS = 10;
+    let pts = [], tris = [], mx, my;
+
+    function buildMesh() {
+      const W = canvas.width, H = canvas.height;
+      const cw = W / (COLS-1), ch = H / (ROWS-1);
+      mx = W / 2; my = H / 2;
+      pts = [];
+      for (let r = 0; r < ROWS; r++) {
+        for (let c = 0; c < COLS; c++) {
+          const edge = r===0||r===ROWS-1||c===0||c===COLS-1;
+          pts.push({
+            x: c*cw + (edge ? 0 : (Math.random()-.5)*cw*.75),
+            y: r*ch + (edge ? 0 : (Math.random()-.5)*ch*.75)
+          });
+        }
+      }
+      tris = [];
+      for (let r = 0; r < ROWS-1; r++) {
+        for (let c = 0; c < COLS-1; c++) {
+          const i = r*COLS + c;
+          [[i,i+1,i+COLS],[i+1,i+COLS+1,i+COLS]].forEach(idx => {
+            const [a,b,cc] = idx.map(j => pts[j]);
+            tris.push({
+              idx, accent: Math.random() < .055,
+              cx: (a.x+b.x+cc.x)/3, cy: (a.y+b.y+cc.y)/3,
+              base: 8 + Math.random()*10,
+              phase: Math.random()*Math.PI*2,
+              speed: .12 + Math.random()*.22
+            });
+          });
+        }
+      }
+    }
+
+    function resize() {
+      canvas.width  = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+      buildMesh();
+    }
+
+    window.addEventListener('mousemove', e => {
+      const r = canvas.getBoundingClientRect();
+      mx = e.clientX - r.left;
+      my = e.clientY - r.top;
+    });
+
+    let t = 0;
+    (function draw() {
+      requestAnimationFrame(draw);
+      t += .008;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (const tri of tris) {
+        const [a, b, c] = tri.idx.map(i => pts[i]);
+        const pulse  = (Math.sin(t*tri.speed + tri.phase)+1)*.5;
+        const dx = tri.cx-mx, dy = tri.cy-my;
+        const mGlow = Math.max(0, 1 - Math.sqrt(dx*dx+dy*dy)/280);
+        ctx.beginPath();
+        ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.lineTo(c.x,c.y);
+        ctx.closePath();
+        if (tri.accent) {
+          ctx.fillStyle = `rgba(255,107,53,${.03+pulse*.09+mGlow*.2})`;
+        } else {
+          const v = tri.base + pulse*7 + mGlow*24;
+          ctx.fillStyle = `rgb(${v|0},${v|0},${v|0})`;
+        }
+        ctx.fill();
+        ctx.strokeStyle = `rgba(255,255,255,${.018+mGlow*.055})`;
+        ctx.lineWidth = .4;
+        ctx.stroke();
+      }
+    })();
+
+    resize();
+    window.addEventListener('resize', resize);
+  })();
 
   /* — hero — */
   gsap.to('.hero-tag', { opacity: 1, y: 0, duration: 0.9, delay: 0.1, ease: 'power3.out' });
