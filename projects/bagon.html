@@ -155,13 +155,6 @@
   <a href="mvp.html" class="proj-nav-item" style="text-align:right"><span class="proj-nav-dir">Siguiente proyecto →</span><span class="proj-nav-title">MVP Academy</span></a>
 </div>
 
-<div id="lightbox">
-  <button class="lb-close" id="lbClose">✕</button>
-  <button class="lb-arrow" id="lbPrev">&#8249;</button>
-  <img id="lbImg" src="" alt="">
-  <button class="lb-arrow" id="lbNext">&#8250;</button>
-</div>
-
 <script>
   gsap.registerPlugin(ScrollTrigger);
   const cur=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');
@@ -172,14 +165,7 @@
   gsap.from('.hero-title',{opacity:0,y:40,duration:1,delay:.5,ease:'power3.out'});
   gsap.from('.hero-tags',{opacity:0,y:20,duration:.7,delay:.8});
   gsap.utils.toArray('.renders-grid img').forEach((img,i)=>gsap.from(img,{scrollTrigger:{trigger:img,start:'top 90%',once:true},opacity:0,y:24,scale:.95,duration:.7,delay:i*.1,ease:'power3.out'}));
-  const imgs=[...document.querySelectorAll('.renders-grid img')].map(i=>i.src);
-  let idx=0;const lb=document.getElementById('lightbox'),lbImg=document.getElementById('lbImg');
-  document.querySelectorAll('.renders-grid img').forEach((img,i)=>img.addEventListener('click',()=>{idx=i;lbImg.src=imgs[i];lb.classList.add('open');}));
-  document.getElementById('lbClose').addEventListener('click',()=>lb.classList.remove('open'));
-  document.getElementById('lbPrev').addEventListener('click',()=>{idx=(idx-1+imgs.length)%imgs.length;lbImg.src=imgs[idx];});
-  document.getElementById('lbNext').addEventListener('click',()=>{idx=(idx+1)%imgs.length;lbImg.src=imgs[idx];});
-  lb.addEventListener('click',e=>{if(e.target===lb)lb.classList.remove('open');});
-  document.addEventListener('keydown',e=>{if(!lb.classList.contains('open'))return;if(e.key==='ArrowLeft'){idx=(idx-1+imgs.length)%imgs.length;lbImg.src=imgs[idx];}if(e.key==='ArrowRight'){idx=(idx+1)%imgs.length;lbImg.src=imgs[idx];}if(e.key==='Escape')lb.classList.remove('open');});
 </script>
+<script src="../assets/shared-gallery.js"></script>
 </body>
 </html>

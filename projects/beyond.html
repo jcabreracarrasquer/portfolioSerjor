@@ -313,14 +313,6 @@
   </a>
 </div>
 
-<!-- LIGHTBOX -->
-<div id="lightbox">
-  <button class="lb-close" id="lbClose">✕</button>
-  <button class="lb-arrow" id="lbPrev">&#8249;</button>
-  <img id="lbImg" src="" alt="">
-  <button class="lb-arrow" id="lbNext">&#8250;</button>
-</div>
-
 <script>
   gsap.registerPlugin(ScrollTrigger);
 
@@ -353,26 +345,7 @@
     });
   });
 
-  /* lightbox — combina assets + gallery */
-  const allImgs = [...document.querySelectorAll('.asset-card img, .gallery-grid img')].map(i => i.src);
-  let idx = 0;
-  const lb = document.getElementById('lightbox');
-  const lbImg = document.getElementById('lbImg');
-
-  document.querySelectorAll('.asset-card img, .gallery-grid img').forEach((img, i) => {
-    img.style.cursor = 'zoom-in';
-    img.addEventListener('click', () => { idx = i; lbImg.src = allImgs[i]; lb.classList.add('open'); });
-  });
-  document.getElementById('lbClose').addEventListener('click', () => lb.classList.remove('open'));
-  document.getElementById('lbPrev').addEventListener('click', () => { idx = (idx - 1 + allImgs.length) % allImgs.length; lbImg.src = allImgs[idx]; });
-  document.getElementById('lbNext').addEventListener('click', () => { idx = (idx + 1) % allImgs.length; lbImg.src = allImgs[idx]; });
-  lb.addEventListener('click', e => { if (e.target === lb) lb.classList.remove('open'); });
-  document.addEventListener('keydown', e => {
-    if (!lb.classList.contains('open')) return;
-    if (e.key === 'ArrowLeft')  { idx = (idx - 1 + allImgs.length) % allImgs.length; lbImg.src = allImgs[idx]; }
-    if (e.key === 'ArrowRight') { idx = (idx + 1) % allImgs.length; lbImg.src = allImgs[idx]; }
-    if (e.key === 'Escape') lb.classList.remove('open');
-  });
 </script>
+<script src="../assets/shared-gallery.js"></script>
 </body>
 </html>

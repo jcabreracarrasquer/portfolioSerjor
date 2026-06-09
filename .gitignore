@@ -1,4 +1,13 @@
-# OS files
+# Dependencies
+node_modules/
+
+# Next.js build output
+.next/
+out/
+
+# Build artifacts
+tsconfig.tsbuildinfo
+
+# Misc
 .DS_Store
-Thumbs.db
-desktop.ini
+*.log

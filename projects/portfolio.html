@@ -344,13 +344,6 @@
 </div>
 
 <!-- LIGHTBOX -->
-<div id="lightbox">
-  <button class="lb-close" id="lbClose">✕</button>
-  <button class="lb-arrow" id="lbPrev">&#8249;</button>
-  <img id="lbImg" src="" alt="">
-  <button class="lb-arrow" id="lbNext">&#8250;</button>
-</div>
-
 <script>
   gsap.registerPlugin(ScrollTrigger);
 
@@ -389,26 +382,6 @@
     });
   });
 
-  /* lightbox */
-  const imgs = [...document.querySelectorAll('.gallery-grid img')].map(i => i.src);
-  let idx = 0;
-  const lb = document.getElementById('lightbox');
-  const lbImg = document.getElementById('lbImg');
-
-  document.querySelectorAll('.gallery-grid img').forEach((img, i) => {
-    img.addEventListener('click', () => { idx = i; lbImg.src = imgs[i]; lb.classList.add('open'); });
-  });
-  document.getElementById('lbClose').addEventListener('click', () => lb.classList.remove('open'));
-  document.getElementById('lbPrev').addEventListener('click', () => { idx = (idx - 1 + imgs.length) % imgs.length; lbImg.src = imgs[idx]; });
-  document.getElementById('lbNext').addEventListener('click', () => { idx = (idx + 1) % imgs.length; lbImg.src = imgs[idx]; });
-  lb.addEventListener('click', e => { if (e.target === lb) lb.classList.remove('open'); });
-  document.addEventListener('keydown', e => {
-    if (!lb.classList.contains('open')) return;
-    if (e.key === 'ArrowLeft')  { idx = (idx - 1 + imgs.length) % imgs.length; lbImg.src = imgs[idx]; }
-    if (e.key === 'ArrowRight') { idx = (idx + 1) % imgs.length; lbImg.src = imgs[idx]; }
-    if (e.key === 'Escape') lb.classList.remove('open');
-  });
-
   /* ai banner stagger */
   gsap.utils.toArray('.ai-step').forEach((step, i) => {
     gsap.from(step, {
@@ -417,5 +390,6 @@
     });
   });
 </script>
+<script src="../assets/shared-gallery.js"></script>
 </body>
 </html>
