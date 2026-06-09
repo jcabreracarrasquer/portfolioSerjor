@@ -1,8 +1,9 @@
 {
-  "buildCommand": null,
-  "outputDirectory": ".",
-  "framework": null,
-  "rewrites": [
-    { "source": "/projects/:path*", "destination": "/projects/:path*" }
+  "version": 2,
+  "builds": [
+    { "src": "**", "use": "@vercel/static" }
+  ],
+  "routes": [
+    { "src": "/(.*)", "dest": "/$1" }
   ]
 }
