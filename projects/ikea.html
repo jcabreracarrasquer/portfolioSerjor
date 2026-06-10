@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -13,11 +13,9 @@
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
     :root{--bg:#080808;--surface:#111111;--border:#1c1c1c;--text:#f0ece4;--muted:#555;--accent:#FF6B35;--ac2:#0058a3;}
     html{scroll-behavior:smooth;}
-    body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;overflow-x:hidden;cursor:none;}
+    body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;overflow-x:hidden;}
     .grain{position:fixed;inset:0;pointer-events:none;z-index:3;opacity:.032;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:128px;}
-    #cursor{width:8px;height:8px;background:var(--accent);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);}
-    #cursor-ring{width:36px;height:36px;border:1px solid rgba(255,107,53,.4);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);}
-
+    70%{transform:rotate(4deg) scale(1);}}
     #nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 56px;height:64px;transition:all .4s;}
     #nav.scrolled{background:rgba(8,8,8,.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);}
     .nav-back{display:flex;align-items:center;gap:10px;color:var(--muted);text-decoration:none;font-size:12px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;transition:color .2s;}
@@ -72,9 +70,9 @@
     #lightbox{position:fixed;inset:0;background:rgba(0,0,0,.96);z-index:500;display:none;align-items:center;justify-content:center;}
     #lightbox.open{display:flex;}
     #lbImg{max-width:90vw;max-height:90vh;border-radius:8px;}
-    .lb-close{position:absolute;top:24px;right:32px;background:none;border:none;color:var(--muted);font-size:28px;cursor:none;transition:color .2s;}
+    .lb-close{position:absolute;top:24px;right:32px;background:none;border:none;color:var(--muted);font-size:28px;transition:color .2s;}
     .lb-close:hover{color:var(--text);}
-    .lb-arrow{position:absolute;background:none;border:none;color:var(--muted);font-size:48px;cursor:none;padding:24px;transition:color .2s;}
+    .lb-arrow{position:absolute;background:none;border:none;color:var(--muted);font-size:48px;padding:24px;transition:color .2s;}
     .lb-arrow:hover{color:var(--text);}
     #lbPrev{left:16px;} #lbNext{right:16px;}
     .reveal{opacity:0;transform:translateY(28px);}
@@ -83,9 +81,6 @@
 </head>
 <body>
 <div class="grain"></div>
-<div id="cursor"></div>
-<div id="cursor-ring"></div>
-
 <nav id="nav">
   <a href="../index.html" class="nav-back">
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8L10 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -167,8 +162,6 @@
 
 <script>
   gsap.registerPlugin(ScrollTrigger);
-  const cur=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');
-  window.addEventListener('mousemove',e=>{gsap.to(cur,{x:e.clientX,y:e.clientY,duration:.08});gsap.to(ring,{x:e.clientX,y:e.clientY,duration:.22});});
   window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',scrollY>80));
   gsap.utils.toArray('.reveal').forEach(el=>gsap.to(el,{scrollTrigger:{trigger:el,start:'top 88%',once:true},opacity:1,y:0,duration:.7,ease:'power3.out'}));
   gsap.from('.hero-cat',{opacity:0,y:20,duration:.8,delay:.3});
@@ -179,3 +172,4 @@
 <script src="../assets/shared-gallery.js"></script>
 </body>
 </html>
+

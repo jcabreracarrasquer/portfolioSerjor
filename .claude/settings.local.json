@@ -4,7 +4,10 @@
       "Bash(git restore *)",
       "Bash(npm install *)",
       "Bash(npx tsc *)",
-      "mcp__Claude_Preview__preview_start"
+      "mcp__Claude_Preview__preview_start",
+      "Bash(node -e ' *)",
+      "Bash(findstr /i \"estanteria\")",
+      "Bash(node -e \"require\\('fs'\\).readdirSync\\('assets/projects/beyond'\\).filter\\(f=>f.includes\\('estanteria'\\)\\).forEach\\(f=>console.log\\(f\\)\\)\")"
     ]
   }
 }

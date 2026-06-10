@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -17,7 +17,7 @@
       --vr: #00c8b4;
     }
     html { scroll-behavior: smooth; }
-    body { background: var(--bg); color: var(--text); font-family: 'Inter', system-ui, sans-serif; overflow-x: hidden; cursor: none; }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', system-ui, sans-serif; overflow-x: hidden; }
 
     .grain {
       position: fixed; inset: 0; pointer-events: none; z-index: 3; opacity: .032;
@@ -25,9 +25,7 @@
       background-size: 128px;
     }
 
-    #cursor { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); }
-    #cursor-ring { width: 36px; height: 36px; border: 1px solid rgba(255,107,53,.4); border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); }
-
+    70%{transform:rotate(4deg) scale(1);} }
     /* ── NAV ── */
     #nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
@@ -129,9 +127,9 @@
     #lightbox { position: fixed; inset: 0; background: rgba(0,0,0,.96); z-index: 500; display: none; align-items: center; justify-content: center; }
     #lightbox.open { display: flex; }
     #lbImg { max-width: 90vw; max-height: 90vh; border-radius: 8px; }
-    .lb-close { position: absolute; top: 24px; right: 32px; background: none; border: none; color: var(--muted); font-size: 28px; cursor: none; transition: color .2s; }
+    .lb-close { position: absolute; top: 24px; right: 32px; background: none; border: none; color: var(--muted); font-size: 28px; transition: color .2s; }
     .lb-close:hover { color: var(--text); }
-    .lb-arrow { position: absolute; background: none; border: none; color: var(--muted); font-size: 48px; cursor: none; padding: 24px; transition: color .2s; }
+    .lb-arrow { position: absolute; background: none; border: none; color: var(--muted); font-size: 48px; padding: 24px; transition: color .2s; }
     .lb-arrow:hover { color: var(--text); }
     #lbPrev { left: 16px; } #lbNext { right: 16px; }
 
@@ -157,9 +155,6 @@
 <body>
 
 <div class="grain"></div>
-<div id="cursor"></div>
-<div id="cursor-ring"></div>
-
 <!-- NAV -->
 <nav id="nav">
   <a href="../index.html" class="nav-back">
@@ -315,14 +310,6 @@
 
 <script>
   gsap.registerPlugin(ScrollTrigger);
-
-  const cur = document.getElementById('cursor');
-  const ring = document.getElementById('cursor-ring');
-  window.addEventListener('mousemove', e => {
-    gsap.to(cur,  { x: e.clientX, y: e.clientY, duration: .08 });
-    gsap.to(ring, { x: e.clientX, y: e.clientY, duration: .22 });
-  });
-
   window.addEventListener('scroll', () => {
     document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 80);
   });
@@ -349,3 +336,4 @@
 <script src="../assets/shared-gallery.js"></script>
 </body>
 </html>
+
