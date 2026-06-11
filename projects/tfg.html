@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DEPROPIO — Jorge Cabrera</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #080808; --surface: #111111; --border: #1c1c1c;
+      --text: #f0ece4; --muted: #555; --accent: #FF6B35; --ac2: #a855f7;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', system-ui, sans-serif; overflow-x: hidden; }
+    .grain { position: fixed; inset: 0; pointer-events: none; z-index: 3; opacity: .032;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 128px; }
+    70%{transform:rotate(4deg) scale(1);}}
+
+    /* ── NAV ── */
+    #nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 56px; height: 64px; transition: all .4s; }
+    #nav.scrolled { background: rgba(8,8,8,.92); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); }
+    .nav-back { display: flex; align-items: center; gap: 10px; color: var(--muted); text-decoration: none; font-size: 12px; font-weight: 600; letter-spacing: .15em; text-transform: uppercase; transition: color .2s; }
+    .nav-back:hover { color: var(--text); }
+    .nav-back svg { transition: transform .25s; }
+    .nav-back:hover svg { transform: translateX(-4px); }
+    .nav-project-title { font-size: 12px; font-weight: 600; letter-spacing: .15em; text-transform: uppercase; color: var(--muted); }
+
+    /* ── HERO ── */
+    .hero { position: relative; width: 100%; height: 100vh; overflow: hidden; display: flex; align-items: flex-end; }
+    .hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; }
+    .hero-overlay { position: absolute; inset: 0; z-index: 1; background: linear-gradient(to top, rgba(8,8,8,.97) 0%, rgba(8,8,8,.5) 45%, rgba(8,8,8,.12) 100%); }
+    .hero-content { position: relative; z-index: 2; padding: 0 80px 72px; width: 100%; }
+    .hero-cat { font-size: 10px; font-weight: 700; letter-spacing: .4em; text-transform: uppercase; color: var(--ac2); margin-bottom: 20px; display: flex; align-items: center; gap: 16px; }
+    .hero-cat::before { content: ''; width: 32px; height: 1px; background: var(--ac2); }
+    .hero-title { font-size: clamp(48px, 7vw, 96px); font-weight: 900; letter-spacing: -.04em; line-height: .95; margin-bottom: 32px; max-width: 800px; }
+    .hero-tags { display: flex; gap: 10px; flex-wrap: wrap; }
+    .hero-tag { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); border-radius: 100px; padding: 6px 16px; font-size: 10px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); }
+    .hero-scroll { position: absolute; bottom: 32px; right: 80px; z-index: 2; display: flex; align-items: center; gap: 12px; font-size: 9px; font-weight: 700; letter-spacing: .3em; text-transform: uppercase; color: var(--muted); }
+    .hero-scroll-line { width: 40px; height: 1px; background: var(--muted); }
+
+    /* ── OVERVIEW ── */
+    .overview { display: grid; grid-template-columns: repeat(4, 1fr); border-bottom: 1px solid var(--border); }
+    .ov-item { padding: 40px 48px; border-right: 1px solid var(--border); }
+    .ov-item:last-child { border-right: none; }
+    .ov-label { font-size: 9px; font-weight: 700; letter-spacing: .35em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+    .ov-value { font-size: 16px; font-weight: 700; color: var(--text); }
+
+    /* ── SECTIONS ── */
+    .section { padding: 120px 80px; max-width: 1400px; margin: 0 auto; }
+    .section-sm { padding: 80px 80px 0; max-width: 1400px; margin: 0 auto; }
+    .s-label { font-size: 9px; font-weight: 700; letter-spacing: .4em; text-transform: uppercase; color: var(--ac2); margin-bottom: 16px; }
+    .s-title { font-size: clamp(32px, 4vw, 52px); font-weight: 900; letter-spacing: -.03em; margin-bottom: 48px; }
+
+    /* ── DESCRIPTION ── */
+    .desc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+    .desc-main { font-size: 20px; line-height: 1.8; color: var(--muted); }
+    .desc-main p + p { margin-top: 24px; }
+    .desc-main b { color: var(--text); font-weight: 700; }
+    .desc-aside { display: flex; flex-direction: column; gap: 32px; padding-top: 8px; }
+    .aside-label { font-size: 9px; font-weight: 700; letter-spacing: .35em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+    .aside-value { font-size: 15px; font-weight: 600; color: var(--text); line-height: 1.6; }
+    .aside-divider { height: 1px; background: var(--border); }
+
+    /* ── TFG BADGE ── */
+    .tfg-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(168,85,247,.1); border: 1px solid rgba(168,85,247,.3);
+      border-radius: 100px; padding: 6px 16px; margin-bottom: 24px;
+      font-size: 10px; font-weight: 700; letter-spacing: .25em; text-transform: uppercase; color: var(--ac2);
+    }
+    .tfg-badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--ac2); }
+
+    /* ── GALLERY GRIDS ── */
+
+    /* Cartel principal destacado */
+    .gallery-featured {
+      padding: 0 80px 16px; display: flex; justify-content: center;
+    }
+    .gallery-featured img {
+      max-height: 70vh; max-width: 420px; width: 100%; border-radius: 12px;
+      object-fit: contain; cursor: zoom-in; border: 1px solid var(--border);
+      transition: transform .4s, opacity .3s;
+    }
+    .gallery-featured img:hover { transform: scale(1.015); opacity: .9; }
+
+    /* Poster/cartelería: portrait */
+    .gallery-poster {
+      display: grid; grid-template-columns: repeat(5, 1fr);
+      gap: 8px; padding: 0 80px 56px;
+    }
+    .gallery-poster img {
+      width: 100%; border-radius: 8px; object-fit: cover;
+      aspect-ratio: 3/4; cursor: zoom-in;
+      transition: transform .4s, opacity .3s; border: 1px solid var(--border);
+    }
+    .gallery-poster img:hover { transform: scale(1.02); opacity: .88; }
+    .gallery-poster img.landscape { aspect-ratio: 3/1; grid-column: span 2; }
+
+    /* Señalética / infografías: mixed */
+    .gallery-info {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 8px; padding: 0 80px 56px;
+    }
+    .gallery-info img {
+      width: 100%; border-radius: 8px; object-fit: cover;
+      aspect-ratio: 4/3; cursor: zoom-in;
+      transition: transform .4s, opacity .3s; border: 1px solid var(--border);
+    }
+    .gallery-info img:hover { transform: scale(1.02); opacity: .88; }
+    .gallery-info img.square { aspect-ratio: 1; }
+
+    /* Publicidad exterior: mockups landscape */
+    .gallery-exterior {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 8px; padding: 0 80px 56px;
+    }
+    .gallery-exterior img {
+      width: 100%; border-radius: 8px; object-fit: cover;
+      aspect-ratio: 4/3; cursor: zoom-in;
+      transition: transform .4s, opacity .3s; border: 1px solid var(--border);
+    }
+    .gallery-exterior img:hover { transform: scale(1.02); opacity: .88; }
+
+    /* Artistas: square grid */
+    .gallery-artists {
+      display: grid; grid-template-columns: repeat(6, 1fr);
+      gap: 8px; padding: 0 80px 56px;
+    }
+    .gallery-artists img {
+      width: 100%; border-radius: 8px; object-fit: cover;
+      aspect-ratio: 1; cursor: zoom-in;
+      transition: transform .4s, opacity .3s; border: 1px solid var(--border);
+    }
+    .gallery-artists img:hover { transform: scale(1.02); opacity: .88; }
+
+    /* Merch: portrait product shots */
+    .gallery-merch {
+      display: grid; grid-template-columns: repeat(6, 1fr);
+      gap: 8px; padding: 0 80px 56px;
+    }
+    .gallery-merch img {
+      width: 100%; border-radius: 8px; object-fit: cover;
+      aspect-ratio: 3/4; cursor: zoom-in;
+      transition: transform .4s, opacity .3s; border: 1px solid var(--border);
+    }
+    .gallery-merch img:hover { transform: scale(1.02); opacity: .88; }
+    .gallery-merch img.wide { aspect-ratio: 4/3; grid-column: span 2; }
+
+    /* Digital / RRSS */
+    .gallery-digital {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 8px; padding: 0 80px 56px;
+    }
+    .gallery-digital img {
+      width: 100%; border-radius: 8px; object-fit: cover;
+      aspect-ratio: 4/3; cursor: zoom-in;
+      transition: transform .4s, opacity .3s; border: 1px solid var(--border);
+    }
+    .gallery-digital img:hover { transform: scale(1.02); opacity: .88; }
+    .gallery-digital img.square { aspect-ratio: 1; }
+
+    /* ── PROJECT NAV ── */
+    .proj-nav { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--border); }
+    .proj-nav-item { padding: 48px 80px; display: flex; flex-direction: column; gap: 12px; text-decoration: none; transition: background .3s; }
+    .proj-nav-item:first-child { border-right: 1px solid var(--border); }
+    .proj-nav-item:hover { background: var(--surface); }
+    .proj-nav-dir { font-size: 9px; font-weight: 700; letter-spacing: .35em; text-transform: uppercase; color: var(--muted); }
+    .proj-nav-title { font-size: 22px; font-weight: 800; letter-spacing: -.02em; color: var(--text); }
+
+    /* ── LIGHTBOX ── */
+    #lightbox { position: fixed; inset: 0; background: rgba(0,0,0,.96); z-index: 500; display: none; align-items: center; justify-content: center; }
+    #lightbox.open { display: flex; }
+    #lbImg { max-width: 90vw; max-height: 90vh; border-radius: 8px; }
+    .lb-close { position: absolute; top: 24px; right: 32px; background: none; border: none; color: var(--muted); font-size: 28px; transition: color .2s; cursor: pointer; }
+    .lb-close:hover { color: var(--text); }
+    .lb-arrow { position: absolute; background: none; border: none; color: var(--muted); font-size: 48px; padding: 24px; transition: color .2s; cursor: pointer; }
+    .lb-arrow:hover { color: var(--text); }
+    #lbPrev { left: 16px; } #lbNext { right: 16px; }
+
+    .reveal { opacity: 0; transform: translateY(28px); }
+
+    @media (max-width: 900px) {
+      #nav { padding: 0 24px; }
+      .hero-content { padding: 0 32px 56px; }
+      .hero-scroll { right: 32px; }
+      .overview { grid-template-columns: 1fr 1fr; }
+      .ov-item:nth-child(2) { border-right: none; }
+      .ov-item:nth-child(3) { border-top: 1px solid var(--border); }
+      .section { padding: 80px 32px; }
+      .section-sm { padding: 56px 32px 0; }
+      .desc-grid { grid-template-columns: 1fr; gap: 48px; }
+      .gallery-featured { padding: 0 32px 12px; }
+      .gallery-featured img { max-height: 55vh; }
+      .gallery-poster, .gallery-info, .gallery-exterior, .gallery-digital { grid-template-columns: 1fr 1fr; padding: 0 32px 40px; }
+      .gallery-artists, .gallery-merch { grid-template-columns: repeat(3, 1fr); padding: 0 32px 40px; }
+      .gallery-poster img.landscape { grid-column: span 2; }
+      .gallery-merch img.wide { grid-column: span 2; }
+      .proj-nav-item { padding: 40px 32px; }
+    }
+
+    /* ── LANGUAGE SWITCHER ── */
+    #lang-switcher{position:fixed;bottom:28px;right:28px;z-index:999;display:flex;flex-direction:column;gap:7px;background:rgba(13,13,13,.92);border:1px solid var(--border);border-radius:14px;padding:10px 9px;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 8px 28px rgba(0,0,0,.5);}
+    .lang-btn{width:38px;height:26px;border:none;background:transparent;border-radius:4px;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center;overflow:hidden;opacity:.3;transition:opacity .2s,box-shadow .2s,transform .15s;}
+    .lang-btn svg{width:100%;height:100%;display:block;}
+    .lang-btn.lang-active{opacity:1;box-shadow:0 0 0 2px rgba(255,107,53,.7),0 2px 10px rgba(0,0,0,.45);}
+    .lang-btn:hover:not(.lang-active){opacity:.65;transform:scale(1.06);}
+  </style>
+</head>
+<body>
+<div class="grain"></div>
+
+<nav id="nav">
+  <a href="../index.html" class="nav-back">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8L10 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Volver al portfolio
+  </a>
+  <span class="nav-project-title">DEPROPIO</span>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <img class="hero-img" src="../assets/projects/DEPROPIO/Portada.png" alt="DEPROPIO">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <p class="hero-cat">Identidad Visual · Branding · Festival</p>
+    <h1 class="hero-title">DEPROPIO</h1>
+    <div class="hero-tags">
+      <span class="hero-tag">Dirección de Arte</span>
+      <span class="hero-tag">Branding</span>
+      <span class="hero-tag">Señalética</span>
+      <span class="hero-tag">Photoshop</span>
+      <span class="hero-tag">Illustrator</span>
+    </div>
+  </div>
+  <div class="hero-scroll"><div class="hero-scroll-line"></div>Scroll</div>
+</section>
+
+<!-- OVERVIEW -->
+<div class="overview">
+  <div class="ov-item reveal"><p class="ov-label">Tipo</p><p class="ov-value">Identidad Visual Completa</p></div>
+  <div class="ov-item reveal"><p class="ov-label">Rol</p><p class="ov-value">Dirección de Arte</p></div>
+  <div class="ov-item reveal"><p class="ov-label">Herramientas</p><p class="ov-value">Photoshop · Illustrator</p></div>
+  <div class="ov-item reveal"><p class="ov-label">Contexto</p><p class="ov-value">TFG · CITM UPC</p></div>
+</div>
+
+<!-- SOBRE EL PROYECTO -->
+<div class="section">
+  <div class="tfg-badge reveal">Trabajo de Fin de Grado</div>
+  <p class="s-label reveal">Sobre el proyecto</p>
+  <h2 class="s-title reveal">Identidad visual completa<br>para un festival de música</h2>
+  <div class="desc-grid">
+    <div class="desc-main reveal">
+      <p><b>DEPROPIO</b> es un festival de música urbana y alternativa concebido íntegramente como Trabajo de Fin de Grado del Grado en Diseño Digital y Tecnologías Multimedia en CITM UPC. El proyecto parte de cero: naming, logotipo, sistema gráfico y aplicación exhaustiva de la identidad en todos los puntos de contacto del festival.</p>
+      <p>El trabajo abarca <b>cartelería, señalética, publicidad exterior, comunicación digital, anuncios de artistas y merchandising</b>. Cada pieza responde a un sistema visual coherente que funciona desde un post de Instagram hasta una lona de edificio, pasando por la marquesina de autobús o la pulsera del asistente.</p>
+      <p>El lineup del festival incluye artistas como <b>Bunbury, Amaral, Kase.O, Carolina Durante, Leiva, Marea</b> y propuestas locales aragonesas como <b>Ronda de Boltaña</b>, con una identidad visual que conecta la energía del directo con un diseño gráfico de nivel profesional.</p>
+    </div>
+    <div class="desc-aside">
+      <div class="aside-block reveal">
+        <p class="aside-label">Alcance del proyecto</p>
+        <p class="aside-value">Identidad visual · Cartelería · Señalética · Publicidad exterior · RRSS · Anuncios de artistas · Merchandising</p>
+      </div>
+      <div class="aside-divider"></div>
+      <div class="aside-block reveal">
+        <p class="aside-label">Lineup</p>
+        <p class="aside-value">Bunbury · Amaral · Kase.O · Carolina Durante · Leiva · Marea · Ronda de Boltaña · XoRai</p>
+      </div>
+      <div class="aside-divider"></div>
+      <div class="aside-block reveal">
+        <p class="aside-label">Contexto académico</p>
+        <p class="aside-value">TFG — Grado en Diseño Digital y Tecnologías Multimedia · CITM UPC · 2025</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- IDENTIDAD VISUAL -->
+<div class="section-sm">
+  <p class="s-label reveal">Identidad Visual</p>
+  <h2 class="s-title reveal">Cartelería y<br>sistema gráfico</h2>
+</div>
+<div class="gallery-featured">
+  <img src="../assets/projects/DEPROPIO/CartelV1.png" alt="Cartel principal DEPROPIO">
+</div>
+<div class="gallery-poster">
+  <img src="../assets/projects/DEPROPIO/Flyer.png" alt="Flyer DEPROPIO">
+  <img src="../assets/projects/DEPROPIO/FlyerFuera.png" alt="Flyer exterior">
+  <img src="../assets/projects/DEPROPIO/Banderas.png" alt="Banderas del festival" class="landscape">
+</div>
+
+<!-- SEÑALÉTICA E INFORMACIÓN -->
+<div class="section-sm">
+  <p class="s-label reveal">Señalética</p>
+  <h2 class="s-title reveal">Mapas, horarios<br>y acreditaciones</h2>
+</div>
+<div class="gallery-info">
+  <img src="../assets/projects/DEPROPIO/MapaFestival.png" alt="Mapa del festival" class="square">
+  <img src="../assets/projects/DEPROPIO/Horarios.png" alt="Horarios del festival">
+  <img src="../assets/projects/DEPROPIO/Acreditación.png" alt="Acreditación de prensa" class="square">
+  <img src="../assets/projects/DEPROPIO/PulseraRecargable1.png" alt="Pulsera recargable">
+  <img src="../assets/projects/DEPROPIO/PulserasPapel.png" alt="Pulseras de papel">
+</div>
+
+<!-- PUBLICIDAD EXTERIOR -->
+<div class="section-sm">
+  <p class="s-label reveal">Publicidad Exterior</p>
+  <h2 class="s-title reveal">Presencia en<br>el espacio urbano</h2>
+</div>
+<div class="gallery-exterior">
+  <img src="../assets/projects/DEPROPIO/PostersCalle.png" alt="Posters en calle">
+  <img src="../assets/projects/DEPROPIO/MarquesinaBusBunbury.png" alt="Marquesina de bus — Bunbury">
+  <img src="../assets/projects/DEPROPIO/Lona Edificio.png" alt="Lona de edificio">
+  <img src="../assets/projects/DEPROPIO/Fence_Banner_Mockup_3.png" alt="Banner de valla">
+  <img src="../assets/projects/DEPROPIO/Cube_Banner_Mockup_1.png" alt="Banner cúbico">
+  <img src="../assets/projects/DEPROPIO/Free_Sign_Mockup_1.png" alt="Señal informativa">
+</div>
+
+<!-- ARTISTAS -->
+<div class="section-sm">
+  <p class="s-label reveal">Cartel de Artistas</p>
+  <h2 class="s-title reveal">Anuncios del<br>lineup</h2>
+</div>
+<div class="gallery-artists">
+  <img src="../assets/projects/DEPROPIO/Artistas/bunbury2.png" alt="Bunbury">
+  <img src="../assets/projects/DEPROPIO/Artistas/Amaral.png" alt="Amaral">
+  <img src="../assets/projects/DEPROPIO/Artistas/KaseO22.png" alt="Kase.O">
+  <img src="../assets/projects/DEPROPIO/Artistas/Presentacion_Artista_Leiva.png" alt="Leiva">
+  <img src="../assets/projects/DEPROPIO/Artistas/Presentacion_Artista_CarolinaDurante.png" alt="Carolina Durante">
+  <img src="../assets/projects/DEPROPIO/Artistas/Presentacion_Artista_Marea.png" alt="Marea">
+  <img src="../assets/projects/DEPROPIO/Artistas/Presentacion_Artista_Mallacan.png" alt="Mallacán">
+  <img src="../assets/projects/DEPROPIO/Artistas/Presentacion_Artista_RondadeBoltana.png" alt="Ronda de Boltaña">
+  <img src="../assets/projects/DEPROPIO/Artistas/XoRai.png" alt="XoRai">
+</div>
+
+<!-- COMUNICACIÓN DIGITAL -->
+<div class="section-sm">
+  <p class="s-label reveal">Comunicación Digital</p>
+  <h2 class="s-title reveal">Redes sociales<br>y campaña de entradas</h2>
+</div>
+<div class="gallery-digital">
+  <img src="../assets/projects/DEPROPIO/InstaNMockup.png" alt="Mockup Instagram">
+  <img src="../assets/projects/DEPROPIO/Anuncios/Fases.png" alt="Fases de venta" class="square">
+  <img src="../assets/projects/DEPROPIO/Anuncios/Tickets1.png" alt="Campaña de tickets" class="square">
+  <img src="../assets/projects/DEPROPIO/Anuncios/Fase1AgotadaCasi.png" alt="Fase 1 casi agotada" class="square">
+  <img src="../assets/projects/DEPROPIO/Anuncios/Fase%202.png" alt="Fase 2" class="square">
+  <img src="../assets/projects/DEPROPIO/Anuncios/Fase250%.png" alt="Fase 2 50%" class="square">
+</div>
+
+<!-- MERCHANDISING -->
+<div class="section-sm">
+  <p class="s-label reveal">Merchandising</p>
+  <h2 class="s-title reveal">Producto y<br>colección oficial</h2>
+</div>
+<div class="gallery-merch">
+  <img src="../assets/projects/DEPROPIO/Cami1-web.jpg" alt="Camiseta oficial DEPROPIO">
+  <img src="../assets/projects/DEPROPIO/Gorro1-web.jpg" alt="Gorro DEPROPIO">
+  <img src="../assets/projects/DEPROPIO/Gafas1-web.jpg" alt="Gafas DEPROPIO">
+  <img src="../assets/projects/DEPROPIO/Tote1-web.jpg" alt="Tote bag DEPROPIO">
+  <img src="../assets/projects/DEPROPIO/Vaso1-web.jpg" alt="Vaso oficial">
+  <img src="../assets/projects/DEPROPIO/bandera1.png" alt="Bandera DEPROPIO">
+</div>
+
+<!-- PROJECT NAV -->
+<div class="proj-nav">
+  <a href="fragatina.html" class="proj-nav-item"><span class="proj-nav-dir">← Proyecto anterior</span><span class="proj-nav-title">Peña Fragatina</span></a>
+  <a href="ikea.html" class="proj-nav-item" style="text-align:right"><span class="proj-nav-dir">Siguiente proyecto →</span><span class="proj-nav-title">Proyecto IKEA</span></a>
+</div>
+
+<!-- LIGHTBOX -->
+<div id="lightbox">
+  <button class="lb-close" id="lbClose">✕</button>
+  <button class="lb-arrow" id="lbPrev">‹</button>
+  <img id="lbImg" src="" alt="">
+  <button class="lb-arrow" id="lbNext">›</button>
+</div>
+
+<script>
+  gsap.registerPlugin(ScrollTrigger);
+  window.addEventListener('scroll', () => document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 80));
+  gsap.utils.toArray('.reveal').forEach(el => gsap.to(el, {
+    scrollTrigger: { trigger: el, start: 'top 88%', once: true },
+    opacity: 1, y: 0, duration: .7, ease: 'power3.out'
+  }));
+  gsap.from('.hero-cat',   { opacity: 0, y: 20, duration: .8, delay: .3 });
+  gsap.from('.hero-title', { opacity: 0, y: 40, duration: 1,  delay: .5, ease: 'power3.out' });
+  gsap.from('.hero-tags',  { opacity: 0, y: 20, duration: .7, delay: .8 });
+
+  const allImgs = [
+    ...document.querySelectorAll('.gallery-featured img, .gallery-poster img, .gallery-info img, .gallery-exterior img, .gallery-artists img, .gallery-merch img, .gallery-digital img')
+  ];
+  allImgs.forEach((img, i) => {
+    gsap.from(img, { scrollTrigger: { trigger: img, start: 'top 92%', once: true }, opacity: 0, y: 20, scale: .97, duration: .6, delay: (i % 5) * .07, ease: 'power3.out' });
+  });
+
+  /* Lightbox */
+  const lb = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lbImg');
+  let lbArr = [], lbIdx = 0;
+  function lbOpen(imgs, idx) { lbArr = imgs; lbIdx = idx; lbImg.src = lbArr[lbIdx].src; lb.classList.add('open'); document.body.style.overflow = 'hidden'; }
+  function lbClose() { lb.classList.remove('open'); document.body.style.overflow = ''; }
+  document.querySelectorAll('img[class*="gallery"]').forEach(img => {
+    img.addEventListener('click', () => {
+      const parent = img.closest('[class^="gallery"]') || img.closest('[class*=" gallery"]') || img.parentElement;
+      const imgs = Array.from(parent.querySelectorAll('img'));
+      lbOpen(imgs, imgs.indexOf(img));
+    });
+  });
+  document.querySelectorAll('.gallery-featured img, .gallery-poster img, .gallery-info img, .gallery-exterior img, .gallery-artists img, .gallery-merch img, .gallery-digital img').forEach(img => {
+    img.addEventListener('click', e => {
+      const section = img.parentElement;
+      const sectionImgs = Array.from(section.querySelectorAll('img'));
+      lbOpen(sectionImgs, sectionImgs.indexOf(img));
+    });
+  });
+  document.getElementById('lbClose').addEventListener('click', lbClose);
+  document.getElementById('lbPrev').addEventListener('click', () => { lbIdx = (lbIdx - 1 + lbArr.length) % lbArr.length; lbImg.src = lbArr[lbIdx].src; });
+  document.getElementById('lbNext').addEventListener('click', () => { lbIdx = (lbIdx + 1) % lbArr.length; lbImg.src = lbArr[lbIdx].src; });
+  lb.addEventListener('click', e => { if (e.target === lb) lbClose(); });
+  document.addEventListener('keydown', e => { if (!lb.classList.contains('open')) return; if (e.key === 'Escape') lbClose(); if (e.key === 'ArrowLeft') document.getElementById('lbPrev').click(); if (e.key === 'ArrowRight') document.getElementById('lbNext').click(); });
+</script>
+
+<div id="lang-switcher">
+  <button class="lang-btn lang-active" data-lang="es" title="Español"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="3" height="2" fill="#AA151B"/><rect y=".5" width="3" height="1" fill="#F1BF00"/></svg></button>
+  <button class="lang-btn" data-lang="en" title="English"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30"><rect width="60" height="30" fill="#012169"/><path d="M0,0 L60,30 M60,0 L0,30" stroke="#fff" stroke-width="6"/><path d="M0,0 L30,15 M60,0 L30,15 M0,30 L30,15 M60,30 L30,15" stroke="#C8102E" stroke-width="3.2"/><rect x="25" width="10" height="30" fill="#fff"/><rect y="10" width="60" height="10" fill="#fff"/><rect x="27" width="6" height="30" fill="#C8102E"/><rect y="12" width="60" height="6" fill="#C8102E"/></svg></button>
+</div>
+<script src="../assets/lang.js"></script>
+<script>
+window._lang.init({
+  es: {
+    navBack: "Volver al portfolio",
+    heroCat: "Identidad Visual · Branding · Festival",
+    heroTags: ["Dirección de Arte","Branding","Señalética","Photoshop","Illustrator"],
+    ovLabels: ["Tipo","Rol","Herramientas","Contexto"],
+    ovValues: ["Identidad Visual Completa","Dirección de Arte","Photoshop · Illustrator","TFG · CITM UPC"],
+    sLabels: ["Sobre el proyecto","Identidad Visual","Señalética","Publicidad Exterior","Cartel de Artistas","Comunicación Digital","Merchandising"],
+    sTitles: ["Identidad visual completa<br>para un festival de música","Cartelería y<br>sistema gráfico","Mapas, horarios<br>y acreditaciones","Presencia en<br>el espacio urbano","Anuncios del<br>lineup","Redes sociales<br>y campaña de entradas","Producto y<br>colección oficial"],
+    descPs: [
+      "<b>DEPROPIO</b> es un festival de música urbana y alternativa concebido íntegramente como Trabajo de Fin de Grado del Grado en Diseño Digital y Tecnologías Multimedia en CITM UPC. El proyecto parte de cero: naming, logotipo, sistema gráfico y aplicación exhaustiva de la identidad en todos los puntos de contacto del festival.",
+      "El trabajo abarca <b>cartelería, señalética, publicidad exterior, comunicación digital, anuncios de artistas y merchandising</b>. Cada pieza responde a un sistema visual coherente que funciona desde un post de Instagram hasta una lona de edificio, pasando por la marquesina de autobús o la pulsera del asistente.",
+      "El lineup del festival incluye artistas como <b>Bunbury, Amaral, Kase.O, Carolina Durante, Leiva, Marea</b> y propuestas locales aragonesas como <b>Ronda de Boltaña</b>, con una identidad visual que conecta la energía del directo con un diseño gráfico de nivel profesional."
+    ],
+    asideLabels: ["Alcance del proyecto","Lineup","Contexto académico"],
+    asideValues: ["Identidad visual · Cartelería · Señalética · Publicidad exterior · RRSS · Anuncios de artistas · Merchandising","Bunbury · Amaral · Kase.O · Carolina Durante · Leiva · Marea · Ronda de Boltaña · XoRai","TFG — Grado en Diseño Digital y Tecnologías Multimedia · CITM UPC · 2025"],
+    prevLabel: "← Proyecto anterior",
+    nextLabel: "Siguiente proyecto →"
+  },
+  en: {
+    navBack: "Back to portfolio",
+    heroCat: "Visual Identity · Branding · Festival",
+    heroTags: ["Art Direction","Branding","Wayfinding","Photoshop","Illustrator"],
+    ovLabels: ["Type","Role","Tools","Context"],
+    ovValues: ["Complete Visual Identity","Art Direction","Photoshop · Illustrator","Final Degree Project · CITM UPC"],
+    sLabels: ["About the project","Visual Identity","Wayfinding","Outdoor Advertising","Artist Lineup","Digital Communication","Merchandise"],
+    sTitles: ["Complete visual identity<br>for a music festival","Posters and<br>graphic system","Maps, schedules<br>and accreditations","Presence in<br>urban space","Lineup<br>announcements","Social media<br>and ticketing campaign","Products and<br>official collection"],
+    descPs: [
+      "<b>DEPROPIO</b> is an urban and alternative music festival conceived entirely as a Final Degree Project for the BSc in Digital Design and Multimedia Technologies at CITM UPC. The project starts from scratch: naming, logo, graphic system and exhaustive application of the identity across all festival touchpoints.",
+      "The work covers <b>posters, wayfinding, outdoor advertising, digital communication, artist announcements and merchandise</b>. Every piece follows a coherent visual system that works from an Instagram post to a building banner, through bus shelter ads and attendee wristbands.",
+      "The festival lineup includes artists such as <b>Bunbury, Amaral, Kase.O, Carolina Durante, Leiva, Marea</b> and local Aragonese acts like <b>Ronda de Boltaña</b>, with a visual identity that connects the energy of live music with professional-level graphic design."
+    ],
+    asideLabels: ["Project scope","Lineup","Academic context"],
+    asideValues: ["Visual identity · Posters · Wayfinding · Outdoor advertising · Social media · Artist announcements · Merchandise","Bunbury · Amaral · Kase.O · Carolina Durante · Leiva · Marea · Ronda de Boltaña · XoRai","Final Degree Project — BSc in Digital Design and Multimedia Technologies · CITM UPC · 2025"],
+    prevLabel: "← Previous project",
+    nextLabel: "Next project →"
+  }
+});
+</script>
+</body>
+</html>
