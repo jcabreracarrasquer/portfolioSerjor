@@ -77,6 +77,12 @@
     #lbPrev{left:16px;} #lbNext{right:16px;}
     .reveal{opacity:0;transform:translateY(28px);}
     @media(max-width:900px){#nav{padding:0 24px;}.hero-content{padding:0 32px 56px;}.hero-scroll{right:32px;}.overview{grid-template-columns:1fr 1fr;}.ov-item:nth-child(2){border-right:none;}.ov-item:nth-child(3){border-top:1px solid var(--border);}.section{padding:80px 32px;}.section-sm{padding:56px 32px 0;}.desc-grid{grid-template-columns:1fr;gap:48px;}.gallery-masonry{columns:2;padding:0 32px 80px;}.proj-nav-item{padding:40px 32px;}}
+  /* ── LANGUAGE SWITCHER ── */
+  #lang-switcher{position:fixed;bottom:28px;right:28px;z-index:999;display:flex;flex-direction:column;gap:7px;background:rgba(13,13,13,.92);border:1px solid var(--border);border-radius:14px;padding:10px 9px;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 8px 28px rgba(0,0,0,.5);}
+  .lang-btn{width:38px;height:26px;border:none;background:transparent;border-radius:4px;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center;overflow:hidden;opacity:.3;transition:opacity .2s,box-shadow .2s,transform .15s;}
+  .lang-btn svg{width:100%;height:100%;display:block;}
+  .lang-btn.lang-active{opacity:1;box-shadow:0 0 0 2px rgba(255,107,53,.7),0 2px 10px rgba(0,0,0,.45);}
+  .lang-btn:hover:not(.lang-active){opacity:.65;transform:scale(1.06);}
   </style>
 </head>
 <body>
@@ -169,6 +175,51 @@
 
 </script>
 <script src="../assets/shared-gallery.js"></script>
+<div id="lang-switcher">
+  <button class="lang-btn lang-active" data-lang="es" title="Español"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="3" height="2" fill="#AA151B"/><rect y=".5" width="3" height="1" fill="#F1BF00"/></svg></button>
+  <button class="lang-btn" data-lang="en" title="English"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30"><rect width="60" height="30" fill="#012169"/><path d="M0,0 L60,30 M60,0 L0,30" stroke="#fff" stroke-width="6"/><path d="M0,0 L30,15 M60,0 L30,15 M0,30 L30,15 M60,30 L30,15" stroke="#C8102E" stroke-width="3.2"/><rect x="25" width="10" height="30" fill="#fff"/><rect y="10" width="60" height="10" fill="#fff"/><rect x="27" width="6" height="30" fill="#C8102E"/><rect y="12" width="60" height="6" fill="#C8102E"/></svg></button>
+</div>
+<script src="../assets/lang.js"></script>
+<script>
+window._lang.init({
+  es: {
+    navBack: "Volver al portfolio",
+    heroCat: "Diseño Freelance · Trabajos propios",
+    heroTags: ["Diseño Gráfico","Sports Design","Social Media","Photoshop","Retoque Digital"],
+    ovLabels: ["Tipo","Rol","Herramientas","Piezas"],
+    ovValues: ["Trabajos freelance propios","Diseñador gráfico","Photoshop · Illustrator","+14 diseños únicos"],
+    sLabels: ["Sobre el proyecto","Galería"],
+    sTitles: ["Mis trabajos<br>de diseño freelance","Todas las piezas"],
+    descPs: [
+      "Colección de <b>trabajos de diseño gráfico por encargo</b> realizados de forma independiente. La mayoría son piezas para redes sociales con temática deportiva — fútbol principalmente — combinando retoque fotográfico, tipografía de impacto y composición visual dinámica.",
+      "Cada pieza está diseñada para <b>destacar en el feed</b>: recorte preciso de la figura del jugador, integración con fondos y capas de color, texto que refuerza el mensaje y acabado profesional. El objetivo siempre es que la pieza se vea de nivel aunque sea para un encargo pequeño.",
+      "Los clientes van desde <b>peñas y equipos locales</b> hasta encargos personales de seguidores, con jugadores como Lamine Yamal, Neymar o figuras del fútbol regional aragonés."
+    ],
+    asideLabels: ["Tipos de pieza","Técnicas","Para quién"],
+    asideValues: ["Posts de partido · Fichas de jugador · Anuncios de fichaje · Carteles de evento","Recorte fotográfico · Composición de capas · Tipografía de impacto · Color grading","Peñas y equipos locales · Encargos particulares · Proyectos personales"],
+    prevLabel: "← Proyecto anterior",
+    nextLabel: "Siguiente proyecto →"
+  },
+  en: {
+    navBack: "Back to portfolio",
+    heroCat: "Freelance Design · Own work",
+    heroTags: ["Graphic Design","Sports Design","Social Media","Photoshop","Digital Retouching"],
+    ovLabels: ["Type","Role","Tools","Pieces"],
+    ovValues: ["Own freelance work","Graphic designer","Photoshop · Illustrator","+14 unique designs"],
+    sLabels: ["About the project","Gallery"],
+    sTitles: ["My freelance<br>design work","All pieces"],
+    descPs: [
+      "Collection of <b>commissioned graphic design work</b> done independently. Most pieces are for social media with a sports theme — mainly football — combining photo retouching, impact typography and dynamic visual composition.",
+      "Each piece is designed to <b>stand out in the feed</b>: precise cutout of the player figure, integration with backgrounds and colour layers, text that reinforces the message and a professional finish. The goal is always for the piece to look high-quality, even for a small commission.",
+      "Clients range from <b>local clubs and fan groups</b> to personal commissions from followers, featuring players like Lamine Yamal, Neymar, or figures from Aragonese regional football."
+    ],
+    asideLabels: ["Piece types","Techniques","For whom"],
+    asideValues: ["Match posts · Player cards · Signing announcements · Event posters","Photo cutout · Layer compositing · Impact typography · Colour grading","Local clubs and teams · Individual commissions · Personal projects"],
+    prevLabel: "← Previous project",
+    nextLabel: "Next project →"
+  }
+});
+</script>
 </body>
 </html>
 

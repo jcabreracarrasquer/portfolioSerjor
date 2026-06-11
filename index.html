@@ -758,6 +758,29 @@
       .lt-item p { height: 35px; line-height: 30px; }
     }
 
+  /* ── LANGUAGE SWITCHER ── */
+  #lang-switcher {
+    position: fixed; bottom: 28px; right: 28px; z-index: 999;
+    display: flex; flex-direction: column; gap: 7px;
+    background: rgba(13,13,13,0.92); border: 1px solid var(--border);
+    border-radius: 14px; padding: 10px 9px;
+    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 8px 28px rgba(0,0,0,.5);
+  }
+  .lang-btn {
+    width: 38px; height: 26px; border: none; background: transparent;
+    border-radius: 4px; cursor: pointer; padding: 0;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+    opacity: .3; transition: opacity .2s, box-shadow .2s, transform .15s;
+  }
+  .lang-btn svg { width: 100%; height: 100%; display: block; }
+  .lang-btn.lang-active {
+    opacity: 1;
+    box-shadow: 0 0 0 2px rgba(255,107,53,.7), 0 2px 10px rgba(0,0,0,.45);
+  }
+  .lang-btn:hover:not(.lang-active) { opacity: .65; transform: scale(1.06); }
+
   </style>
 </head>
 <body>
@@ -788,12 +811,12 @@
 <nav id="nav">
   <a href="#hero" class="nav-logo"><img src="assets/foto.jpg" alt="Jorge Cabrera"></a>
   <ul class="nav-links">
-    <li><a href="#projects">Proyectos</a></li>
-    <li><a href="#about">Sobre mí</a></li>
+    <li><a href="#projects" data-i18n="nav.projects">Proyectos</a></li>
+    <li><a href="#about" data-i18n="nav.about">Sobre mí</a></li>
     <li><a href="#skills-wrap">Skills</a></li>
-    <li><a href="#experience">Experiencia</a></li>
+    <li><a href="#experience" data-i18n="nav.experience">Experiencia</a></li>
   </ul>
-  <a href="mailto:jcabreracarrasquer@gmail.com" class="nav-contact shiny-cta"><span>Contáctame</span></a>
+  <a href="mailto:jcabreracarrasquer@gmail.com" class="nav-contact shiny-cta"><span data-i18n="nav.contact">Contáctame</span></a>
 </nav>
 
 
@@ -827,11 +850,7 @@
     </ul>
   </div>
   <div class="hero-bottom">
-    <p class="hero-sub">
-      <b>UX · Gráfico · 3D · Vídeo</b><br>
-      Estudiante en CITM UPC, Terrassa.<br>
-      Creatividad e innovación en cada proyecto.
-    </p>
+    <p class="hero-sub" data-i18n-html="hero.sub"><b>UX · Gráfico · 3D · Vídeo</b><br>Estudiante en CITM UPC, Terrassa.<br>Creatividad e innovación en cada proyecto.</p>
     <div class="scroll-cue">
       <div class="scroll-track"></div>
       <span>Scroll</span>
@@ -853,37 +872,30 @@
     <div class="av-shine"></div>
     <div class="av-badge">CITM UPC '26</div>
     <div class="av-nameplate">
-      <p class="av-np-role">Diseñador Digital &amp; Multimedia</p>
+      <p class="av-np-role" data-i18n="about.role">Diseñador Digital &amp; Multimedia</p>
       <p class="av-np-name">Jorge<br>Cabrera</p>
     </div>
   </div>
   <div class="about-content">
-    <p class="s-label">Sobre mí</p>
-    <p class="about-text reveal">
-      Soy <b>Jorge Cabrera</b>, diseñador digital especializado en
-      <b>UX, diseño gráfico, modelado 3D y edición de vídeo</b>.
-    </p>
-    <p class="about-text reveal">
-      Me apasiona la <b>creatividad y la innovación</b>. He colaborado con
-      equipos de fútbol, empresas industriales y agencias digitales,
-      siempre buscando soluciones visuales que comuniquen de verdad.
-    </p>
+    <p class="s-label" data-i18n="about.label">Sobre mí</p>
+    <p class="about-text reveal" data-i18n-html="about.p1">Soy <b>Jorge Cabrera</b>, diseñador digital especializado en <b>UX, diseño gráfico, modelado 3D y edición de vídeo</b>.</p>
+    <p class="about-text reveal" data-i18n-html="about.p2">Me apasiona la <b>creatividad y la innovación</b>. He colaborado con equipos de fútbol, empresas industriales y agencias digitales, siempre buscando soluciones visuales que comuniquen de verdad.</p>
     <div class="about-stats">
       <div class="reveal">
         <div class="stat-n" data-target="5" data-suffix="+">5<span>+</span></div>
-        <p class="stat-l">Años de experiencia</p>
+        <p class="stat-l" data-i18n="about.stat.exp">Años de experiencia</p>
       </div>
       <div class="reveal">
         <div class="stat-n" data-target="12" data-suffix="+">12<span>+</span></div>
-        <p class="stat-l">Proyectos</p>
+        <p class="stat-l" data-i18n="about.stat.proj">Proyectos</p>
       </div>
       <div class="reveal">
         <div class="stat-n" data-target="3">3</div>
-        <p class="stat-l">Idiomas</p>
+        <p class="stat-l" data-i18n="about.stat.lang">Idiomas</p>
       </div>
       <div class="reveal">
         <div class="stat-n" data-target="7" data-suffix="+">7<span>+</span></div>
-        <p class="stat-l">Herramientas</p>
+        <p class="stat-l" data-i18n="about.stat.tools">Herramientas</p>
       </div>
     </div>
   </div>
@@ -892,9 +904,9 @@
 <!-- PROJECTS GRID -->
 <section id="projects">
   <div class="projects-head">
-    <p class="s-label">Proyectos</p>
-    <h2 class="s-title reveal">Mi Trabajo</h2>
-    <p class="projects-subtitle reveal">06 proyectos seleccionados</p>
+    <p class="s-label" data-i18n="proj.label">Proyectos</p>
+    <h2 class="s-title reveal" data-i18n="proj.title">Mi Trabajo</h2>
+    <p class="projects-subtitle reveal" data-i18n="proj.subtitle">06 proyectos seleccionados</p>
   </div>
 
   <div class="proj-grid">
@@ -904,7 +916,7 @@
       <div class="pgc-img-wrap">
         <img src="assets/projects/fragatina/1.png" alt="Fragatina" class="pgc-img">
         <div class="pgc-shine"></div>
-        <span class="pgc-tag">Diseño Gráfico · Identidad Visual</span>
+        <span class="pgc-tag" data-i18n="card.fragatina.tag">Diseño Gráfico · Identidad Visual</span>
       </div>
       <div class="pgc-info">
         <h3 class="pgc-title">Fútbol Peña Fragatina</h3>
@@ -940,10 +952,10 @@
       <div class="pgc-img-wrap">
         <img src="assets/projects/ikea/portada.jpg" alt="IKEA" class="pgc-img">
         <div class="pgc-shine"></div>
-        <span class="pgc-tag">Diseño · Producto · 3D</span>
+        <span class="pgc-tag" data-i18n="card.ikea.tag">Diseño · Producto · 3D</span>
       </div>
       <div class="pgc-info">
-        <h3 class="pgc-title">Proyecto IKEA</h3>
+        <h3 class="pgc-title" data-i18n="card.ikea.title">Proyecto IKEA</h3>
         <div class="pgc-arrow">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
             <path d="M3 11L11 3M11 3H5M11 3V9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
@@ -958,7 +970,7 @@
       <div class="pgc-img-wrap">
         <img src="assets/projects/bagon/1.jpg" alt="Bagon" class="pgc-img">
         <div class="pgc-shine"></div>
-        <span class="pgc-tag">3D · Modelado · Render</span>
+        <span class="pgc-tag" data-i18n="card.bagon.tag">3D · Modelado · Render</span>
       </div>
       <div class="pgc-info">
         <h3 class="pgc-title">Bagon</h3>
@@ -979,7 +991,7 @@
         <span class="pgc-tag">Claude Code · GSAP · Figma</span>
       </div>
       <div class="pgc-info">
-        <h3 class="pgc-title">Portfolio Personal</h3>
+        <h3 class="pgc-title" data-i18n="card.portfolio.title">Portfolio Personal</h3>
         <div class="pgc-arrow">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
             <path d="M3 11L11 3M11 3H5M11 3V9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
@@ -994,7 +1006,7 @@
       <div class="pgc-img-wrap">
         <img src="assets/projects/mvp/portada.jpg" alt="MVP Academy" class="pgc-img">
         <div class="pgc-shine"></div>
-        <span class="pgc-tag">Diseño Gráfico · Redes Sociales</span>
+        <span class="pgc-tag" data-i18n="card.mvp.tag">Diseño Gráfico · Redes Sociales</span>
       </div>
       <div class="pgc-info">
         <h3 class="pgc-title">MVP Academy</h3>
@@ -1012,10 +1024,10 @@
       <div class="pgc-img-wrap">
         <img src="assets/projects/otros/lamine.png" alt="Gráficas" class="pgc-img">
         <div class="pgc-shine"></div>
-        <span class="pgc-tag">Diseño Gráfico · Freelance</span>
+        <span class="pgc-tag" data-i18n="card.otros.tag">Diseño Gráfico · Freelance</span>
       </div>
       <div class="pgc-info">
-        <h3 class="pgc-title">Diseño Freelance</h3>
+        <h3 class="pgc-title" data-i18n="card.otros.title">Diseño Freelance</h3>
         <div class="pgc-arrow">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
             <path d="M3 11L11 3M11 3H5M11 3V9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
@@ -1031,27 +1043,27 @@
 <!-- MARQUEE -->
 <div class="marquee-wrap">
   <div class="marquee-track">
-    <span class="marquee-item">Diseño UX <span class="marquee-dot">✦</span></span>
-    <span class="marquee-item">Diseño Gráfico <span class="marquee-dot">✦</span></span>
-    <span class="marquee-item">Modelado 3D <span class="marquee-dot">✦</span></span>
-    <span class="marquee-item">Edición de Vídeo <span class="marquee-dot">✦</span></span>
-    <span class="marquee-item">Identidad Visual <span class="marquee-dot">✦</span></span>
-    <span class="marquee-item">Realidad Virtual <span class="marquee-dot">✦</span></span>
-    <span class="marquee-item">Motion Graphics <span class="marquee-dot">✦</span></span>
-    <span class="marquee-item">Diseño UX <span class="marquee-dot">✦</span></span>
-    <span class="marquee-item">Diseño Gráfico <span class="marquee-dot">✦</span></span>
-    <span class="marquee-item">Modelado 3D <span class="marquee-dot">✦</span></span>
-    <span class="marquee-item">Edición de Vídeo <span class="marquee-dot">✦</span></span>
-    <span class="marquee-item">Identidad Visual <span class="marquee-dot">✦</span></span>
-    <span class="marquee-item">Realidad Virtual <span class="marquee-dot">✦</span></span>
-    <span class="marquee-item">Motion Graphics <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item" data-i18n-html="mq.ux">Diseño UX <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item" data-i18n-html="mq.graphic">Diseño Gráfico <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item" data-i18n-html="mq.3d">Modelado 3D <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item" data-i18n-html="mq.video">Edición de Vídeo <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item" data-i18n-html="mq.identity">Identidad Visual <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item" data-i18n-html="mq.vr">Realidad Virtual <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item" data-i18n-html="mq.motion">Motion Graphics <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item" data-i18n-html="mq.ux">Diseño UX <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item" data-i18n-html="mq.graphic">Diseño Gráfico <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item" data-i18n-html="mq.3d">Modelado 3D <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item" data-i18n-html="mq.video">Edición de Vídeo <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item" data-i18n-html="mq.identity">Identidad Visual <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item" data-i18n-html="mq.vr">Realidad Virtual <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item" data-i18n-html="mq.motion">Motion Graphics <span class="marquee-dot">✦</span></span>
   </div>
 </div>
 
 <!-- SKILLS BENTO -->
 <div id="skills-wrap" class="section">
-  <p class="s-label">Habilidades</p>
-  <h2 class="s-title reveal">Mi Stack</h2>
+  <p class="s-label" data-i18n="skills.label">Habilidades</p>
+  <h2 class="s-title reveal" data-i18n="skills.title">Mi Stack</h2>
 
   <div class="skills-bento">
 
@@ -1093,7 +1105,7 @@
   </div>
 
   <div class="skills-also">
-    <p class="skills-also-label">También</p>
+    <p class="skills-also-label" data-i18n="skills.also">También</p>
     <div class="skills-tags">
       <span class="s-tag">Illustrator</span>
       <span class="s-tag">Substance Painter</span>
@@ -1128,62 +1140,62 @@
 
 <!-- EXPERIENCE -->
 <section id="experience" class="section">
-  <p class="s-label">Trayectoria</p>
-  <h2 class="s-title reveal">Experiencia</h2>
+  <p class="s-label" data-i18n="exp.label">Trayectoria</p>
+  <h2 class="s-title reveal" data-i18n="exp.title">Experiencia</h2>
   <div class="timeline">
     <div class="tl-item">
       <div class="tl-dot"></div>
-      <p class="tl-date">Marzo 2026 – Actualidad</p>
-      <h3 class="tl-role">Diseñador Multimedia</h3>
+      <p class="tl-date" data-i18n="exp.1.date">Marzo 2026 – Actualidad</p>
+      <h3 class="tl-role" data-i18n="exp.1.role">Diseñador Multimedia</h3>
       <p class="tl-co">Hiberus, Zaragoza</p>
-      <p class="tl-desc">Formo parte del equipo de Comunicación de hiberus, desarrollando contenido multimedia para diferentes campañas internas y externas de la empresa.</p>
+      <p class="tl-desc" data-i18n="exp.1.desc">Formo parte del equipo de Comunicación de hiberus, desarrollando contenido multimedia para diferentes campañas internas y externas de la empresa.</p>
     </div>
     <div class="tl-item">
       <div class="tl-dot"></div>
-      <p class="tl-date">Jul – Ago 2024</p>
-      <h3 class="tl-role">Diseñador UX</h3>
+      <p class="tl-date" data-i18n="exp.2.date">Jul – Ago 2024</p>
+      <h3 class="tl-role" data-i18n="exp.2.role">Diseñador UX</h3>
       <p class="tl-co">ACBP</p>
-      <p class="tl-desc">Prácticas no curriculares de verano. Diseño de interfaces para los programas industriales que desarrolla ACBP, aplicando metodologías UX centradas en el usuario.</p>
+      <p class="tl-desc" data-i18n="exp.2.desc">Prácticas no curriculares de verano. Diseño de interfaces para los programas industriales que desarrolla ACBP, aplicando metodologías UX centradas en el usuario.</p>
     </div>
     <div class="tl-item">
       <div class="tl-dot"></div>
-      <p class="tl-date">2022 – Presente</p>
-      <h3 class="tl-role">Diseñador Gráfico</h3>
+      <p class="tl-date" data-i18n="exp.3.date">2022 – Presente</p>
+      <h3 class="tl-role" data-i18n="exp.3.role">Diseñador Gráfico</h3>
       <p class="tl-co">Fútbol Peña Fragatina</p>
-      <p class="tl-desc">Diseño de la propuesta gráfica del equipo y gestión visual de redes sociales. Identidad visual, matchday graphics y comunicación digital continuada.</p>
+      <p class="tl-desc" data-i18n="exp.3.desc">Diseño de la propuesta gráfica del equipo y gestión visual de redes sociales. Identidad visual, matchday graphics y comunicación digital continuada.</p>
     </div>
     <div class="tl-item">
       <div class="tl-dot"></div>
       <p class="tl-date">2022 – 2026</p>
-      <h3 class="tl-role">Grado en Diseño Digital y Tecnologías Multimedia</h3>
+      <h3 class="tl-role" data-i18n="exp.4.role">Grado en Diseño Digital y Tecnologías Multimedia</h3>
       <p class="tl-co">CITM UPC, Terrassa</p>
-      <p class="tl-desc">Formación universitaria en diseño digital, modelado 3D, UX/UI, vídeo, motion graphics, programación y tecnologías multimedia emergentes.</p>
+      <p class="tl-desc" data-i18n="exp.4.desc">Formación universitaria en diseño digital, modelado 3D, UX/UI, vídeo, motion graphics, programación y tecnologías multimedia emergentes.</p>
     </div>
     <div class="tl-item">
       <div class="tl-dot"></div>
       <p class="tl-date">2016 – 2022</p>
-      <h3 class="tl-role">Bachillerato Tecnológico</h3>
+      <h3 class="tl-role" data-i18n="exp.5.role">Bachillerato Tecnológico</h3>
       <p class="tl-co">IES Ramón J. Sender, Fraga</p>
-      <p class="tl-desc">Bachillerato Tecnológico. Trilingüe Castellano – Catalán – Inglés. Convenio con British Council (First Certificate B2).</p>
+      <p class="tl-desc" data-i18n="exp.5.desc">Bachillerato Tecnológico. Trilingüe Castellano – Catalán – Inglés. Convenio con British Council (First Certificate B2).</p>
     </div>
   </div>
 </section>
 
 <!-- CONTACT -->
 <section id="contact" class="section">
-  <p class="s-label">¿Trabajamos juntos?</p>
-  <h2 class="s-title reveal">Contacto</h2>
+  <p class="s-label" data-i18n="contact.label">¿Trabajamos juntos?</p>
+  <h2 class="s-title reveal" data-i18n="contact.title">Contacto</h2>
   <div class="available-badge reveal">
     <div class="available-dot"></div>
-    Disponible para proyectos
+    <span data-i18n="contact.available">Disponible para proyectos</span>
   </div>
-  <p class="contact-cta reveal">Freelance · Prácticas · Colaboraciones</p>
+  <p class="contact-cta reveal" data-i18n="contact.cta">Freelance · Prácticas · Colaboraciones</p>
   <a href="mailto:jcabreracarrasquer@gmail.com" class="contact-email reveal">
     jcabreracarrasquer@gmail.com
   </a>
-  <p class="contact-phone reveal">Zaragoza, Aragón</p>
+  <p class="contact-phone reveal" data-i18n="contact.location">Zaragoza, Aragón</p>
   <a href="mailto:jcabreracarrasquer@gmail.com" class="shiny-cta reveal" style="padding:1.1rem 2.6rem;font-size:13px;margin-bottom:56px;">
-    <span>Contáctame</span>
+    <span data-i18n="contact.btn">Contáctame</span>
   </a>
   <div class="contact-socials reveal">
     <a href="https://www.linkedin.com/in/jorge-cabrera-carrasquer-6bb2b6380" target="_blank" class="soc-btn">
@@ -1204,11 +1216,176 @@
 <!-- FOOTER -->
 <footer>
   <span>© 2026 <span class="footer-accent">Jorge Cabrera</span></span>
-  <span>Diseño Digital &amp; Multimedia · CITM UPC</span>
+  <span data-i18n="footer.right">Diseño Digital &amp; Multimedia · CITM UPC</span>
 </footer>
+
+<!-- LANGUAGE SWITCHER -->
+<div id="lang-switcher">
+  <button class="lang-btn lang-active" data-lang="es" title="Español">
+    <!-- Spain -->
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2">
+      <rect width="3" height="2" fill="#AA151B"/>
+      <rect y=".5" width="3" height="1" fill="#F1BF00"/>
+    </svg>
+  </button>
+  <button class="lang-btn" data-lang="en" title="English">
+    <!-- United Kingdom -->
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30">
+      <rect width="60" height="30" fill="#012169"/>
+      <path d="M0,0 L60,30 M60,0 L0,30" stroke="#fff" stroke-width="6"/>
+      <path d="M0,0 L30,15 M60,0 L30,15 M0,30 L30,15 M60,30 L30,15" stroke="#C8102E" stroke-width="3.2"/>
+      <rect x="25" width="10" height="30" fill="#fff"/>
+      <rect y="10" width="60" height="10" fill="#fff"/>
+      <rect x="27" width="6" height="30" fill="#C8102E"/>
+      <rect y="12" width="60" height="6" fill="#C8102E"/>
+    </svg>
+  </button>
+</div>
 
 <script>
 gsap.registerPlugin(ScrollTrigger);
+
+/* ── TRANSLATIONS ── */
+const TRANSLATIONS = {
+  es: {
+    'nav.projects': 'Proyectos',
+    'nav.about': 'Sobre mí',
+    'nav.experience': 'Experiencia',
+    'nav.contact': 'Contáctame',
+    'hero.sub': '<b>UX · Gráfico · 3D · Vídeo</b><br>Estudiante en CITM UPC, Terrassa.<br>Creatividad e innovación en cada proyecto.',
+    'about.label': 'Sobre mí',
+    'about.role': 'Diseñador Digital & Multimedia',
+    'about.p1': 'Soy <b>Jorge Cabrera</b>, diseñador digital especializado en <b>UX, diseño gráfico, modelado 3D y edición de vídeo</b>.',
+    'about.p2': 'Me apasiona la <b>creatividad y la innovación</b>. He colaborado con equipos de fútbol, empresas industriales y agencias digitales, siempre buscando soluciones visuales que comuniquen de verdad.',
+    'about.stat.exp': 'Años de experiencia',
+    'about.stat.proj': 'Proyectos',
+    'about.stat.lang': 'Idiomas',
+    'about.stat.tools': 'Herramientas',
+    'proj.label': 'Proyectos',
+    'proj.title': 'Mi Trabajo',
+    'proj.subtitle': '06 proyectos seleccionados',
+    'card.fragatina.tag': 'Diseño Gráfico · Identidad Visual',
+    'card.ikea.tag': 'Diseño · Producto · 3D',
+    'card.ikea.title': 'Proyecto IKEA',
+    'card.bagon.tag': '3D · Modelado · Render',
+    'card.portfolio.title': 'Portfolio Personal',
+    'card.mvp.tag': 'Diseño Gráfico · Redes Sociales',
+    'card.otros.tag': 'Diseño Gráfico · Freelance',
+    'card.otros.title': 'Diseño Freelance',
+    'mq.ux': 'Diseño UX <span class="marquee-dot">✦</span>',
+    'mq.graphic': 'Diseño Gráfico <span class="marquee-dot">✦</span>',
+    'mq.3d': 'Modelado 3D <span class="marquee-dot">✦</span>',
+    'mq.video': 'Edición de Vídeo <span class="marquee-dot">✦</span>',
+    'mq.identity': 'Identidad Visual <span class="marquee-dot">✦</span>',
+    'mq.vr': 'Realidad Virtual <span class="marquee-dot">✦</span>',
+    'mq.motion': 'Motion Graphics <span class="marquee-dot">✦</span>',
+    'skills.label': 'Habilidades',
+    'skills.title': 'Mi Stack',
+    'skills.also': 'También',
+    'exp.label': 'Trayectoria',
+    'exp.title': 'Experiencia',
+    'exp.1.date': 'Marzo 2026 – Actualidad',
+    'exp.1.role': 'Diseñador Multimedia',
+    'exp.1.desc': 'Formo parte del equipo de Comunicación de hiberus, desarrollando contenido multimedia para diferentes campañas internas y externas de la empresa.',
+    'exp.2.date': 'Jul – Ago 2024',
+    'exp.2.role': 'Diseñador UX',
+    'exp.2.desc': 'Prácticas no curriculares de verano. Diseño de interfaces para los programas industriales que desarrolla ACBP, aplicando metodologías UX centradas en el usuario.',
+    'exp.3.date': '2022 – Presente',
+    'exp.3.role': 'Diseñador Gráfico',
+    'exp.3.desc': 'Diseño de la propuesta gráfica del equipo y gestión visual de redes sociales. Identidad visual, matchday graphics y comunicación digital continuada.',
+    'exp.4.role': 'Grado en Diseño Digital y Tecnologías Multimedia',
+    'exp.4.desc': 'Formación universitaria en diseño digital, modelado 3D, UX/UI, vídeo, motion graphics, programación y tecnologías multimedia emergentes.',
+    'exp.5.role': 'Bachillerato Tecnológico',
+    'exp.5.desc': 'Bachillerato Tecnológico. Trilingüe Castellano – Catalán – Inglés. Convenio con British Council (First Certificate B2).',
+    'contact.label': '¿Trabajamos juntos?',
+    'contact.title': 'Contacto',
+    'contact.available': 'Disponible para proyectos',
+    'contact.cta': 'Freelance · Prácticas · Colaboraciones',
+    'contact.location': 'Zaragoza, Aragón',
+    'contact.btn': 'Contáctame',
+    'footer.right': 'Diseño Digital & Multimedia · CITM UPC',
+  },
+  en: {
+    'nav.projects': 'Projects',
+    'nav.about': 'About',
+    'nav.experience': 'Experience',
+    'nav.contact': 'Contact',
+    'hero.sub': '<b>UX · Graphic · 3D · Video</b><br>Student at CITM UPC, Terrassa.<br>Creativity and innovation in every project.',
+    'about.label': 'About me',
+    'about.role': 'Digital & Multimedia Designer',
+    'about.p1': 'I\'m <b>Jorge Cabrera</b>, a digital designer specialised in <b>UX, graphic design, 3D modelling and video editing</b>.',
+    'about.p2': 'I\'m passionate about <b>creativity and innovation</b>. I have collaborated with football clubs, industrial companies and digital agencies, always seeking visual solutions that truly communicate.',
+    'about.stat.exp': 'Years of experience',
+    'about.stat.proj': 'Projects',
+    'about.stat.lang': 'Languages',
+    'about.stat.tools': 'Tools',
+    'proj.label': 'Projects',
+    'proj.title': 'My Work',
+    'proj.subtitle': '06 selected projects',
+    'card.fragatina.tag': 'Graphic Design · Visual Identity',
+    'card.ikea.tag': 'Design · Product · 3D',
+    'card.ikea.title': 'IKEA Project',
+    'card.bagon.tag': '3D · Modelling · Render',
+    'card.portfolio.title': 'Personal Portfolio',
+    'card.mvp.tag': 'Graphic Design · Social Media',
+    'card.otros.tag': 'Graphic Design · Freelance',
+    'card.otros.title': 'Freelance Design',
+    'mq.ux': 'UX Design <span class="marquee-dot">✦</span>',
+    'mq.graphic': 'Graphic Design <span class="marquee-dot">✦</span>',
+    'mq.3d': '3D Modelling <span class="marquee-dot">✦</span>',
+    'mq.video': 'Video Editing <span class="marquee-dot">✦</span>',
+    'mq.identity': 'Visual Identity <span class="marquee-dot">✦</span>',
+    'mq.vr': 'Virtual Reality <span class="marquee-dot">✦</span>',
+    'mq.motion': 'Motion Graphics <span class="marquee-dot">✦</span>',
+    'skills.label': 'Skills',
+    'skills.title': 'My Stack',
+    'skills.also': 'Also',
+    'exp.label': 'Career',
+    'exp.title': 'Experience',
+    'exp.1.date': 'March 2026 – Present',
+    'exp.1.role': 'Multimedia Designer',
+    'exp.1.desc': 'Part of the Communications team at Hiberus, developing multimedia content for different internal and external company campaigns.',
+    'exp.2.date': 'Jul – Aug 2024',
+    'exp.2.role': 'UX Designer',
+    'exp.2.desc': 'Summer non-curricular internship. Interface design for industrial software developed by ACBP, applying user-centred UX methodologies.',
+    'exp.3.date': '2022 – Present',
+    'exp.3.role': 'Graphic Designer',
+    'exp.3.desc': 'Design of the team\'s graphic identity and visual management of social media. Visual identity, matchday graphics and ongoing digital communication.',
+    'exp.4.role': 'BSc in Digital Design and Multimedia Technologies',
+    'exp.4.desc': 'University degree in digital design, 3D modelling, UX/UI, video, motion graphics, programming and emerging multimedia technologies.',
+    'exp.5.role': 'Technological Baccalaureate',
+    'exp.5.desc': 'Technological Baccalaureate. Trilingual Spanish – Catalan – English. British Council agreement (First Certificate B2).',
+    'contact.label': 'Shall we work together?',
+    'contact.title': 'Contact',
+    'contact.available': 'Available for projects',
+    'contact.cta': 'Freelance · Internships · Collaborations',
+    'contact.location': 'Zaragoza, Spain',
+    'contact.btn': 'Contact me',
+    'footer.right': 'Digital & Multimedia Design · CITM UPC',
+  }
+};
+
+function setLang(lang) {
+  const t = TRANSLATIONS[lang];
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const v = t[el.dataset.i18n];
+    if (v !== undefined) el.textContent = v;
+  });
+  document.querySelectorAll('[data-i18n-html]').forEach(el => {
+    const v = t[el.dataset.i18nHtml];
+    if (v !== undefined) el.innerHTML = v;
+  });
+  document.querySelectorAll('.lang-btn').forEach(btn =>
+    btn.classList.toggle('lang-active', btn.dataset.lang === lang)
+  );
+  document.documentElement.lang = lang;
+  localStorage.setItem('portfolio-lang', lang);
+}
+
+document.querySelectorAll('.lang-btn').forEach(btn =>
+  btn.addEventListener('click', () => setLang(btn.dataset.lang))
+);
+setLang(localStorage.getItem('portfolio-lang') || 'es');
 
 /* ── SCROLL PROGRESS ── */
 window.addEventListener('scroll', () => {
@@ -1287,87 +1464,6 @@ function initAnimations() {
     });
   });
 
-  /* ── POLYGON BACKGROUND ── */
-  (function() {
-    const canvas = document.getElementById('hero-canvas');
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    const COLS = 16, ROWS = 10;
-    let pts = [], tris = [], mx, my;
-
-    function buildMesh() {
-      const W = canvas.width, H = canvas.height;
-      const cw = W / (COLS-1), ch = H / (ROWS-1);
-      mx = W / 2; my = H / 2;
-      pts = [];
-      for (let r = 0; r < ROWS; r++) {
-        for (let c = 0; c < COLS; c++) {
-          const edge = r===0||r===ROWS-1||c===0||c===COLS-1;
-          pts.push({
-            x: c*cw + (edge ? 0 : (Math.random()-.5)*cw*.75),
-            y: r*ch + (edge ? 0 : (Math.random()-.5)*ch*.75)
-          });
-        }
-      }
-      tris = [];
-      for (let r = 0; r < ROWS-1; r++) {
-        for (let c = 0; c < COLS-1; c++) {
-          const i = r*COLS + c;
-          [[i,i+1,i+COLS],[i+1,i+COLS+1,i+COLS]].forEach(idx => {
-            const [a,b,cc] = idx.map(j => pts[j]);
-            tris.push({
-              idx, accent: Math.random() < .055,
-              cx: (a.x+b.x+cc.x)/3, cy: (a.y+b.y+cc.y)/3,
-              base: 8 + Math.random()*10,
-              phase: Math.random()*Math.PI*2,
-              speed: .12 + Math.random()*.22
-            });
-          });
-        }
-      }
-    }
-
-    function resize() {
-      canvas.width  = canvas.offsetWidth;
-      canvas.height = canvas.offsetHeight;
-      buildMesh();
-    }
-
-    window.addEventListener('mousemove', e => {
-      const r = canvas.getBoundingClientRect();
-      mx = e.clientX - r.left;
-      my = e.clientY - r.top;
-    });
-
-    let t = 0;
-    (function draw() {
-      requestAnimationFrame(draw);
-      t += .008;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      for (const tri of tris) {
-        const [a, b, c] = tri.idx.map(i => pts[i]);
-        const pulse  = (Math.sin(t*tri.speed + tri.phase)+1)*.5;
-        const dx = tri.cx-mx, dy = tri.cy-my;
-        const mGlow = Math.max(0, 1 - Math.sqrt(dx*dx+dy*dy)/280);
-        ctx.beginPath();
-        ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.lineTo(c.x,c.y);
-        ctx.closePath();
-        if (tri.accent) {
-          ctx.fillStyle = `rgba(255,107,53,${.03+pulse*.09+mGlow*.2})`;
-        } else {
-          const v = tri.base + pulse*7 + mGlow*24;
-          ctx.fillStyle = `rgb(${v|0},${v|0},${v|0})`;
-        }
-        ctx.fill();
-        ctx.strokeStyle = `rgba(255,255,255,${.018+mGlow*.055})`;
-        ctx.lineWidth = .4;
-        ctx.stroke();
-      }
-    })();
-
-    resize();
-    window.addEventListener('resize', resize);
-  })();
 
   /* — hero — */
   gsap.from('#layeredText', { opacity: 0, y: 50, duration: 1.1, delay: 0.25, ease: 'power3.out' });
@@ -1653,56 +1749,100 @@ window.addEventListener('scroll', () => {
   });
 })();
 
-/* ── HERO PARTICLE FIELD ── */
+/* ── HERO CANVAS — unified render ── */
 (function() {
   const canvas = document.getElementById('hero-canvas');
-  const ctx    = canvas.getContext('2d');
-  const MOUSE  = { x: -9999, y: -9999 };
-  const REPEL  = 140;   // repulsion radius
-  const COUNT  = 200;
-  let W, H, particles = [], raf;
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
 
-  function resize() {
-    W = canvas.width  = canvas.offsetWidth;
-    H = canvas.height = canvas.offsetHeight;
-    particles = [];
-    for (let i = 0; i < COUNT; i++) particles.push(new P());
+  /* ── Polygon mesh ── */
+  const COLS = 16, ROWS = 10;
+  let pts = [], tris = [], pmx = 0, pmy = 0, polyT = 0;
+
+  function buildMesh() {
+    const W = canvas.width, H = canvas.height;
+    const cw = W / (COLS - 1), ch = H / (ROWS - 1);
+    pmx = W / 2; pmy = H / 2;
+    pts = [];
+    for (let r = 0; r < ROWS; r++) {
+      for (let c = 0; c < COLS; c++) {
+        const edge = r===0||r===ROWS-1||c===0||c===COLS-1;
+        pts.push({
+          x: c*cw + (edge ? 0 : (Math.random()-.5)*cw*.75),
+          y: r*ch + (edge ? 0 : (Math.random()-.5)*ch*.75)
+        });
+      }
+    }
+    tris = [];
+    for (let r = 0; r < ROWS - 1; r++) {
+      for (let c = 0; c < COLS - 1; c++) {
+        const i = r * COLS + c;
+        [[i,i+1,i+COLS],[i+1,i+COLS+1,i+COLS]].forEach(idx => {
+          const [a, b, cc] = idx.map(j => pts[j]);
+          tris.push({
+            idx, accent: Math.random() < .055,
+            cx: (a.x+b.x+cc.x)/3, cy: (a.y+b.y+cc.y)/3,
+            base: 8 + Math.random()*10,
+            phase: Math.random()*Math.PI*2,
+            speed: .12 + Math.random()*.22
+          });
+        });
+      }
+    }
   }
+
+  function drawPolygon() {
+    polyT += .008;
+    for (const tri of tris) {
+      const [a, b, c] = tri.idx.map(i => pts[i]);
+      const pulse = (Math.sin(polyT*tri.speed + tri.phase)+1)*.5;
+      const dx = tri.cx - pmx, dy = tri.cy - pmy;
+      const mGlow = Math.max(0, 1 - Math.sqrt(dx*dx+dy*dy)/280);
+      ctx.beginPath();
+      ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.lineTo(c.x,c.y);
+      ctx.closePath();
+      if (tri.accent) {
+        ctx.fillStyle = `rgba(255,107,53,${.03+pulse*.09+mGlow*.2})`;
+      } else {
+        const v = tri.base + pulse*7 + mGlow*24;
+        ctx.fillStyle = `rgb(${v|0},${v|0},${v|0})`;
+      }
+      ctx.fill();
+      ctx.strokeStyle = `rgba(255,255,255,${.018+mGlow*.055})`;
+      ctx.lineWidth = .4;
+      ctx.stroke();
+    }
+  }
+
+  /* ── Particle field ── */
+  const MOUSE = { x: -9999, y: -9999 };
+  const REPEL = 140, COUNT = 200;
+  let particles = [];
 
   class P {
     constructor() {
-      this.ox = Math.random() * W;
-      this.oy = Math.random() * H;
-      this.x  = this.ox;
-      this.y  = this.oy;
+      this.ox = Math.random() * canvas.width;
+      this.oy = Math.random() * canvas.height;
+      this.x  = this.ox; this.y = this.oy;
       this.vx = 0; this.vy = 0;
       this.r  = Math.random() * 1.4 + 0.4;
       this.a  = Math.random() * 0.35 + 0.08;
       this.phase = Math.random() * Math.PI * 2;
     }
     update(t) {
-      /* gentle drift of rest position */
       this.ox += Math.sin(t * 0.0004 + this.phase) * 0.18;
       this.oy += Math.cos(t * 0.0003 + this.phase) * 0.12;
-
-      /* cursor repulsion */
-      const dx = this.x - MOUSE.x;
-      const dy = this.y - MOUSE.y;
+      const dx = this.x - MOUSE.x, dy = this.y - MOUSE.y;
       const d  = Math.sqrt(dx*dx + dy*dy);
       if (d < REPEL && d > 0) {
         const f = ((REPEL - d) / REPEL) * 3.2;
         this.vx += (dx / d) * f;
         this.vy += (dy / d) * f;
       }
-
-      /* spring back */
       this.vx += (this.ox - this.x) * 0.032;
       this.vy += (this.oy - this.y) * 0.032;
-      /* friction */
-      this.vx *= 0.86;
-      this.vy *= 0.86;
-      this.x  += this.vx;
-      this.y  += this.vy;
+      this.vx *= 0.86; this.vy *= 0.86;
+      this.x  += this.vx; this.y  += this.vy;
     }
     draw() {
       ctx.beginPath();
@@ -1712,7 +1852,6 @@ window.addEventListener('scroll', () => {
     }
   }
 
-  /* draw connection lines between close pairs near cursor */
   function drawLines() {
     for (let i = 0; i < particles.length; i++) {
       for (let j = i + 1; j < particles.length; j++) {
@@ -1724,8 +1863,7 @@ window.addEventListener('scroll', () => {
           const dmb = Math.sqrt((b.x-MOUSE.x)**2+(b.y-MOUSE.y)**2);
           if (dma < 200 || dmb < 200) {
             ctx.beginPath();
-            ctx.moveTo(a.x, a.y);
-            ctx.lineTo(b.x, b.y);
+            ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y);
             ctx.strokeStyle = `rgba(255,107,53,${(1 - d/72) * 0.15})`;
             ctx.lineWidth = 0.5;
             ctx.stroke();
@@ -1735,18 +1873,36 @@ window.addEventListener('scroll', () => {
     }
   }
 
-  function loop(t) {
-    ctx.clearRect(0, 0, W, H);
-    drawLines();
-    particles.forEach(p => { p.update(t); p.draw(); });
-    raf = requestAnimationFrame(loop);
+  /* ── Shared ── */
+  let raf;
+
+  function resize() {
+    canvas.width  = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+    buildMesh();
+    particles = [];
+    for (let i = 0; i < COUNT; i++) particles.push(new P());
   }
 
-  /* burst on click */
+  function masterLoop(t) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawPolygon();
+    drawLines();
+    particles.forEach(p => { p.update(t); p.draw(); });
+    raf = requestAnimationFrame(masterLoop);
+  }
+
+  window.addEventListener('mousemove', e => {
+    const r = canvas.getBoundingClientRect();
+    pmx = e.clientX - r.left;
+    pmy = e.clientY - r.top;
+    MOUSE.x = pmx;
+    MOUSE.y = pmy;
+  });
+  canvas.addEventListener('mouseleave', () => { MOUSE.x = -9999; MOUSE.y = -9999; });
   canvas.addEventListener('click', e => {
     const rect = canvas.getBoundingClientRect();
-    const cx = e.clientX - rect.left;
-    const cy = e.clientY - rect.top;
+    const cx = e.clientX - rect.left, cy = e.clientY - rect.top;
     particles.forEach(p => {
       const dx = p.x - cx, dy = p.y - cy;
       const d  = Math.sqrt(dx*dx + dy*dy);
@@ -1758,22 +1914,13 @@ window.addEventListener('scroll', () => {
     });
   });
 
-  /* track mouse over hero only */
-  canvas.addEventListener('mousemove', e => {
-    const rect = canvas.getBoundingClientRect();
-    MOUSE.x = e.clientX - rect.left;
-    MOUSE.y = e.clientY - rect.top;
-  });
-  canvas.addEventListener('mouseleave', () => { MOUSE.x = -9999; MOUSE.y = -9999; });
-
   window.addEventListener('resize', resize);
   resize();
-  raf = requestAnimationFrame(loop);
+  raf = requestAnimationFrame(masterLoop);
 
-  /* pause when hero is off-screen */
   const heroEl = document.getElementById('hero');
   const obs = new IntersectionObserver(([e]) => {
-    if (e.isIntersecting) { if (!raf) raf = requestAnimationFrame(loop); }
+    if (e.isIntersecting) { if (!raf) raf = requestAnimationFrame(masterLoop); }
     else { cancelAnimationFrame(raf); raf = null; }
   });
   obs.observe(heroEl);

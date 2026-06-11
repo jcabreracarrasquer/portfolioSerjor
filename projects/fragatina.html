@@ -85,6 +85,12 @@
       .section{padding:80px 32px;}.section-sm{padding:56px 32px 0;}.desc-grid{grid-template-columns:1fr;gap:48px;}
       .gallery-grid{grid-template-columns:1fr 1fr;padding:0 32px 80px;}.gallery-grid img.wide{grid-column:span 2;}.proj-nav-item{padding:40px 32px;}
     }
+  /* ── LANGUAGE SWITCHER ── */
+  #lang-switcher{position:fixed;bottom:28px;right:28px;z-index:999;display:flex;flex-direction:column;gap:7px;background:rgba(13,13,13,.92);border:1px solid var(--border);border-radius:14px;padding:10px 9px;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 8px 28px rgba(0,0,0,.5);}
+  .lang-btn{width:38px;height:26px;border:none;background:transparent;border-radius:4px;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center;overflow:hidden;opacity:.3;transition:opacity .2s,box-shadow .2s,transform .15s;}
+  .lang-btn svg{width:100%;height:100%;display:block;}
+  .lang-btn.lang-active{opacity:1;box-shadow:0 0 0 2px rgba(255,107,53,.7),0 2px 10px rgba(0,0,0,.45);}
+  .lang-btn:hover:not(.lang-active){opacity:.65;transform:scale(1.06);}
   </style>
 </head>
 <body>
@@ -184,6 +190,51 @@
 
 </script>
 <script src="../assets/shared-gallery.js"></script>
+<div id="lang-switcher">
+  <button class="lang-btn lang-active" data-lang="es" title="Español"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="3" height="2" fill="#AA151B"/><rect y=".5" width="3" height="1" fill="#F1BF00"/></svg></button>
+  <button class="lang-btn" data-lang="en" title="English"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30"><rect width="60" height="30" fill="#012169"/><path d="M0,0 L60,30 M60,0 L0,30" stroke="#fff" stroke-width="6"/><path d="M0,0 L30,15 M60,0 L30,15 M0,30 L30,15 M60,30 L30,15" stroke="#C8102E" stroke-width="3.2"/><rect x="25" width="10" height="30" fill="#fff"/><rect y="10" width="60" height="10" fill="#fff"/><rect x="27" width="6" height="30" fill="#C8102E"/><rect y="12" width="60" height="6" fill="#C8102E"/></svg></button>
+</div>
+<script src="../assets/lang.js"></script>
+<script>
+window._lang.init({
+  es: {
+    navBack: "Volver al portfolio",
+    heroCat: "Identidad Visual · Branding",
+    heroTags: ["Diseño Gráfico","Redes Sociales","Carteles","Photoshop","Illustrator"],
+    ovLabels: ["Tipo","Rol","Herramientas","Entregables"],
+    ovValues: ["Diseño para redes sociales","Diseñador gráfico","Photoshop · Illustrator","Posts · Carteles · Stories"],
+    sLabels: ["Sobre el proyecto","Galería"],
+    sTitles: ["Posts y carteles<br>para la Peña Fragatina","Todas las piezas"],
+    descPs: [
+      "Diseño de <b>contenido gráfico para redes sociales</b> de Peña Fragatina sección fútbol. El trabajo consiste en crear posts, carteles y piezas visuales para mantener activa su presencia digital con un estilo consistente y llamativo.",
+      "Cada pieza combina <b>tipografía de impacto, composición dinámica y recursos visuales relacionados con el fútbol</b> para generar contenido que conecta con la comunidad de seguidores. El objetivo es que cada publicación se sienta energética y reconocible al instante.",
+      "El trabajo incluye desde <b>anuncios de partidos y celebraciones de victorias</b> hasta carteles para eventos y quedadas de la peña, adaptando el estilo a cada tipo de contenido sin perder coherencia visual."
+    ],
+    asideLabels: ["Tipo de piezas","Técnicas","Plataformas"],
+    asideValues: ["Posts de partido · Carteles de eventos · Stories · Anuncios de resultados","Composición tipográfica · Retoque fotográfico · Ilustración vectorial · Diseño para mobile","Instagram · Facebook · WhatsApp"],
+    prevLabel: "← Proyecto anterior",
+    nextLabel: "Siguiente proyecto →"
+  },
+  en: {
+    navBack: "Back to portfolio",
+    heroCat: "Visual Identity · Branding",
+    heroTags: ["Graphic Design","Social Media","Posters","Photoshop","Illustrator"],
+    ovLabels: ["Type","Role","Tools","Deliverables"],
+    ovValues: ["Social media design","Graphic designer","Photoshop · Illustrator","Posts · Posters · Stories"],
+    sLabels: ["About the project","Gallery"],
+    sTitles: ["Social media posts and posters<br>for Peña Fragatina","All pieces"],
+    descPs: [
+      "Graphic content design for the <b>social media</b> of Peña Fragatina's football section. The work involves creating posts, posters and visual pieces to keep their digital presence active with a consistent and eye-catching style.",
+      "Each piece combines <b>impact typography, dynamic composition and football-related visual resources</b> to generate content that connects with the fan community. The goal is for every post to feel energetic and instantly recognisable.",
+      "The work ranges from <b>match announcements and victory celebrations</b> to event posters and group meet-ups, adapting the style to each type of content without losing visual coherence."
+    ],
+    asideLabels: ["Piece types","Techniques","Platforms"],
+    asideValues: ["Match posts · Event posters · Stories · Result announcements","Typographic composition · Photo retouching · Vector illustration · Mobile design","Instagram · Facebook · WhatsApp"],
+    prevLabel: "← Previous project",
+    nextLabel: "Next project →"
+  }
+});
+</script>
 </body>
 </html>
 

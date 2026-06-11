@@ -197,6 +197,12 @@
       .gallery-grid img:first-child { grid-column: span 2; }
       .proj-nav-item { padding: 40px 32px; }
     }
+  /* ── LANGUAGE SWITCHER ── */
+  #lang-switcher{position:fixed;bottom:28px;right:28px;z-index:999;display:flex;flex-direction:column;gap:7px;background:rgba(13,13,13,.92);border:1px solid var(--border);border-radius:14px;padding:10px 9px;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 8px 28px rgba(0,0,0,.5);}
+  .lang-btn{width:38px;height:26px;border:none;background:transparent;border-radius:4px;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center;overflow:hidden;opacity:.3;transition:opacity .2s,box-shadow .2s,transform .15s;}
+  .lang-btn svg{width:100%;height:100%;display:block;}
+  .lang-btn.lang-active{opacity:1;box-shadow:0 0 0 2px rgba(255,107,53,.7),0 2px 10px rgba(0,0,0,.45);}
+  .lang-btn:hover:not(.lang-active){opacity:.65;transform:scale(1.06);}
   </style>
 </head>
 <body>
@@ -377,6 +383,67 @@
   });
 </script>
 <script src="../assets/shared-gallery.js"></script>
+<div id="lang-switcher">
+  <button class="lang-btn lang-active" data-lang="es" title="Español"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="3" height="2" fill="#AA151B"/><rect y=".5" width="3" height="1" fill="#F1BF00"/></svg></button>
+  <button class="lang-btn" data-lang="en" title="English"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30"><rect width="60" height="30" fill="#012169"/><path d="M0,0 L60,30 M60,0 L0,30" stroke="#fff" stroke-width="6"/><path d="M0,0 L30,15 M60,0 L30,15 M0,30 L30,15 M60,30 L30,15" stroke="#C8102E" stroke-width="3.2"/><rect x="25" width="10" height="30" fill="#fff"/><rect y="10" width="60" height="10" fill="#fff"/><rect x="27" width="6" height="30" fill="#C8102E"/><rect y="12" width="60" height="6" fill="#C8102E"/></svg></button>
+</div>
+<script src="../assets/lang.js"></script>
+<script>
+window._lang.init({
+  es: {
+    navBack: "Volver al portfolio",
+    heroCat: "Proyecto Personal",
+    heroTags: ["Claude Code","GSAP 3","Figma","HTML / CSS / JS","AI Workflow"],
+    ovLabels: ["Año","Rol","Herramientas","Tipo"],
+    ovValues: ["2026","Diseño + Desarrollo","Figma · Claude Code · GSAP","Web estática · One-page"],
+    sLabels: ["Sobre el proyecto","Capturas"],
+    sTitles: ["De Figma al navegador<br>en horas, no días","El resultado"],
+    descPs: [
+      "Este portfolio es en sí mismo un caso de estudio sobre cómo la <b>inteligencia artificial transforma el flujo de trabajo creativo</b>. Diseñado en Figma desde cero — investigación, wireframes, sistema de diseño, componentes — y después desarrollado íntegramente con <b>Claude Code de Anthropic</b>, sin plantillas ni frameworks externos.",
+      "El resultado es <b>código limpio, semántico y optimizado</b>: un único archivo HTML con CSS y JS inline, sin dependencias externas salvo GSAP y Google Fonts. Animaciones de entrada con ScrollTrigger, intro cinematográfico por strips, cursor personalizado con estela luminosa, sistema de proyectos con modal y lightbox.",
+      "Lo que normalmente llevaría varios días de desarrollo se comprimió a horas sin sacrificar criterio creativo ni calidad técnica. <b>La IA no sustituyó el diseño — lo aceleró.</b>"
+    ],
+    asideLabels: ["Stack técnico","Proceso de diseño","Características"],
+    asideValues: ["HTML5 · CSS3 · Vanilla JS<br>GSAP 3.12 + ScrollTrigger<br>Google Fonts — Inter Variable","Research → Wireframes → UI System → Prototipo Figma → Desarrollo","Intro animado · Cursor custom · Bento grid skills · Modal de proyectos · Timeline experiencia"],
+    aiBannerLabel: "AI Workflow",
+    aiBannerTitle: "Diseñado por humanos.<br><span>Construido con IA.</span>",
+    aiSteps: [
+      "<b>Research y arquitectura</b> — Definición de secciones, jerarquía de contenido y referencias visuales en Figma.",
+      "<b>Diseño del sistema visual</b> — Paleta de color, tipografía, componentes y wireframes de alta fidelidad.",
+      "<b>Desarrollo con Claude Code</b> — Generación iterativa del HTML/CSS/JS describiendo cada sección, ajustando animaciones y refinando detalles en tiempo real.",
+      "<b>Iteración y refinado</b> — Cambios de layout, efectos visuales, jerarquía de proyectos y pulido final con feedback directo en la conversación."
+    ],
+    prevLabel: "← Volver",
+    nextLabel: "Siguiente proyecto →"
+  },
+  en: {
+    navBack: "Back to portfolio",
+    heroCat: "Personal Project",
+    heroTags: ["Claude Code","GSAP 3","Figma","HTML / CSS / JS","AI Workflow"],
+    ovLabels: ["Year","Role","Tools","Type"],
+    ovValues: ["2026","Design + Development","Figma · Claude Code · GSAP","Static website · One-page"],
+    sLabels: ["About the project","Screenshots"],
+    sTitles: ["From Figma to browser<br>in hours, not days","The result"],
+    descPs: [
+      "This portfolio is itself a case study on how <b>artificial intelligence transforms the creative workflow</b>. Designed in Figma from scratch — research, wireframes, design system, components — then developed entirely with <b>Claude Code by Anthropic</b>, without templates or external frameworks.",
+      "The result is <b>clean, semantic and optimised code</b>: a single HTML file with inline CSS and JS, no external dependencies except GSAP and Google Fonts. Scroll-triggered entrance animations, cinematic strip intro, custom cursor with light trail, project system with modal and lightbox.",
+      "What would normally take several days of development was compressed into hours without sacrificing creative judgement or technical quality. <b>AI did not replace design — it accelerated it.</b>"
+    ],
+    asideLabels: ["Tech stack","Design process","Features"],
+    asideValues: ["HTML5 · CSS3 · Vanilla JS<br>GSAP 3.12 + ScrollTrigger<br>Google Fonts — Inter Variable","Research → Wireframes → UI System → Figma Prototype → Development","Animated intro · Custom cursor · Skills bento grid · Project modal · Experience timeline"],
+    aiBannerLabel: "AI Workflow",
+    aiBannerTitle: "Designed by humans.<br><span>Built with AI.</span>",
+    aiSteps: [
+      "<b>Research and architecture</b> — Defining sections, content hierarchy and visual references in Figma.",
+      "<b>Visual system design</b> — Colour palette, typography, components and high-fidelity wireframes.",
+      "<b>Development with Claude Code</b> — Iterative generation of HTML/CSS/JS describing each section, adjusting animations and refining details in real time.",
+      "<b>Iteration and polish</b> — Layout changes, visual effects, project hierarchy and final refinement with direct feedback in the conversation."
+    ],
+    prevLabel: "← Back",
+    nextLabel: "Next project →"
+  }
+});
+</script>
 </body>
 </html>
 

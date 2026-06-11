@@ -150,6 +150,12 @@
       .gallery-grid img.wide { grid-column: span 2; }
       .proj-nav-item { padding: 40px 32px; }
     }
+  /* ── LANGUAGE SWITCHER ── */
+  #lang-switcher{position:fixed;bottom:28px;right:28px;z-index:999;display:flex;flex-direction:column;gap:7px;background:rgba(13,13,13,.92);border:1px solid var(--border);border-radius:14px;padding:10px 9px;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 8px 28px rgba(0,0,0,.5);}
+  .lang-btn{width:38px;height:26px;border:none;background:transparent;border-radius:4px;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center;overflow:hidden;opacity:.3;transition:opacity .2s,box-shadow .2s,transform .15s;}
+  .lang-btn svg{width:100%;height:100%;display:block;}
+  .lang-btn.lang-active{opacity:1;box-shadow:0 0 0 2px rgba(255,107,53,.7),0 2px 10px rgba(0,0,0,.45);}
+  .lang-btn:hover:not(.lang-active){opacity:.65;transform:scale(1.06);}
   </style>
 </head>
 <body>
@@ -334,6 +340,53 @@
 
 </script>
 <script src="../assets/shared-gallery.js"></script>
+<div id="lang-switcher">
+  <button class="lang-btn lang-active" data-lang="es" title="Español"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="3" height="2" fill="#AA151B"/><rect y=".5" width="3" height="1" fill="#F1BF00"/></svg></button>
+  <button class="lang-btn" data-lang="en" title="English"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30"><rect width="60" height="30" fill="#012169"/><path d="M0,0 L60,30 M60,0 L0,30" stroke="#fff" stroke-width="6"/><path d="M0,0 L30,15 M60,0 L30,15 M0,30 L30,15 M60,30 L30,15" stroke="#C8102E" stroke-width="3.2"/><rect x="25" width="10" height="30" fill="#fff"/><rect y="10" width="60" height="10" fill="#fff"/><rect x="27" width="6" height="30" fill="#C8102E"/><rect y="12" width="60" height="6" fill="#C8102E"/></svg></button>
+</div>
+<script src="../assets/lang.js"></script>
+<script>
+window._lang.init({
+  es: {
+    navBack: "Volver al portfolio",
+    heroCat: "Experiencia VR · 3D",
+    heroTags: ["Unity","3ds Max","Cooperativo","Modelado 3D","Diseño Procedural"],
+    ovLabels: ["Tipo","Mi rol","Herramientas","Centro"],
+    ovValues: ["Videojuego cooperativo","Modelado 3D de todos los assets","Unity · 3ds Max","CITM UPC"],
+    sLabels: ["Sobre el proyecto","Assets 3D","Capturas in-game"],
+    sTitles: ["Percepción, comunicación<br>y realidad alterada","Objetos modelados","El entorno completo"],
+    descPs: [
+      "<b>Beyond Reality</b> es un videojuego cooperativo académico desarrollado en Unity que explora los límites entre la realidad y la ilusión. Dos jugadores deben colaborar para determinar si una habitación pertenece al mundo real o si están atrapados en un sueño.",
+      "Uno de los jugadores <b>explora la sala en primera persona</b>, mientras que el otro, sin acceso visual, consulta un manual con las descripciones exactas de cómo deberían ser las habitaciones reales. La coordinación, la comunicación y la atención al detalle son fundamentales para superar el reto.",
+      "El juego cuenta con <b>seis objetos por sala, cada uno con diez variantes posibles</b> (cinco reales y cinco anómalas), generadas de forma procedural con probabilidades ajustadas para equilibrar realidad y sueño. La mecánica de decisión final se realiza desde un ascensor."
+    ],
+    asideLabels: ["Mi rol","Equipo","Assets modelados"],
+    asideValues: ["Modelado 3D — responsable de todos los assets del juego","Diseño: Pablo Garcia · 3D: Jorge Cabrera · Player 2: Pau Galy · Programación: Unai Fernández","Mesa de billar · Diana · Dardos · Estantería · Reloj · Cuadros · Plantas · Decoración de sala"],
+    assetLabels: ["Mesa de billar","Diana","Reloj","Planta","Estantería","Cuadro","Dardos","Entorno"],
+    prevLabel: "← Proyecto anterior",
+    nextLabel: "Siguiente proyecto →"
+  },
+  en: {
+    navBack: "Back to portfolio",
+    heroCat: "VR Experience · 3D",
+    heroTags: ["Unity","3ds Max","Co-op","3D Modelling","Procedural Design"],
+    ovLabels: ["Type","My role","Tools","University"],
+    ovValues: ["Co-op video game","3D modelling of all assets","Unity · 3ds Max","CITM UPC"],
+    sLabels: ["About the project","3D Assets","In-game screenshots"],
+    sTitles: ["Perception, communication<br>and altered reality","Modelled objects","The full environment"],
+    descPs: [
+      "<b>Beyond Reality</b> is an academic co-op video game developed in Unity that explores the boundaries between reality and illusion. Two players must collaborate to determine whether a room belongs to the real world or whether they are trapped in a dream.",
+      "One player <b>explores the room in first person</b>, while the other, without visual access, consults a manual with exact descriptions of what real rooms should look like. Coordination, communication and attention to detail are essential to beat the challenge.",
+      "The game features <b>six objects per room, each with ten possible variants</b> (five real and five anomalous), generated procedurally with adjusted probabilities to balance reality and dream. The final decision mechanic takes place from an elevator."
+    ],
+    asideLabels: ["My role","Team","Modelled assets"],
+    asideValues: ["3D modelling — responsible for all game assets","Design: Pablo Garcia · 3D: Jorge Cabrera · Player 2: Pau Galy · Programming: Unai Fernández","Pool table · Dartboard · Darts · Shelf · Clock · Paintings · Plants · Room decoration"],
+    assetLabels: ["Pool table","Dartboard","Clock","Plant","Shelf","Painting","Darts","Environment"],
+    prevLabel: "← Previous project",
+    nextLabel: "Next project →"
+  }
+});
+</script>
 </body>
 </html>
 
