@@ -12,7 +12,22 @@
       "Bash(node optimize-images.js)",
       "Bash(node update-refs.js)",
       "Bash(ls \"C:\\\\Users\\\\Jorge\\\\.claude\\\\projects\\\\\")",
-      "WebSearch"
+      "WebSearch",
+      "Read(//c/Users/Jorge/OneDrive/Escritorio/**)",
+      "Bash(npx create-next-app@latest pena-kit --typescript --tailwind --eslint --app --no-src-dir --import-alias \"@/*\")",
+      "Bash(npm run *)",
+      "Bash(Start-Sleep -Seconds 5)",
+      "Bash(Invoke-WebRequest -Uri \"http://localhost:3001\" -UseBasicParsing -TimeoutSec 5)",
+      "Bash(Select-Object -ExpandProperty StatusCode)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3001)",
+      "Bash(git -C \"C:\\\\Users\\\\Jorge\\\\OneDrive\\\\Escritorio\\\\portfolioWeb\" status)",
+      "Bash(git -C \"C:\\\\Users\\\\Jorge\\\\OneDrive\\\\Escritorio\\\\pena-kit\" status)",
+      "Bash(git -C \"C:\\\\Users\\\\Jorge\\\\OneDrive\\\\Escritorio\\\\pena-kit\" diff)",
+      "Bash(git -C \"C:\\\\Users\\\\Jorge\\\\OneDrive\\\\Escritorio\\\\portfolioWeb\" diff)",
+      "Bash(git -C \"C:\\\\Users\\\\Jorge\\\\OneDrive\\\\Escritorio\\\\pena-kit\" add app/page.tsx components/ package.json package-lock.json .claude/)",
+      "Bash(git -C 'C:\\\\Users\\\\Jorge\\\\OneDrive\\\\Escritorio\\\\pena-kit' commit -m ' *)",
+      "Bash(git -C \"C:\\\\Users\\\\Jorge\\\\OneDrive\\\\Escritorio\\\\portfolioWeb\" add .claude/launch.json .claude/settings.local.json)",
+      "Bash(git -C 'C:\\\\Users\\\\Jorge\\\\OneDrive\\\\Escritorio\\\\portfolioWeb' commit -m ' *)"
     ]
   }
 }
