@@ -8,7 +8,9 @@
       "Bash(node -e ' *)",
       "Bash(findstr /i \"estanteria\")",
       "Bash(node -e \"require\\('fs'\\).readdirSync\\('assets/projects/beyond'\\).filter\\(f=>f.includes\\('estanteria'\\)\\).forEach\\(f=>console.log\\(f\\)\\)\")",
-      "Bash(dir \"C:\\\\Users\\\\Jorge\\\\OneDrive\\\\Escritorio\\\\portfolioWeb\\\\assets\\\\projects\" /b)"
+      "Bash(dir \"C:\\\\Users\\\\Jorge\\\\OneDrive\\\\Escritorio\\\\portfolioWeb\\\\assets\\\\projects\" /b)",
+      "Bash(node optimize-images.js)",
+      "Bash(node update-refs.js)"
     ]
   }
 }
