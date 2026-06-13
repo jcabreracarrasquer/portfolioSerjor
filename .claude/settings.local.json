@@ -11,7 +11,8 @@
       "Bash(dir \"C:\\\\Users\\\\Jorge\\\\OneDrive\\\\Escritorio\\\\portfolioWeb\\\\assets\\\\projects\" /b)",
       "Bash(node optimize-images.js)",
       "Bash(node update-refs.js)",
-      "Bash(ls \"C:\\\\Users\\\\Jorge\\\\.claude\\\\projects\\\\\")"
+      "Bash(ls \"C:\\\\Users\\\\Jorge\\\\.claude\\\\projects\\\\\")",
+      "WebSearch"
     ]
   }
 }
