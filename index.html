@@ -68,50 +68,26 @@
       display: flex; align-items: center; justify-content: center;
     }
 
-    @keyframes generating-loader-letter-anim {
-      0%   { opacity: 0; transform: translateY(20px) rotateX(-90deg); text-shadow: 0 0 0px rgba(255,255,255,0); }
-      10%  { opacity: 1; transform: translateY(0) rotateX(0deg);      text-shadow: 0 0 10px rgba(255,255,255,.8); }
-      30%  { opacity: 1; transform: translateY(0) rotateX(0deg);      text-shadow: 0 0 10px rgba(255,255,255,.8); }
-      50%  { opacity: 0; transform: translateY(-20px) rotateX(90deg); text-shadow: 0 0 0px rgba(255,255,255,0); }
-      100% { opacity: 0; }
+    /* ── WAVE LOADER ── */
+    @keyframes wave-bar {
+      0%, 100% { transform: scaleY(1); }
+      50%       { transform: scaleY(1.8); }
     }
-    @keyframes generating-loader-bar-anim {
-      0%   { left: -100%; }
-      50%  { left: 100%; }
-      100% { left: -100%; }
+    .wave-loader {
+      display: flex; align-items: center; justify-content: center; gap: 6px;
     }
-    .generating-loader-wrapper {
-      display: flex; flex-direction: column; align-items: center; gap: 36px;
+    .wave-bar {
+      width: 4px; height: 28px;
+      background: var(--text);
+      border-radius: 2px;
+      transform-origin: center;
+      animation: wave-bar 1s ease-in-out infinite;
     }
-    .generating-loader-text {
-      display: flex; perspective: 400px; gap: 1px;
-    }
-    .generating-loader-letter {
-      font-family: 'Inter', system-ui, sans-serif;
-      font-size: clamp(48px, 9vw, 112px);
-      font-weight: 900; letter-spacing: -.03em; text-transform: uppercase;
-      color: var(--text); opacity: 0; display: inline-block;
-      animation: generating-loader-letter-anim 2.4s ease-in-out infinite;
-    }
-    .generating-loader-letter:nth-child(1)  { animation-delay: 0s;   }
-    .generating-loader-letter:nth-child(2)  { animation-delay: .08s; }
-    .generating-loader-letter:nth-child(3)  { animation-delay: .16s; }
-    .generating-loader-letter:nth-child(4)  { animation-delay: .24s; }
-    .generating-loader-letter:nth-child(5)  { animation-delay: .32s; }
-    .generating-loader-letter:nth-child(6)  { animation-delay: .40s; }
-    .generating-loader-letter:nth-child(7)  { animation-delay: .48s; }
-    .generating-loader-letter:nth-child(8)  { animation-delay: .56s; }
-    .generating-loader-letter:nth-child(9)  { animation-delay: .64s; }
-    .generating-loader-letter:nth-child(10) { animation-delay: .72s; }
-    .generating-loader-bar {
-      width: clamp(160px, 20vw, 280px); height: 2px;
-      background: var(--border); position: relative; overflow: hidden; border-radius: 1px;
-    }
-    .generating-loader-bar::after {
-      content: ''; position: absolute; top: 0; left: -100%;
-      width: 100%; height: 100%; background: var(--accent);
-      animation: generating-loader-bar-anim 2.4s ease-in-out infinite;
-    }
+    .wave-bar:nth-child(1) { animation-delay: 0s; }
+    .wave-bar:nth-child(2) { animation-delay: .1s; }
+    .wave-bar:nth-child(3) { animation-delay: .2s; }
+    .wave-bar:nth-child(4) { animation-delay: .3s; }
+    .wave-bar:nth-child(5) { animation-delay: .4s; }
 
     /* ── NAV ── */
     nav {
@@ -758,6 +734,7 @@
     .hero-main {
       display: flex; flex-direction: column; align-items: center; text-align: center;
       position: relative; z-index: 1; gap: 20px;
+      opacity: 0; transform: translateY(30px);
     }
     .hero-badge-small {
       font-size: 9px; font-weight: 700; letter-spacing: .5em; text-transform: uppercase;
@@ -896,20 +873,12 @@
 
 <!-- INTRO -->
 <div id="intro-overlay">
-  <div class="generating-loader-wrapper">
-    <div class="generating-loader-text">
-      <span class="generating-loader-letter">Q</span>
-      <span class="generating-loader-letter">U</span>
-      <span class="generating-loader-letter">E</span>
-      <span class="generating-loader-letter">D</span>
-      <span class="generating-loader-letter">A</span>
-      <span class="generating-loader-letter" style="width:.4em;opacity:0"> </span>
-      <span class="generating-loader-letter">P</span>
-      <span class="generating-loader-letter">O</span>
-      <span class="generating-loader-letter">C</span>
-      <span class="generating-loader-letter">O</span>
-    </div>
-    <div class="generating-loader-bar"></div>
+  <div class="wave-loader">
+    <div class="wave-bar"></div>
+    <div class="wave-bar"></div>
+    <div class="wave-bar"></div>
+    <div class="wave-bar"></div>
+    <div class="wave-bar"></div>
   </div>
 </div>
 
@@ -1565,7 +1534,7 @@ function initAnimations() {
 
 
   /* — hero — */
-  gsap.from('.hero-main', { opacity: 0, y: 50, duration: 1.1, delay: 0.25, ease: 'power3.out' });
+  gsap.to('.hero-main', { opacity: 1, y: 0, duration: 1.1, delay: 0.15, ease: 'power3.out' });
   gsap.to('.hero-bottom', { opacity: 1, duration: 0.9, delay: 0.85, ease: 'power3.out' });
   gsap.set('#nav', { y: -20 });
 
