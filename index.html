@@ -3,7 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Jorge Cabrera — Diseñador Digital & Multimedia</title>
+  <title>Jorge Cabrera — Diseñador Multimedia · Branding, Motion e IA</title>
+  <meta name="description" content="Diseñador multimedia en Zaragoza. Identidad visual y branding para deporte y cultura, motion graphics, 3D y producción con IA generativa. Portfolio y casos de estudio.">
+  <meta property="og:title" content="Jorge Cabrera — Diseñador Multimedia">
+  <meta property="og:description" content="Branding para deporte y cultura · Motion · 3D · IA generativa">
+  <meta property="og:type" content="website">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
@@ -338,10 +342,15 @@
 
     .pgc-info {
       padding: 16px 20px 20px;
-      display: flex; justify-content: space-between; align-items: center;
+      display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;
     }
+    .pgc-info-text { flex: 1; min-width: 0; }
     .pgc-title {
-      font-size: 17px; font-weight: 800; letter-spacing: -.02em;
+      font-size: 16px; font-weight: 800; letter-spacing: -.02em;
+    }
+    .pgc-desc {
+      font-size: 12px; line-height: 1.6; color: var(--muted);
+      margin-top: 5px; font-weight: 400;
     }
     .pgc-arrow {
       width: 36px; height: 36px;
@@ -462,7 +471,7 @@
     .about-text { font-size: 19px; line-height: 1.75; color: var(--muted); margin-bottom: 28px; }
     .about-text b { color: var(--text); }
     .about-stats {
-      display: grid; grid-template-columns: 1fr 1fr;
+      display: grid; grid-template-columns: repeat(3, 1fr);
       gap: 40px 48px; margin-top: 56px; padding-top: 48px;
       border-top: 1px solid var(--border);
     }
@@ -781,6 +790,28 @@
   }
   .lang-btn:hover:not(.lang-active) { opacity: .65; transform: scale(1.06); }
 
+  /* ── SKILLS CAPABILITIES ── */
+  .skills-capabilities {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 2px; padding: 2px 20px 20px;
+  }
+  .sc-card {
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: 14px; padding: 40px 44px;
+    transition: border-color .3s, background .3s;
+  }
+  .sc-card:hover { border-color: rgba(255,107,53,.3); background: rgba(255,107,53,.018); }
+  .sc-card--wide { grid-column: 1 / -1; }
+  .sc-num { font-size: 9px; font-weight: 700; letter-spacing: .4em; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; }
+  .sc-title { font-size: 24px; font-weight: 800; letter-spacing: -.02em; margin-bottom: 12px; color: var(--text); }
+  .sc-desc { font-size: 14px; line-height: 1.7; color: var(--muted); margin-bottom: 20px; }
+  .sc-tools { font-size: 10px; font-weight: 600; letter-spacing: .15em; text-transform: uppercase; color: var(--muted); opacity: .6; }
+  @media (max-width: 900px) {
+    .skills-capabilities { grid-template-columns: 1fr; padding: 2px 12px 12px; }
+    .sc-card { padding: 28px 28px; }
+    .sc-card--wide { grid-column: 1; }
+  }
+
   </style>
 </head>
 <body>
@@ -830,27 +861,27 @@
         <p>&nbsp;</p><p>BRANDING</p>
       </li>
       <li class="lt-item" style="transform:translateX(-80px) skew(0deg,-30deg) scaleY(1.33333)">
-        <p>BRANDING</p><p>DISEÑO</p>
+        <p>BRANDING</p><p>MOTION</p>
       </li>
       <li class="lt-item" style="transform:translateX(-40px) skew(60deg,-30deg) scaleY(0.66667)">
-        <p>DISEÑO</p><p>MOTION</p>
+        <p>MOTION</p><p>IDENTIDAD</p>
       </li>
       <li class="lt-item" style="transform:translateX(0px) skew(0deg,-30deg) scaleY(1.33333)">
-        <p>MOTION</p><p>VISUAL</p>
+        <p>IDENTIDAD</p><p>3D</p>
       </li>
       <li class="lt-item" style="transform:translateX(40px) skew(60deg,-30deg) scaleY(0.66667)">
-        <p>VISUAL</p><p>3D</p>
+        <p>3D</p><p>IA</p>
       </li>
       <li class="lt-item" style="transform:translateX(80px) skew(0deg,-30deg) scaleY(1.33333)">
-        <p>3D</p><p>UX</p>
+        <p>IA</p><p>DEPORTE</p>
       </li>
       <li class="lt-item" style="transform:translateX(120px) skew(60deg,-30deg) scaleY(0.66667)">
-        <p>UX</p><p>&nbsp;</p>
+        <p>DEPORTE</p><p>&nbsp;</p>
       </li>
     </ul>
   </div>
   <div class="hero-bottom">
-    <p class="hero-sub" data-i18n-html="hero.sub"><b>UX · Gráfico · 3D · Vídeo</b><br>Estudiante en CITM UPC, Terrassa.<br>Creatividad e innovación en cada proyecto.</p>
+    <p class="hero-sub" data-i18n-html="hero.sub">Diseñador multimedia. Identidad visual y branding para <b>deporte y cultura</b>, con motion, 3D y producción con IA generativa.</p>
     <div class="scroll-cue">
       <div class="scroll-track"></div>
       <span>Scroll</span>
@@ -878,24 +909,21 @@
   </div>
   <div class="about-content">
     <p class="s-label" data-i18n="about.label">Sobre mí</p>
-    <p class="about-text reveal" data-i18n-html="about.p1">Soy <b>Jorge Cabrera</b>, diseñador digital especializado en <b>UX, diseño gráfico, modelado 3D y edición de vídeo</b>.</p>
-    <p class="about-text reveal" data-i18n-html="about.p2">Me apasiona la <b>creatividad y la innovación</b>. He colaborado con equipos de fútbol, empresas industriales y agencias digitales, siempre buscando soluciones visuales que comuniquen de verdad.</p>
+    <p class="about-text reveal" data-i18n-html="about.p1">Soy diseñador multimedia en Zaragoza. Desde 2021 llevo la identidad y la comunicación visual de <b>Peña Fragatina</b>, un club de fútbol con afición real y calendario real: cada jornada hay que publicar, y eso enseña más que cualquier asignatura. Desde marzo de 2026 formo parte del equipo de Comunicación de <b>Hiberus</b>, donde produzco contenido multimedia para campañas internas y externas.</p>
+    <p class="about-text reveal" data-i18n-html="about.p2">Mi terreno es el <b>branding con carácter</b>: marcas para deporte y cultura que funcionan igual en una camiseta, en un cartel o en una animación de logo. A eso le sumo un pipeline de IA generativa (Veo, Magnific, Suno, Gemini) con el que produzco vídeo, audio e imagen que antes habrían necesitado un equipo entero.</p>
+    <p class="about-text reveal" data-i18n-html="about.p3">En junio de 2026 termino el <b>Grado en Diseño Digital y Tecnologías Multimedia</b> en el CITM (UPC).</p>
     <div class="about-stats">
       <div class="reveal">
-        <div class="stat-n" data-target="5" data-suffix="+">5<span>+</span></div>
-        <p class="stat-l" data-i18n="about.stat.exp">Años de experiencia</p>
+        <div class="stat-n" data-target="4">4</div>
+        <p class="stat-l" data-i18n="about.stat.seasons">Temporadas diseñando para un club de fútbol</p>
       </div>
       <div class="reveal">
-        <div class="stat-n" data-target="12" data-suffix="+">12<span>+</span></div>
-        <p class="stat-l" data-i18n="about.stat.proj">Proyectos</p>
+        <div class="stat-n" data-target="2">2</div>
+        <p class="stat-l" data-i18n="about.stat.clients">Clientes reales</p>
       </div>
       <div class="reveal">
         <div class="stat-n" data-target="3">3</div>
         <p class="stat-l" data-i18n="about.stat.lang">Idiomas</p>
-      </div>
-      <div class="reveal">
-        <div class="stat-n" data-target="7" data-suffix="+">7<span>+</span></div>
-        <p class="stat-l" data-i18n="about.stat.tools">Herramientas</p>
       </div>
     </div>
   </div>
@@ -907,29 +935,12 @@
     <p class="s-label" data-i18n="proj.label">Proyectos</p>
     <h2 class="s-title reveal" data-i18n="proj.title">Mi Trabajo</h2>
     <p class="projects-subtitle reveal" data-i18n="proj.subtitle">06 proyectos seleccionados</p>
+
   </div>
 
   <div class="proj-grid">
 
-    <!-- 01 Fragatina — featured -->
-    <div class="proj-grid-card pgc-featured" data-project="fragatina">
-      <div class="pgc-img-wrap">
-        <img src="assets/projects/fragatina/1.png" alt="Fragatina" class="pgc-img">
-        <div class="pgc-shine"></div>
-        <span class="pgc-tag" data-i18n="card.fragatina.tag">Diseño Gráfico · Identidad Visual</span>
-      </div>
-      <div class="pgc-info">
-        <h3 class="pgc-title">Fútbol Peña Fragatina</h3>
-        <div class="pgc-arrow">
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <path d="M3 11L11 3M11 3H5M11 3V9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-      </div>
-      <div class="pgc-accent-line"></div>
-    </div>
-
-    <!-- 02 De Propio Festival — TFG -->
+    <!-- 01 DEPROPIO — featured -->
     <div class="proj-grid-card pgc-featured" data-project="tfg">
       <div class="pgc-img-wrap">
         <img src="assets/projects/DEPROPIO/Portada.png" alt="DEPROPIO" class="pgc-img">
@@ -937,12 +948,28 @@
         <span class="pgc-tag" data-i18n="card.tfg.tag">Identidad Visual · TFG</span>
       </div>
       <div class="pgc-info">
-        <h3 class="pgc-title" data-i18n="card.tfg.title">DEPROPIO</h3>
-        <div class="pgc-arrow">
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <path d="M3 11L11 3M11 3H5M11 3V9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
+        <div class="pgc-info-text">
+          <h3 class="pgc-title" data-i18n="card.tfg.title">DEPROPIO</h3>
+          <p class="pgc-desc" data-i18n="card.tfg.desc">Identidad completa para un festival de música aragonés: sistema visual, señalética, merch y producción con IA. TFG, CITM UPC.</p>
         </div>
+        <div class="pgc-arrow"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 11L11 3M11 3H5M11 3V9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+      <div class="pgc-accent-line"></div>
+    </div>
+
+    <!-- 02 Fragatina — featured -->
+    <div class="proj-grid-card pgc-featured" data-project="fragatina">
+      <div class="pgc-img-wrap">
+        <img src="assets/projects/fragatina/1.png" alt="Fragatina" class="pgc-img">
+        <div class="pgc-shine"></div>
+        <span class="pgc-tag" data-i18n="card.fragatina.tag">Diseño Gráfico · Identidad Visual</span>
+      </div>
+      <div class="pgc-info">
+        <div class="pgc-info-text">
+          <h3 class="pgc-title">Fútbol Peña Fragatina</h3>
+          <p class="pgc-desc" data-i18n="card.fragatina.desc">Cuatro temporadas como responsable de la imagen del club: identidad, matchday graphics y contenido para redes.</p>
+        </div>
+        <div class="pgc-arrow"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 11L11 3M11 3H5M11 3V9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       </div>
       <div class="pgc-accent-line"></div>
     </div>
@@ -955,17 +982,16 @@
         <span class="pgc-tag">3D · VR · Unity</span>
       </div>
       <div class="pgc-info">
-        <h3 class="pgc-title">Beyond Reality</h3>
-        <div class="pgc-arrow">
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <path d="M3 11L11 3M11 3H5M11 3V9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
+        <div class="pgc-info-text">
+          <h3 class="pgc-title">Beyond Reality</h3>
+          <p class="pgc-desc" data-i18n="card.beyond.desc">Entorno de realidad virtual en Unity: modelado, iluminación y diseño de interacción.</p>
         </div>
+        <div class="pgc-arrow"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 11L11 3M11 3H5M11 3V9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       </div>
       <div class="pgc-accent-line"></div>
     </div>
 
-    <!-- 03 IKEA -->
+    <!-- 04 IKEA -->
     <div class="proj-grid-card" data-project="ikea">
       <div class="pgc-img-wrap">
         <img src="assets/projects/ikea/portada.jpg" alt="IKEA" class="pgc-img">
@@ -973,17 +999,16 @@
         <span class="pgc-tag" data-i18n="card.ikea.tag">Diseño · Producto · 3D</span>
       </div>
       <div class="pgc-info">
-        <h3 class="pgc-title" data-i18n="card.ikea.title">Proyecto IKEA</h3>
-        <div class="pgc-arrow">
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <path d="M3 11L11 3M11 3H5M11 3V9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
+        <div class="pgc-info-text">
+          <h3 class="pgc-title" data-i18n="card.ikea.title">Proyecto IKEA</h3>
+          <p class="pgc-desc" data-i18n="card.ikea.desc">Diseño y visualización 3D de producto a partir de un briefing real de IKEA.</p>
         </div>
+        <div class="pgc-arrow"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 11L11 3M11 3H5M11 3V9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       </div>
       <div class="pgc-accent-line"></div>
     </div>
 
-    <!-- 04 Bagon — featured -->
+    <!-- 05 Bagon -->
     <div class="proj-grid-card pgc-featured" data-project="bagon">
       <div class="pgc-img-wrap">
         <img src="assets/projects/bagon/1.jpg" alt="Bagon" class="pgc-img">
@@ -991,17 +1016,16 @@
         <span class="pgc-tag" data-i18n="card.bagon.tag">3D · Modelado · Render</span>
       </div>
       <div class="pgc-info">
-        <h3 class="pgc-title">Bagon</h3>
-        <div class="pgc-arrow">
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <path d="M3 11L11 3M11 3H5M11 3V9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
+        <div class="pgc-info-text">
+          <h3 class="pgc-title">Bagon</h3>
+          <p class="pgc-desc" data-i18n="card.bagon.desc">Modelado orgánico y render de personaje en ZBrush y Maya.</p>
         </div>
+        <div class="pgc-arrow"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 11L11 3M11 3H5M11 3V9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       </div>
       <div class="pgc-accent-line"></div>
     </div>
 
-    <!-- 05 Portfolio Personal — featured AI showcase -->
+    <!-- 06 Portfolio Personal -->
     <div class="proj-grid-card pgc-featured pgc-ai" data-project="portfolio">
       <div class="pgc-img-wrap">
         <img src="assets/projects/portfolio/cap1.png" alt="Portfolio Personal" class="pgc-img">
@@ -1009,48 +1033,11 @@
         <span class="pgc-tag">Claude Code · GSAP · Figma</span>
       </div>
       <div class="pgc-info">
-        <h3 class="pgc-title" data-i18n="card.portfolio.title">Portfolio Personal</h3>
-        <div class="pgc-arrow">
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <path d="M3 11L11 3M11 3H5M11 3V9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
+        <div class="pgc-info-text">
+          <h3 class="pgc-title" data-i18n="card.portfolio.title">Portfolio Personal</h3>
+          <p class="pgc-desc" data-i18n="card.portfolio.desc">Este mismo sitio: diseñado en Figma y desarrollado con Claude Code. Animaciones con GSAP.</p>
         </div>
-      </div>
-      <div class="pgc-accent-line"></div>
-    </div>
-
-    <!-- 06 MVP Academy -->
-    <div class="proj-grid-card" data-project="mvp">
-      <div class="pgc-img-wrap">
-        <img src="assets/projects/mvp/portada.jpg" alt="MVP Academy" class="pgc-img">
-        <div class="pgc-shine"></div>
-        <span class="pgc-tag" data-i18n="card.mvp.tag">Diseño Gráfico · Redes Sociales</span>
-      </div>
-      <div class="pgc-info">
-        <h3 class="pgc-title">MVP Academy</h3>
-        <div class="pgc-arrow">
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <path d="M3 11L11 3M11 3H5M11 3V9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-      </div>
-      <div class="pgc-accent-line"></div>
-    </div>
-
-    <!-- 07 Gráficas Deportivas -->
-    <div class="proj-grid-card pgc-featured" data-project="otros">
-      <div class="pgc-img-wrap">
-        <img src="assets/projects/otros/lamine.png" alt="Gráficas" class="pgc-img">
-        <div class="pgc-shine"></div>
-        <span class="pgc-tag" data-i18n="card.otros.tag">Diseño Gráfico · Freelance</span>
-      </div>
-      <div class="pgc-info">
-        <h3 class="pgc-title" data-i18n="card.otros.title">Diseño Freelance</h3>
-        <div class="pgc-arrow">
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <path d="M3 11L11 3M11 3H5M11 3V9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
+        <div class="pgc-arrow"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 11L11 3M11 3H5M11 3V9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       </div>
       <div class="pgc-accent-line"></div>
     </div>
@@ -1061,78 +1048,65 @@
 <!-- MARQUEE -->
 <div class="marquee-wrap">
   <div class="marquee-track">
-    <span class="marquee-item" data-i18n-html="mq.ux">Diseño UX <span class="marquee-dot">✦</span></span>
-    <span class="marquee-item" data-i18n-html="mq.graphic">Diseño Gráfico <span class="marquee-dot">✦</span></span>
-    <span class="marquee-item" data-i18n-html="mq.3d">Modelado 3D <span class="marquee-dot">✦</span></span>
-    <span class="marquee-item" data-i18n-html="mq.video">Edición de Vídeo <span class="marquee-dot">✦</span></span>
-    <span class="marquee-item" data-i18n-html="mq.identity">Identidad Visual <span class="marquee-dot">✦</span></span>
-    <span class="marquee-item" data-i18n-html="mq.vr">Realidad Virtual <span class="marquee-dot">✦</span></span>
-    <span class="marquee-item" data-i18n-html="mq.motion">Motion Graphics <span class="marquee-dot">✦</span></span>
-    <span class="marquee-item" data-i18n-html="mq.ux">Diseño UX <span class="marquee-dot">✦</span></span>
-    <span class="marquee-item" data-i18n-html="mq.graphic">Diseño Gráfico <span class="marquee-dot">✦</span></span>
-    <span class="marquee-item" data-i18n-html="mq.3d">Modelado 3D <span class="marquee-dot">✦</span></span>
-    <span class="marquee-item" data-i18n-html="mq.video">Edición de Vídeo <span class="marquee-dot">✦</span></span>
-    <span class="marquee-item" data-i18n-html="mq.identity">Identidad Visual <span class="marquee-dot">✦</span></span>
-    <span class="marquee-item" data-i18n-html="mq.vr">Realidad Virtual <span class="marquee-dot">✦</span></span>
-    <span class="marquee-item" data-i18n-html="mq.motion">Motion Graphics <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Branding <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Motion <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Identidad <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">3D <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">IA Generativa <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Deporte <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Cultura <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Branding <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Motion <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Identidad <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">3D <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">IA Generativa <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Deporte <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Cultura <span class="marquee-dot">✦</span></span>
   </div>
 </div>
 
 <!-- SKILLS BENTO -->
 <div id="skills-wrap" class="section">
-  <p class="s-label" data-i18n="skills.label">Habilidades</p>
-  <h2 class="s-title reveal" data-i18n="skills.title">Mi Stack</h2>
+  <p class="s-label" data-i18n="skills.label">Capacidades</p>
+  <h2 class="s-title reveal" data-i18n="skills.title">Lo que hago</h2>
 
-  <div class="skills-bento">
+  <div class="skills-capabilities">
 
-    <!-- Row 1 — Expert -->
-    <div class="sb-card sb-ps">
-      <img src="assets/skills/ps.png" alt="Photoshop" class="sb-icon">
-      <span class="sb-name">Photoshop</span>
-      <span class="sb-level">Expert</span>
-    </div>
-    <div class="sb-card sb-pr">
-      <img src="assets/skills/pr.png" alt="Premiere Pro" class="sb-icon">
-      <span class="sb-name">Premiere Pro</span>
-      <span class="sb-level">Expert</span>
+    <div class="sc-card reveal">
+      <p class="sc-num">01</p>
+      <h3 class="sc-title" data-i18n="sc.1.title">Identidad y branding</h3>
+      <p class="sc-desc" data-i18n="sc.1.desc">Sistemas de marca, dirección de arte y aplicación en cualquier soporte: digital, textil, impreso.</p>
+      <p class="sc-tools">Illustrator · Photoshop · InDesign</p>
     </div>
 
-    <!-- Row 2 — Advanced -->
-    <div class="sb-card sb-ae">
-      <img src="assets/skills/ae.svg" alt="After Effects" class="sb-icon">
-      <span class="sb-name">After Effects</span>
-      <span class="sb-sub">Motion · VFX · Compositing</span>
-      <span class="sb-level">Advanced</span>
-    </div>
-    <div class="sb-card sb-figma">
-      <img src="assets/skills/figma.png" alt="Figma" class="sb-icon">
-      <span class="sb-name">Figma</span>
-      <span class="sb-level">Advanced</span>
+    <div class="sc-card reveal">
+      <p class="sc-num">02</p>
+      <h3 class="sc-title" data-i18n="sc.2.title">Motion y vídeo</h3>
+      <p class="sc-desc" data-i18n="sc.2.desc">Animación de marca, matchday graphics animados, edición y postproducción.</p>
+      <p class="sc-tools">After Effects · Premiere Pro</p>
     </div>
 
-    <!-- Row 3 — 3D Tools -->
-    <div class="sb-card sb-maya">
-      <img src="assets/skills/maya.png" alt="Maya" class="sb-icon sb-icon-sm">
-      <span class="sb-name">Maya</span>
-    </div>
-    <div class="sb-card sb-zbr">
-      <img src="assets/skills/zbrush.png" alt="ZBrush" class="sb-icon sb-icon-sm">
-      <span class="sb-name">ZBrush</span>
+    <div class="sc-card reveal">
+      <p class="sc-num">03</p>
+      <h3 class="sc-title" data-i18n="sc.3.title">3D y entornos</h3>
+      <p class="sc-desc" data-i18n="sc.3.desc">Modelado, texturizado y render de producto, personaje y entornos VR.</p>
+      <p class="sc-tools">Maya · ZBrush · Substance Painter · Blender · Unity</p>
     </div>
 
-  </div>
-
-  <div class="skills-also">
-    <p class="skills-also-label" data-i18n="skills.also">También</p>
-    <div class="skills-tags">
-      <span class="s-tag">Illustrator</span>
-      <span class="s-tag">Substance Painter</span>
-      <span class="s-tag">Blender</span>
-      <span class="s-tag">Unity</span>
-      <span class="s-tag">3ds Max</span>
-      <span class="s-tag">Adobe XD</span>
-      <span class="s-tag">Suite Office</span>
+    <div class="sc-card reveal">
+      <p class="sc-num">04</p>
+      <h3 class="sc-title" data-i18n="sc.4.title">Producto y UX</h3>
+      <p class="sc-desc" data-i18n="sc.4.desc">Interfaces para software industrial y prototipado de producto digital.</p>
+      <p class="sc-tools">Figma</p>
     </div>
+
+    <div class="sc-card sc-card--wide reveal">
+      <p class="sc-num">05</p>
+      <h3 class="sc-title" data-i18n="sc.5.title">IA generativa aplicada</h3>
+      <p class="sc-desc" data-i18n="sc.5.desc">Pipeline de producción con IA integrado en proyectos reales: vídeo, imagen, audio y código.</p>
+      <p class="sc-tools">Veo · Magnific · Suno · Gemini · Claude Code</p>
+    </div>
+
   </div>
 </div>
 
@@ -1166,35 +1140,28 @@
       <p class="tl-date" data-i18n="exp.1.date">Marzo 2026 – Actualidad</p>
       <h3 class="tl-role" data-i18n="exp.1.role">Diseñador Multimedia</h3>
       <p class="tl-co">Hiberus, Zaragoza</p>
-      <p class="tl-desc" data-i18n="exp.1.desc">Formo parte del equipo de Comunicación de hiberus, desarrollando contenido multimedia para diferentes campañas internas y externas de la empresa.</p>
+      <p class="tl-desc" data-i18n="exp.1.desc">Contenido multimedia para campañas internas y externas dentro del equipo de Comunicación: vídeo, motion graphics y piezas gráficas para una de las principales tecnológicas de Aragón.</p>
     </div>
     <div class="tl-item">
       <div class="tl-dot"></div>
       <p class="tl-date" data-i18n="exp.2.date">Jul – Ago 2024</p>
       <h3 class="tl-role" data-i18n="exp.2.role">Diseñador UX</h3>
       <p class="tl-co">ACBP</p>
-      <p class="tl-desc" data-i18n="exp.2.desc">Prácticas no curriculares de verano. Diseño de interfaces para los programas industriales que desarrolla ACBP, aplicando metodologías UX centradas en el usuario.</p>
+      <p class="tl-desc" data-i18n="exp.2.desc">Diseño de interfaces para software industrial. Prototipado en Figma y metodologías centradas en el operario que usa el programa cada día.</p>
     </div>
     <div class="tl-item">
       <div class="tl-dot"></div>
-      <p class="tl-date" data-i18n="exp.3.date">2022 – Presente</p>
+      <p class="tl-date" data-i18n="exp.3.date">2021 – Actualidad</p>
       <h3 class="tl-role" data-i18n="exp.3.role">Diseñador Gráfico</h3>
       <p class="tl-co">Fútbol Peña Fragatina</p>
-      <p class="tl-desc" data-i18n="exp.3.desc">Diseño de la propuesta gráfica del equipo y gestión visual de redes sociales. Identidad visual, matchday graphics y comunicación digital continuada.</p>
+      <p class="tl-desc" data-i18n="exp.3.desc">Responsable de toda la imagen del club: identidad visual, matchday graphics, material impreso y gestión gráfica de redes sociales. Cliente real, cuatro temporadas, calendario semanal.</p>
     </div>
     <div class="tl-item">
       <div class="tl-dot"></div>
       <p class="tl-date">2022 – 2026</p>
       <h3 class="tl-role" data-i18n="exp.4.role">Grado en Diseño Digital y Tecnologías Multimedia</h3>
       <p class="tl-co">CITM UPC, Terrassa</p>
-      <p class="tl-desc" data-i18n="exp.4.desc">Formación universitaria en diseño digital, modelado 3D, UX/UI, vídeo, motion graphics, programación y tecnologías multimedia emergentes.</p>
-    </div>
-    <div class="tl-item">
-      <div class="tl-dot"></div>
-      <p class="tl-date">2016 – 2022</p>
-      <h3 class="tl-role" data-i18n="exp.5.role">Bachillerato Tecnológico</h3>
-      <p class="tl-co">IES Ramón J. Sender, Fraga</p>
-      <p class="tl-desc" data-i18n="exp.5.desc">Bachillerato Tecnológico. Trilingüe Castellano – Catalán – Inglés. Convenio con British Council (First Certificate B2).</p>
+      <p class="tl-desc" data-i18n="exp.4.desc">Diseño digital, 3D, UX/UI, vídeo, motion y programación. TFG: DEPROPIO, identidad de un festival de música de raíz aragonesa.</p>
     </div>
   </div>
 </section>
@@ -1207,7 +1174,7 @@
     <div class="available-dot"></div>
     <span data-i18n="contact.available">Disponible para proyectos</span>
   </div>
-  <p class="contact-cta reveal" data-i18n="contact.cta">Freelance · Prácticas · Colaboraciones</p>
+  <p class="contact-cta reveal" data-i18n="contact.cta">Disponible para proyectos, colaboraciones y nuevas oportunidades a partir de julio de 2026.</p>
   <a href="mailto:jcabreracarrasquer@gmail.com" class="contact-email reveal">
     jcabreracarrasquer@gmail.com
   </a>
@@ -1270,57 +1237,60 @@ const TRANSLATIONS = {
     'nav.about': 'Sobre mí',
     'nav.experience': 'Experiencia',
     'nav.contact': 'Contáctame',
-    'hero.sub': '<b>UX · Gráfico · 3D · Vídeo</b><br>Estudiante en CITM UPC, Terrassa.<br>Creatividad e innovación en cada proyecto.',
+    'hero.sub': 'Diseñador multimedia. Identidad visual y branding para <b>deporte y cultura</b>, con motion, 3D y producción con IA generativa.',
     'about.label': 'Sobre mí',
-    'about.role': 'Diseñador Digital & Multimedia',
-    'about.p1': 'Soy <b>Jorge Cabrera</b>, diseñador digital especializado en <b>UX, diseño gráfico, modelado 3D y edición de vídeo</b>.',
-    'about.p2': 'Me apasiona la <b>creatividad y la innovación</b>. He colaborado con equipos de fútbol, empresas industriales y agencias digitales, siempre buscando soluciones visuales que comuniquen de verdad.',
-    'about.stat.exp': 'Años de experiencia',
-    'about.stat.proj': 'Proyectos',
+    'about.role': 'Diseñador Multimedia',
+    'about.p1': 'Soy diseñador multimedia en Zaragoza. Desde 2021 llevo la identidad y la comunicación visual de <b>Peña Fragatina</b>, un club de fútbol con afición real y calendario real: cada jornada hay que publicar, y eso enseña más que cualquier asignatura. Desde marzo de 2026 formo parte del equipo de Comunicación de <b>Hiberus</b>, donde produzco contenido multimedia para campañas internas y externas.',
+    'about.p2': 'Mi terreno es el <b>branding con carácter</b>: marcas para deporte y cultura que funcionan igual en una camiseta, en un cartel o en una animación de logo. A eso le sumo un pipeline de IA generativa (Veo, Magnific, Suno, Gemini) con el que produzco vídeo, audio e imagen que antes habrían necesitado un equipo entero.',
+    'about.p3': 'En junio de 2026 termino el <b>Grado en Diseño Digital y Tecnologías Multimedia</b> en el CITM (UPC).',
+    'about.stat.seasons': 'Temporadas diseñando para un club de fútbol',
+    'about.stat.clients': 'Clientes reales',
     'about.stat.lang': 'Idiomas',
-    'about.stat.tools': 'Herramientas',
     'proj.label': 'Proyectos',
     'proj.title': 'Mi Trabajo',
-    'proj.subtitle': '07 proyectos seleccionados',
-    'card.fragatina.tag': 'Diseño Gráfico · Identidad Visual',
+    'proj.subtitle': '06 proyectos seleccionados',
     'card.tfg.tag': 'Identidad Visual · TFG',
     'card.tfg.title': 'DEPROPIO',
+    'card.tfg.desc': 'Identidad completa para un festival de música aragonés: sistema visual, señalética, merch y producción con IA. TFG, CITM UPC.',
+    'card.fragatina.tag': 'Diseño Gráfico · Identidad Visual',
+    'card.fragatina.desc': 'Cuatro temporadas como responsable de la imagen del club: identidad, matchday graphics y contenido para redes.',
+    'card.beyond.desc': 'Entorno de realidad virtual en Unity: modelado, iluminación y diseño de interacción.',
     'card.ikea.tag': 'Diseño · Producto · 3D',
     'card.ikea.title': 'Proyecto IKEA',
+    'card.ikea.desc': 'Diseño y visualización 3D de producto a partir de un briefing real de IKEA.',
     'card.bagon.tag': '3D · Modelado · Render',
+    'card.bagon.desc': 'Modelado orgánico y render de personaje en ZBrush y Maya.',
     'card.portfolio.title': 'Portfolio Personal',
-    'card.mvp.tag': 'Diseño Gráfico · Redes Sociales',
-    'card.otros.tag': 'Diseño Gráfico · Freelance',
-    'card.otros.title': 'Diseño Freelance',
-    'mq.ux': 'Diseño UX <span class="marquee-dot">✦</span>',
-    'mq.graphic': 'Diseño Gráfico <span class="marquee-dot">✦</span>',
-    'mq.3d': 'Modelado 3D <span class="marquee-dot">✦</span>',
-    'mq.video': 'Edición de Vídeo <span class="marquee-dot">✦</span>',
-    'mq.identity': 'Identidad Visual <span class="marquee-dot">✦</span>',
-    'mq.vr': 'Realidad Virtual <span class="marquee-dot">✦</span>',
-    'mq.motion': 'Motion Graphics <span class="marquee-dot">✦</span>',
-    'skills.label': 'Habilidades',
-    'skills.title': 'Mi Stack',
-    'skills.also': 'También',
+    'card.portfolio.desc': 'Este mismo sitio: diseñado en Figma y desarrollado con Claude Code. Animaciones con GSAP.',
+    'skills.label': 'Capacidades',
+    'skills.title': 'Lo que hago',
+    'sc.1.title': 'Identidad y branding',
+    'sc.1.desc': 'Sistemas de marca, dirección de arte y aplicación en cualquier soporte: digital, textil, impreso.',
+    'sc.2.title': 'Motion y vídeo',
+    'sc.2.desc': 'Animación de marca, matchday graphics animados, edición y postproducción.',
+    'sc.3.title': '3D y entornos',
+    'sc.3.desc': 'Modelado, texturizado y render de producto, personaje y entornos VR.',
+    'sc.4.title': 'Producto y UX',
+    'sc.4.desc': 'Interfaces para software industrial y prototipado de producto digital.',
+    'sc.5.title': 'IA generativa aplicada',
+    'sc.5.desc': 'Pipeline de producción con IA integrado en proyectos reales: vídeo, imagen, audio y código.',
     'exp.label': 'Trayectoria',
     'exp.title': 'Experiencia',
     'exp.1.date': 'Marzo 2026 – Actualidad',
     'exp.1.role': 'Diseñador Multimedia',
-    'exp.1.desc': 'Formo parte del equipo de Comunicación de hiberus, desarrollando contenido multimedia para diferentes campañas internas y externas de la empresa.',
+    'exp.1.desc': 'Contenido multimedia para campañas internas y externas dentro del equipo de Comunicación: vídeo, motion graphics y piezas gráficas para una de las principales tecnológicas de Aragón.',
     'exp.2.date': 'Jul – Ago 2024',
     'exp.2.role': 'Diseñador UX',
-    'exp.2.desc': 'Prácticas no curriculares de verano. Diseño de interfaces para los programas industriales que desarrolla ACBP, aplicando metodologías UX centradas en el usuario.',
-    'exp.3.date': '2022 – Presente',
+    'exp.2.desc': 'Diseño de interfaces para software industrial. Prototipado en Figma y metodologías centradas en el operario que usa el programa cada día.',
+    'exp.3.date': '2021 – Actualidad',
     'exp.3.role': 'Diseñador Gráfico',
-    'exp.3.desc': 'Diseño de la propuesta gráfica del equipo y gestión visual de redes sociales. Identidad visual, matchday graphics y comunicación digital continuada.',
+    'exp.3.desc': 'Responsable de toda la imagen del club: identidad visual, matchday graphics, material impreso y gestión gráfica de redes sociales. Cliente real, cuatro temporadas, calendario semanal.',
     'exp.4.role': 'Grado en Diseño Digital y Tecnologías Multimedia',
-    'exp.4.desc': 'Formación universitaria en diseño digital, modelado 3D, UX/UI, vídeo, motion graphics, programación y tecnologías multimedia emergentes.',
-    'exp.5.role': 'Bachillerato Tecnológico',
-    'exp.5.desc': 'Bachillerato Tecnológico. Trilingüe Castellano – Catalán – Inglés. Convenio con British Council (First Certificate B2).',
+    'exp.4.desc': 'Diseño digital, 3D, UX/UI, vídeo, motion y programación. TFG: DEPROPIO, identidad de un festival de música de raíz aragonesa.',
     'contact.label': '¿Trabajamos juntos?',
     'contact.title': 'Contacto',
     'contact.available': 'Disponible para proyectos',
-    'contact.cta': 'Freelance · Prácticas · Colaboraciones',
+    'contact.cta': 'Disponible para proyectos, colaboraciones y nuevas oportunidades a partir de julio de 2026.',
     'contact.location': 'Zaragoza, Aragón',
     'contact.btn': 'Contáctame',
     'footer.right': 'Diseño Digital & Multimedia · CITM UPC',
@@ -1330,57 +1300,60 @@ const TRANSLATIONS = {
     'nav.about': 'About',
     'nav.experience': 'Experience',
     'nav.contact': 'Contact',
-    'hero.sub': '<b>UX · Graphic · 3D · Video</b><br>Student at CITM UPC, Terrassa.<br>Creativity and innovation in every project.',
+    'hero.sub': 'Multimedia designer. Visual identity and branding for <b>sport and culture</b>, with motion, 3D and AI-powered production.',
     'about.label': 'About me',
-    'about.role': 'Digital & Multimedia Designer',
-    'about.p1': 'I\'m <b>Jorge Cabrera</b>, a digital designer specialised in <b>UX, graphic design, 3D modelling and video editing</b>.',
-    'about.p2': 'I\'m passionate about <b>creativity and innovation</b>. I have collaborated with football clubs, industrial companies and digital agencies, always seeking visual solutions that truly communicate.',
-    'about.stat.exp': 'Years of experience',
-    'about.stat.proj': 'Projects',
+    'about.role': 'Multimedia Designer',
+    'about.p1': 'I\'m a multimedia designer based in Zaragoza. Since 2021 I\'ve handled the identity and visual communication of <b>Peña Fragatina</b>, a football club with a real fanbase and a real match calendar — every matchday you publish, and that teaches you more than any course. Since March 2026 I\'m part of the Communications team at <b>Hiberus</b>, producing multimedia content for internal and external campaigns.',
+    'about.p2': 'My territory is <b>branding with character</b>: brands for sport and culture that work equally on a t-shirt, a poster or a logo animation. On top of that I run a generative AI pipeline (Veo, Magnific, Suno, Gemini) to produce video, audio and image that would previously have needed an entire team.',
+    'about.p3': 'In June 2026 I complete my <b>BSc in Digital Design and Multimedia Technologies</b> at CITM (UPC).',
+    'about.stat.seasons': 'Seasons designing for a football club',
+    'about.stat.clients': 'Real clients',
     'about.stat.lang': 'Languages',
-    'about.stat.tools': 'Tools',
     'proj.label': 'Projects',
     'proj.title': 'My Work',
-    'proj.subtitle': '07 selected projects',
-    'card.fragatina.tag': 'Graphic Design · Visual Identity',
+    'proj.subtitle': '06 selected projects',
     'card.tfg.tag': 'Visual Identity · Final Degree Project',
     'card.tfg.title': 'DEPROPIO',
+    'card.tfg.desc': 'Complete identity for an Aragonese music festival: visual system, wayfinding, merch and AI production. Final Degree Project, CITM UPC.',
+    'card.fragatina.tag': 'Graphic Design · Visual Identity',
+    'card.fragatina.desc': 'Four seasons as the club\'s visual identity lead: branding, matchday graphics and ongoing social content.',
+    'card.beyond.desc': 'Virtual reality environment in Unity: modelling, lighting and interaction design.',
     'card.ikea.tag': 'Design · Product · 3D',
     'card.ikea.title': 'IKEA Project',
+    'card.ikea.desc': 'Product design and 3D visualisation based on a real IKEA brief.',
     'card.bagon.tag': '3D · Modelling · Render',
+    'card.bagon.desc': 'Organic character modelling and render in ZBrush and Maya.',
     'card.portfolio.title': 'Personal Portfolio',
-    'card.mvp.tag': 'Graphic Design · Social Media',
-    'card.otros.tag': 'Graphic Design · Freelance',
-    'card.otros.title': 'Freelance Design',
-    'mq.ux': 'UX Design <span class="marquee-dot">✦</span>',
-    'mq.graphic': 'Graphic Design <span class="marquee-dot">✦</span>',
-    'mq.3d': '3D Modelling <span class="marquee-dot">✦</span>',
-    'mq.video': 'Video Editing <span class="marquee-dot">✦</span>',
-    'mq.identity': 'Visual Identity <span class="marquee-dot">✦</span>',
-    'mq.vr': 'Virtual Reality <span class="marquee-dot">✦</span>',
-    'mq.motion': 'Motion Graphics <span class="marquee-dot">✦</span>',
-    'skills.label': 'Skills',
-    'skills.title': 'My Stack',
-    'skills.also': 'Also',
+    'card.portfolio.desc': 'This very site: designed in Figma and built with Claude Code. Animations powered by GSAP.',
+    'skills.label': 'Capabilities',
+    'skills.title': 'What I do',
+    'sc.1.title': 'Identity & branding',
+    'sc.1.desc': 'Brand systems, art direction and application across any medium: digital, textile, print.',
+    'sc.2.title': 'Motion & video',
+    'sc.2.desc': 'Brand animation, animated matchday graphics, editing and post-production.',
+    'sc.3.title': '3D & environments',
+    'sc.3.desc': 'Modelling, texturing and rendering of products, characters and VR environments.',
+    'sc.4.title': 'Product & UX',
+    'sc.4.desc': 'Interfaces for industrial software and digital product prototyping.',
+    'sc.5.title': 'Applied generative AI',
+    'sc.5.desc': 'AI production pipeline integrated into real projects: video, image, audio and code.',
     'exp.label': 'Career',
     'exp.title': 'Experience',
     'exp.1.date': 'March 2026 – Present',
     'exp.1.role': 'Multimedia Designer',
-    'exp.1.desc': 'Part of the Communications team at Hiberus, developing multimedia content for different internal and external company campaigns.',
+    'exp.1.desc': 'Multimedia content for internal and external campaigns within the Communications team: video, motion graphics and graphic assets for one of Aragón\'s leading tech companies.',
     'exp.2.date': 'Jul – Aug 2024',
     'exp.2.role': 'UX Designer',
-    'exp.2.desc': 'Summer non-curricular internship. Interface design for industrial software developed by ACBP, applying user-centred UX methodologies.',
-    'exp.3.date': '2022 – Present',
+    'exp.2.desc': 'Interface design for industrial software. Figma prototyping and methodologies centred on the operator who uses the software every day.',
+    'exp.3.date': '2021 – Present',
     'exp.3.role': 'Graphic Designer',
-    'exp.3.desc': 'Design of the team\'s graphic identity and visual management of social media. Visual identity, matchday graphics and ongoing digital communication.',
+    'exp.3.desc': 'Responsible for the club\'s entire visual identity: branding, matchday graphics, print materials and social media management. Real client, four seasons, weekly calendar.',
     'exp.4.role': 'BSc in Digital Design and Multimedia Technologies',
-    'exp.4.desc': 'University degree in digital design, 3D modelling, UX/UI, video, motion graphics, programming and emerging multimedia technologies.',
-    'exp.5.role': 'Technological Baccalaureate',
-    'exp.5.desc': 'Technological Baccalaureate. Trilingual Spanish – Catalan – English. British Council agreement (First Certificate B2).',
+    'exp.4.desc': 'Digital design, 3D, UX/UI, video, motion and programming. Final project: DEPROPIO, identity for an Aragonese music festival.',
     'contact.label': 'Shall we work together?',
     'contact.title': 'Contact',
     'contact.available': 'Available for projects',
-    'contact.cta': 'Freelance · Internships · Collaborations',
+    'contact.cta': 'Available for projects, collaborations and new opportunities from July 2026.',
     'contact.location': 'Zaragoza, Spain',
     'contact.btn': 'Contact me',
     'footer.right': 'Digital & Multimedia Design · CITM UPC',
