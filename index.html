@@ -8,6 +8,15 @@
   <meta property="og:title" content="Jorge Cabrera — Diseñador Multimedia">
   <meta property="og:description" content="Branding para deporte y cultura · Motion · 3D · IA generativa">
   <meta property="og:type" content="website">
+  <meta property="og:image" content="/assets/OG-cover.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="/assets/OG-cover.png">
+  <link rel="canonical" href="https://jcabreradesignportfolio.vercel.app/">
+  <link rel="alternate" hreflang="es" href="https://jcabreradesignportfolio.vercel.app/">
+  <link rel="alternate" hreflang="en" href="https://jcabreradesignportfolio.vercel.app/?lang=en">
+  <link rel="alternate" hreflang="x-default" href="https://jcabreradesignportfolio.vercel.app/">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
@@ -745,27 +754,39 @@
       .sb-zbr   { grid-column: 2; grid-row: 3; }
     }
 
-    /* ── LAYERED TEXT ── */
-    #layeredText {
-      cursor: pointer;
-      font-family: 'Inter', system-ui, sans-serif;
-      font-weight: 900;
-      font-size: clamp(58px, 8.5vw, 120px);
-      letter-spacing: -3px;
-      text-transform: uppercase;
-      color: var(--text);
-      user-select: none;
+    /* ── HERO MAIN ── */
+    .hero-main {
+      display: flex; flex-direction: column; align-items: center; text-align: center;
+      position: relative; z-index: 1; gap: 20px;
+    }
+    .hero-badge-small {
+      font-size: 9px; font-weight: 700; letter-spacing: .5em; text-transform: uppercase;
+      color: var(--accent); opacity: .85;
+    }
+    .hero-name {
+      font-size: clamp(72px, 12vw, 170px);
+      font-weight: 900; line-height: .88;
+      letter-spacing: -.04em; text-transform: uppercase;
+      color: var(--text); user-select: none;
       -webkit-font-smoothing: antialiased;
-      position: relative; z-index: 1;
     }
-    .lt-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; align-items: center; }
-    .lt-item { overflow: hidden; position: relative; height: clamp(50px, 7.4vw, 104px); }
-    .lt-item p { padding: 0 15px; white-space: nowrap; margin: 0; height: clamp(50px, 7.4vw, 104px); line-height: clamp(46px, 6.8vw, 96px); }
+    .hero-role {
+      font-size: clamp(11px, 1vw, 14px);
+      font-weight: 500; letter-spacing: .35em; text-transform: uppercase;
+      color: var(--muted);
+    }
     @media (max-width: 768px) {
-      #layeredText { font-size: 36px; letter-spacing: -1px; }
-      .lt-item { height: 35px; }
-      .lt-item p { height: 35px; line-height: 30px; }
+      .hero-name { font-size: 56px; letter-spacing: -.03em; }
     }
+
+  /* ── REDUCED MOTION ── */
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track { animation-play-state: paused; }
+    .grain { animation: none; opacity: 0; }
+    .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+    .scroll-track::after { animation: none; }
+    * { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+  }
 
   /* ── LANGUAGE SWITCHER ── */
   #lang-switcher {
@@ -789,6 +810,30 @@
     box-shadow: 0 0 0 2px rgba(255,107,53,.7), 0 2px 10px rgba(0,0,0,.45);
   }
   .lang-btn:hover:not(.lang-active) { opacity: .65; transform: scale(1.06); }
+
+  /* ── CLIENTS STRIP ── */
+  .clients-strip {
+    padding: 60px 56px;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    display: flex; flex-direction: column; align-items: center; gap: 32px;
+  }
+  .clients-label {
+    font-size: 9px; font-weight: 700; letter-spacing: .45em; text-transform: uppercase;
+    color: var(--muted); opacity: .6;
+  }
+  .clients-logos {
+    display: flex; align-items: center; justify-content: center;
+    gap: 72px; flex-wrap: wrap;
+  }
+  .client-logo {
+    height: 32px; width: auto;
+    opacity: .35; filter: brightness(0) invert(1);
+    transition: opacity .3s;
+    object-fit: contain;
+  }
+  .client-logo--square { height: 48px; }
+  .client-logo:hover { opacity: .7; }
 
   /* ── SKILLS CAPABILITIES ── */
   .skills-capabilities {
@@ -877,7 +922,7 @@
     <li><a href="#skills-wrap">Skills</a></li>
     <li><a href="#experience" data-i18n="nav.experience">Experiencia</a></li>
   </ul>
-  <a href="mailto:jcabreracarrasquer@gmail.com" class="nav-contact shiny-cta"><span data-i18n="nav.contact">Contáctame</span></a>
+  <a href="#contact" class="nav-contact shiny-cta" id="navContactBtn"><span data-i18n="nav.contact">Contáctame</span></a>
 </nav>
 
 
@@ -885,30 +930,10 @@
 <section id="hero">
   <div class="hero-grid"></div>
   <canvas id="hero-canvas"></canvas>
-  <div id="layeredText">
-    <ul class="lt-list">
-      <li class="lt-item" style="transform:translateX(-120px) skew(60deg,-30deg) scaleY(0.66667)">
-        <p>&nbsp;</p><p>BRANDING</p>
-      </li>
-      <li class="lt-item" style="transform:translateX(-80px) skew(0deg,-30deg) scaleY(1.33333)">
-        <p>BRANDING</p><p>MOTION</p>
-      </li>
-      <li class="lt-item" style="transform:translateX(-40px) skew(60deg,-30deg) scaleY(0.66667)">
-        <p>MOTION</p><p>IDENTIDAD</p>
-      </li>
-      <li class="lt-item" style="transform:translateX(0px) skew(0deg,-30deg) scaleY(1.33333)">
-        <p>IDENTIDAD</p><p>3D</p>
-      </li>
-      <li class="lt-item" style="transform:translateX(40px) skew(60deg,-30deg) scaleY(0.66667)">
-        <p>3D</p><p>IA</p>
-      </li>
-      <li class="lt-item" style="transform:translateX(80px) skew(0deg,-30deg) scaleY(1.33333)">
-        <p>IA</p><p>DEPORTE</p>
-      </li>
-      <li class="lt-item" style="transform:translateX(120px) skew(60deg,-30deg) scaleY(0.66667)">
-        <p>DEPORTE</p><p>&nbsp;</p>
-      </li>
-    </ul>
+  <div class="hero-main">
+    <span class="hero-badge-small">CITM UPC '26</span>
+    <h1 class="hero-name">Jorge<br>Cabrera</h1>
+    <p class="hero-role" data-i18n="hero.role">Diseñador Multimedia</p>
   </div>
   <div class="hero-bottom">
     <p class="hero-sub" data-i18n-html="hero.sub">Diseñador multimedia. Identidad visual y branding para <b>deporte y cultura</b>, con motion, 3D y producción con IA generativa.</p>
@@ -939,23 +964,8 @@
   </div>
   <div class="about-content">
     <p class="s-label" data-i18n="about.label">Sobre mí</p>
-    <p class="about-text reveal" data-i18n-html="about.p1">Soy diseñador multimedia en Zaragoza. Desde 2021 llevo la identidad y la comunicación visual de <b>Peña Fragatina</b>, un club de fútbol con afición real y calendario real: cada jornada hay que publicar, y eso enseña más que cualquier asignatura. Desde marzo de 2026 formo parte del equipo de Comunicación de <b>Hiberus</b>, donde produzco contenido multimedia para campañas internas y externas.</p>
+    <p class="about-text reveal" data-i18n-html="about.p1">Soy diseñador multimedia en Zaragoza. Desde 2021 llevo la identidad y la comunicación visual de <b>Peña Fragatina</b>, un club de fútbol aragonés con cuatro temporadas de trabajo continuo. Desde marzo de 2026 formo parte del equipo de Comunicación de <b>hiberus</b>, donde produzco contenido multimedia para campañas internas y externas.</p>
     <p class="about-text reveal" data-i18n-html="about.p2">Mi terreno es el <b>branding con carácter</b>: marcas para deporte y cultura que funcionan igual en una camiseta, en un cartel o en una animación de logo. A eso le sumo un pipeline de IA generativa (Veo, Magnific, Suno, Gemini) con el que produzco vídeo, audio e imagen que antes habrían necesitado un equipo entero.</p>
-    <p class="about-text reveal" data-i18n-html="about.p3">En junio de 2026 termino el <b>Grado en Diseño Digital y Tecnologías Multimedia</b> en el CITM (UPC).</p>
-    <div class="about-stats">
-      <div class="reveal">
-        <div class="stat-n" data-target="4">4</div>
-        <p class="stat-l" data-i18n="about.stat.seasons">Temporadas diseñando para un club de fútbol</p>
-      </div>
-      <div class="reveal">
-        <div class="stat-n" data-target="2">2</div>
-        <p class="stat-l" data-i18n="about.stat.clients">Clientes reales</p>
-      </div>
-      <div class="reveal">
-        <div class="stat-n" data-target="3">3</div>
-        <p class="stat-l" data-i18n="about.stat.lang">Idiomas</p>
-      </div>
-    </div>
   </div>
 </section>
 
@@ -1007,7 +1017,7 @@
     <!-- 03 Beyond Reality -->
     <div class="proj-grid-card" data-project="beyond">
       <div class="pgc-img-wrap">
-        <img src="assets/projects/beyond/estanteria1.png" alt="Beyond Reality" class="pgc-img">
+        <img src="assets/projects/beyond/estanteria1.png" alt="Beyond Reality" class="pgc-img" loading="lazy">
         <div class="pgc-shine"></div>
         <span class="pgc-tag">3D · VR · Unity</span>
       </div>
@@ -1024,7 +1034,7 @@
     <!-- 04 IKEA -->
     <div class="proj-grid-card" data-project="ikea">
       <div class="pgc-img-wrap">
-        <img src="assets/projects/ikea/portada.jpg" alt="IKEA" class="pgc-img">
+        <img src="assets/projects/ikea/portada.jpg" alt="IKEA" class="pgc-img" loading="lazy">
         <div class="pgc-shine"></div>
         <span class="pgc-tag" data-i18n="card.ikea.tag">Diseño · Producto · 3D</span>
       </div>
@@ -1041,7 +1051,7 @@
     <!-- 05 Bagon -->
     <div class="proj-grid-card pgc-featured" data-project="bagon">
       <div class="pgc-img-wrap">
-        <img src="assets/projects/bagon/1.jpg" alt="Bagon" class="pgc-img">
+        <img src="assets/projects/bagon/1.jpg" alt="Bagon" class="pgc-img" loading="lazy">
         <div class="pgc-shine"></div>
         <span class="pgc-tag" data-i18n="card.bagon.tag">3D · Modelado · Render</span>
       </div>
@@ -1058,7 +1068,7 @@
     <!-- 06 Portfolio Personal -->
     <div class="proj-grid-card pgc-featured pgc-ai" data-project="portfolio">
       <div class="pgc-img-wrap">
-        <img src="assets/projects/portfolio/cap1.png" alt="Portfolio Personal" class="pgc-img">
+        <img src="assets/projects/portfolio/cap1.png" alt="Portfolio Personal" class="pgc-img" loading="lazy">
         <div class="pgc-shine"></div>
         <span class="pgc-tag">Claude Code · GSAP · Figma</span>
       </div>
@@ -1085,13 +1095,23 @@
     <span class="marquee-item">IA Generativa <span class="marquee-dot">✦</span></span>
     <span class="marquee-item">Deporte <span class="marquee-dot">✦</span></span>
     <span class="marquee-item">Cultura <span class="marquee-dot">✦</span></span>
-    <span class="marquee-item">Branding <span class="marquee-dot">✦</span></span>
-    <span class="marquee-item">Motion <span class="marquee-dot">✦</span></span>
-    <span class="marquee-item">Identidad <span class="marquee-dot">✦</span></span>
-    <span class="marquee-item">3D <span class="marquee-dot">✦</span></span>
-    <span class="marquee-item">IA Generativa <span class="marquee-dot">✦</span></span>
-    <span class="marquee-item">Deporte <span class="marquee-dot">✦</span></span>
-    <span class="marquee-item">Cultura <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item" aria-hidden="true">Branding <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item" aria-hidden="true">Motion <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item" aria-hidden="true">Identidad <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item" aria-hidden="true">3D <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item" aria-hidden="true">IA Generativa <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item" aria-hidden="true">Deporte <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item" aria-hidden="true">Cultura <span class="marquee-dot">✦</span></span>
+  </div>
+</div>
+
+<!-- CLIENTS STRIP -->
+<div class="clients-strip">
+  <p class="clients-label" data-i18n="clients.label">He trabajado con</p>
+  <div class="clients-logos">
+    <img src="assets/hiberus_azul_nuevo.png" alt="hiberus" class="client-logo" loading="lazy">
+    <img src="assets/Logo-ACBP.png" alt="ACBP" class="client-logo" loading="lazy">
+    <img src="assets/FUTBOL PEÑA - copia.png" alt="Peña Fragatina" class="client-logo client-logo--square" loading="lazy">
   </div>
 </div>
 
@@ -1118,8 +1138,8 @@
 
     <div class="sc-card reveal">
       <p class="sc-num">03</p>
-      <h3 class="sc-title" data-i18n="sc.3.title">3D y entornos</h3>
-      <p class="sc-desc" data-i18n="sc.3.desc">Modelado, texturizado y render de producto, personaje y entornos VR.</p>
+      <h3 class="sc-title" data-i18n="sc.3.title">3D · Formación</h3>
+      <p class="sc-desc" data-i18n="sc.3.desc">Modelado, texturizado y render de personaje, producto y entornos VR. Base técnica adquirida en el CITM que me permite leer y comunicarme con equipos 3D.</p>
       <p class="sc-tools">Maya · ZBrush · Substance Painter · Blender · Unity</p>
     </div>
 
@@ -1169,7 +1189,7 @@
       <div class="tl-dot"></div>
       <p class="tl-date" data-i18n="exp.1.date">Marzo 2026 – Actualidad</p>
       <h3 class="tl-role" data-i18n="exp.1.role">Diseñador Multimedia</h3>
-      <p class="tl-co">Hiberus, Zaragoza</p>
+      <p class="tl-co">hiberus, Zaragoza</p>
       <p class="tl-desc" data-i18n="exp.1.desc">Contenido multimedia para campañas internas y externas dentro del equipo de Comunicación: vídeo, motion graphics y piezas gráficas para una de las principales tecnológicas de Aragón.</p>
     </div>
     <div class="tl-item">
@@ -1284,12 +1304,12 @@ const TRANSLATIONS = {
     'nav.about': 'Sobre mí',
     'nav.experience': 'Experiencia',
     'nav.contact': 'Contáctame',
+    'hero.role': 'Diseñador Multimedia',
     'hero.sub': 'Diseñador multimedia. Identidad visual y branding para <b>deporte y cultura</b>, con motion, 3D y producción con IA generativa.',
     'about.label': 'Sobre mí',
     'about.role': 'Diseñador Multimedia',
-    'about.p1': 'Soy diseñador multimedia en Zaragoza. Desde 2021 llevo la identidad y la comunicación visual de <b>Peña Fragatina</b>, un club de fútbol con afición real y calendario real: cada jornada hay que publicar, y eso enseña más que cualquier asignatura. Desde marzo de 2026 formo parte del equipo de Comunicación de <b>Hiberus</b>, donde produzco contenido multimedia para campañas internas y externas.',
+    'about.p1': 'Soy diseñador multimedia en Zaragoza. Desde 2021 llevo la identidad y la comunicación visual de <b>Peña Fragatina</b>, un club de fútbol aragonés con cuatro temporadas de trabajo continuo. Desde marzo de 2026 formo parte del equipo de Comunicación de <b>hiberus</b>, donde produzco contenido multimedia para campañas internas y externas.',
     'about.p2': 'Mi terreno es el <b>branding con carácter</b>: marcas para deporte y cultura que funcionan igual en una camiseta, en un cartel o en una animación de logo. A eso le sumo un pipeline de IA generativa (Veo, Magnific, Suno, Gemini) con el que produzco vídeo, audio e imagen que antes habrían necesitado un equipo entero.',
-    'about.p3': 'En junio de 2026 termino el <b>Grado en Diseño Digital y Tecnologías Multimedia</b> en el CITM (UPC).',
     'about.stat.seasons': 'Temporadas diseñando para un club de fútbol',
     'about.stat.clients': 'Clientes reales',
     'about.stat.lang': 'Idiomas',
@@ -1309,14 +1329,15 @@ const TRANSLATIONS = {
     'card.bagon.desc': 'Modelado orgánico y render de personaje en ZBrush y Maya.',
     'card.portfolio.title': 'Portfolio Personal',
     'card.portfolio.desc': 'Este mismo sitio: diseñado en Figma y desarrollado con Claude Code. Animaciones con GSAP.',
+    'clients.label': 'He trabajado con',
     'skills.label': 'Capacidades',
     'skills.title': 'Lo que hago',
     'sc.1.title': 'Identidad y branding',
     'sc.1.desc': 'Sistemas de marca, dirección de arte y aplicación en cualquier soporte: digital, textil, impreso.',
     'sc.2.title': 'Motion y vídeo',
     'sc.2.desc': 'Animación de marca, matchday graphics animados, edición y postproducción.',
-    'sc.3.title': '3D y entornos',
-    'sc.3.desc': 'Modelado, texturizado y render de producto, personaje y entornos VR.',
+    'sc.3.title': '3D · Formación',
+    'sc.3.desc': 'Modelado, texturizado y render de personaje, producto y entornos VR. Base técnica adquirida en el CITM que me permite leer y comunicarme con equipos 3D.',
     'sc.4.title': 'Producto y UX',
     'sc.4.desc': 'Interfaces para software industrial y prototipado de producto digital.',
     'sc.5.title': 'IA generativa aplicada',
@@ -1351,12 +1372,12 @@ const TRANSLATIONS = {
     'nav.about': 'About',
     'nav.experience': 'Experience',
     'nav.contact': 'Contact',
+    'hero.role': 'Multimedia Designer',
     'hero.sub': 'Multimedia designer. Visual identity and branding for <b>sport and culture</b>, with motion, 3D and AI-powered production.',
     'about.label': 'About me',
     'about.role': 'Multimedia Designer',
-    'about.p1': 'I\'m a multimedia designer based in Zaragoza. Since 2021 I\'ve handled the identity and visual communication of <b>Peña Fragatina</b>, a football club with a real fanbase and a real match calendar — every matchday you publish, and that teaches you more than any course. Since March 2026 I\'m part of the Communications team at <b>Hiberus</b>, producing multimedia content for internal and external campaigns.',
+    'about.p1': 'I\'m a multimedia designer based in Zaragoza. Since 2021 I\'ve handled the identity and visual communication of <b>Peña Fragatina</b>, an Aragonese football club — four seasons of continuous work. Since March 2026 I\'m part of the Communications team at <b>hiberus</b>, producing multimedia content for internal and external campaigns.',
     'about.p2': 'My territory is <b>branding with character</b>: brands for sport and culture that work equally on a t-shirt, a poster or a logo animation. On top of that I run a generative AI pipeline (Veo, Magnific, Suno, Gemini) to produce video, audio and image that would previously have needed an entire team.',
-    'about.p3': 'In June 2026 I complete my <b>BSc in Digital Design and Multimedia Technologies</b> at CITM (UPC).',
     'about.stat.seasons': 'Seasons designing for a football club',
     'about.stat.clients': 'Real clients',
     'about.stat.lang': 'Languages',
@@ -1376,14 +1397,15 @@ const TRANSLATIONS = {
     'card.bagon.desc': 'Organic character modelling and render in ZBrush and Maya.',
     'card.portfolio.title': 'Personal Portfolio',
     'card.portfolio.desc': 'This very site: designed in Figma and built with Claude Code. Animations powered by GSAP.',
+    'clients.label': 'Worked with',
     'skills.label': 'Capabilities',
     'skills.title': 'What I do',
     'sc.1.title': 'Identity & branding',
     'sc.1.desc': 'Brand systems, art direction and application across any medium: digital, textile, print.',
     'sc.2.title': 'Motion & video',
     'sc.2.desc': 'Brand animation, animated matchday graphics, editing and post-production.',
-    'sc.3.title': '3D & environments',
-    'sc.3.desc': 'Modelling, texturing and rendering of products, characters and VR environments.',
+    'sc.3.title': '3D · Training',
+    'sc.3.desc': 'Character, product and VR environment modelling and rendering. Technical foundation from CITM that lets me read briefs and collaborate with 3D teams.',
     'sc.4.title': 'Product & UX',
     'sc.4.desc': 'Interfaces for industrial software and digital product prototyping.',
     'sc.5.title': 'Applied generative AI',
@@ -1542,7 +1564,7 @@ function initAnimations() {
 
 
   /* — hero — */
-  gsap.from('#layeredText', { opacity: 0, y: 50, duration: 1.1, delay: 0.25, ease: 'power3.out' });
+  gsap.from('.hero-main', { opacity: 0, y: 50, duration: 1.1, delay: 0.25, ease: 'power3.out' });
   gsap.to('.hero-bottom', { opacity: 1, duration: 0.9, delay: 0.85, ease: 'power3.out' });
   gsap.set('#nav', { y: -20 });
 
@@ -1579,17 +1601,12 @@ function initAnimations() {
     });
   });
 
-  /* — layered text hover — */
-  (function() {
-    const container = document.getElementById('layeredText');
-    if (!container) return;
-    const paragraphs = container.querySelectorAll('p');
-    const h = container.querySelector('.lt-item')?.offsetHeight || 60;
-    const tl = gsap.timeline({ paused: true });
-    tl.to(paragraphs, { y: -h, duration: 0.8, ease: 'power2.out', stagger: 0.08 });
-    container.addEventListener('mouseenter', () => tl.play());
-    container.addEventListener('mouseleave', () => tl.reverse());
-  })();
+  /* — smooth scroll for nav contact button — */
+  document.getElementById('navContactBtn')?.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.getElementById('contact');
+    if (target) target.scrollIntoView({ behavior: 'smooth' });
+  });
 
   /* — letter flip on section titles — */
   document.querySelectorAll('.s-title').forEach(el => splitAndFlip(el));
@@ -1797,6 +1814,7 @@ window.addEventListener('scroll', () => {
   gsap.set(visual, { transformPerspective: 900 });
 
   visual.addEventListener('mousemove', e => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const r  = visual.getBoundingClientRect();
     const dx = (e.clientX - r.left  - r.width  / 2) / (r.width  / 2);
     const dy = (e.clientY - r.top   - r.height / 2) / (r.height / 2);
