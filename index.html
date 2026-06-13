@@ -812,6 +812,36 @@
     .sc-card--wide { grid-column: 1; }
   }
 
+  /* ── CONTACT FORM ── */
+  .contact-form {
+    max-width: 560px; margin: 0 auto 48px;
+    display: flex; flex-direction: column; gap: 14px;
+    text-align: left;
+  }
+  .cf-field { display: flex; flex-direction: column; gap: 7px; }
+  .cf-label {
+    font-size: 10px; font-weight: 700; letter-spacing: .25em;
+    text-transform: uppercase; color: var(--muted);
+  }
+  .cf-input, .cf-textarea {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 13px 16px;
+    font-family: 'Inter', sans-serif; font-size: 15px;
+    color: var(--text); outline: none; width: 100%;
+    transition: border-color .25s;
+  }
+  .cf-input:focus, .cf-textarea:focus { border-color: var(--accent); }
+  .cf-input::placeholder, .cf-textarea::placeholder { color: var(--muted); opacity: .5; }
+  .cf-textarea { resize: vertical; min-height: 120px; }
+  .cf-submit { align-self: center; margin-top: 8px; padding: 1.1rem 2.6rem; font-size: 13px; cursor: pointer; }
+  .cf-success {
+    display: none; max-width: 560px; margin: 0 auto 48px;
+    padding: 24px; text-align: center;
+    background: rgba(74,222,128,.06); border: 1px solid rgba(74,222,128,.2);
+    border-radius: 12px; color: #4ade80; font-size: 15px; font-weight: 500;
+  }
+  .cf-success.show { display: block; }
+
   </style>
 </head>
 <body>
@@ -1175,13 +1205,30 @@
     <span data-i18n="contact.available">Disponible para proyectos</span>
   </div>
   <p class="contact-cta reveal" data-i18n="contact.cta">Disponible para proyectos, colaboraciones y nuevas oportunidades a partir de julio de 2026.</p>
+
+  <form class="contact-form reveal" id="contactForm" action="https://formspree.io/f/xeewprjy" method="POST">
+    <div class="cf-field">
+      <label class="cf-label" for="cf-name" data-i18n="form.name">Nombre</label>
+      <input class="cf-input" type="text" id="cf-name" name="name" required placeholder="Tu nombre">
+    </div>
+    <div class="cf-field">
+      <label class="cf-label" for="cf-email">Email</label>
+      <input class="cf-input" type="email" id="cf-email" name="email" required placeholder="tu@email.com">
+    </div>
+    <div class="cf-field">
+      <label class="cf-label" for="cf-msg" data-i18n="form.msg">¿Qué tienes en mente?</label>
+      <textarea class="cf-textarea" id="cf-msg" name="message" required placeholder="Cuéntame tu proyecto..."></textarea>
+    </div>
+    <button type="submit" class="shiny-cta cf-submit"><span data-i18n="form.submit">Enviar</span></button>
+  </form>
+  <div class="cf-success" id="cfSuccess">
+    <span data-i18n="form.success">Recibido. Te contesto en menos de 24 horas.</span>
+  </div>
+
   <a href="mailto:jcabreracarrasquer@gmail.com" class="contact-email reveal">
     jcabreracarrasquer@gmail.com
   </a>
   <p class="contact-phone reveal" data-i18n="contact.location">Zaragoza, Aragón</p>
-  <a href="mailto:jcabreracarrasquer@gmail.com" class="shiny-cta reveal" style="padding:1.1rem 2.6rem;font-size:13px;margin-bottom:56px;">
-    <span data-i18n="contact.btn">Contáctame</span>
-  </a>
   <div class="contact-socials reveal">
     <a href="https://www.linkedin.com/in/jorge-cabrera-carrasquer-6bb2b6380" target="_blank" class="soc-btn">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.76 0-5 2.24-5 5v14c0 2.76 2.24 5 5 5h14c2.76 0 5-2.24 5-5v-14c0-2.76-2.24-5-5-5zm-11 19h-3v-10h3v10zm-1.5-11.27c-.97 0-1.75-.79-1.75-1.76s.78-1.76 1.75-1.76 1.75.79 1.75 1.76-.78 1.76-1.75 1.76zm13.5 11.27h-3v-5.5c0-1.38-.03-3.16-1.93-3.16-1.93 0-2.23 1.51-2.23 3.06v5.6h-3v-10h2.88v1.37h.04c.4-.76 1.38-1.56 2.84-1.56 3.04 0 3.6 2 3.6 4.59v5.6z"/></svg>
@@ -1293,6 +1340,10 @@ const TRANSLATIONS = {
     'contact.cta': 'Disponible para proyectos, colaboraciones y nuevas oportunidades a partir de julio de 2026.',
     'contact.location': 'Zaragoza, Aragón',
     'contact.btn': 'Contáctame',
+    'form.name': 'Nombre',
+    'form.msg': '¿Qué tienes en mente?',
+    'form.submit': 'Enviar',
+    'form.success': 'Recibido. Te contesto en menos de 24 horas.',
     'footer.right': 'Diseño Digital & Multimedia · CITM UPC',
   },
   en: {
@@ -1356,6 +1407,10 @@ const TRANSLATIONS = {
     'contact.cta': 'Available for projects, collaborations and new opportunities from July 2026.',
     'contact.location': 'Zaragoza, Spain',
     'contact.btn': 'Contact me',
+    'form.name': 'Name',
+    'form.msg': 'What do you have in mind?',
+    'form.submit': 'Send',
+    'form.success': 'Received. I\'ll get back to you within 24 hours.',
     'footer.right': 'Digital & Multimedia Design · CITM UPC',
   }
 };
@@ -1381,6 +1436,32 @@ document.querySelectorAll('.lang-btn').forEach(btn =>
   btn.addEventListener('click', () => setLang(btn.dataset.lang))
 );
 setLang(localStorage.getItem('portfolio-lang') || 'es');
+
+/* ── CONTACT FORM ── */
+(function() {
+  const form = document.getElementById('contactForm');
+  if (!form) return;
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const btn = form.querySelector('button[type="submit"]');
+    btn.disabled = true;
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      });
+      if (res.ok) {
+        form.style.display = 'none';
+        document.getElementById('cfSuccess').classList.add('show');
+      } else {
+        btn.disabled = false;
+      }
+    } catch(_) {
+      btn.disabled = false;
+    }
+  });
+})();
 
 /* ── SCROLL PROGRESS ── */
 window.addEventListener('scroll', () => {
