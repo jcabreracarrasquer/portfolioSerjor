@@ -27,7 +27,10 @@
       "Bash(git -C \"C:\\\\Users\\\\Jorge\\\\OneDrive\\\\Escritorio\\\\pena-kit\" add app/page.tsx components/ package.json package-lock.json .claude/)",
       "Bash(git -C 'C:\\\\Users\\\\Jorge\\\\OneDrive\\\\Escritorio\\\\pena-kit' commit -m ' *)",
       "Bash(git -C \"C:\\\\Users\\\\Jorge\\\\OneDrive\\\\Escritorio\\\\portfolioWeb\" add .claude/launch.json .claude/settings.local.json)",
-      "Bash(git -C 'C:\\\\Users\\\\Jorge\\\\OneDrive\\\\Escritorio\\\\portfolioWeb' commit -m ' *)"
+      "Bash(git -C 'C:\\\\Users\\\\Jorge\\\\OneDrive\\\\Escritorio\\\\portfolioWeb' commit -m ' *)",
+      "Bash(cp \"C:\\\\Users\\\\Jorge\\\\OneDrive\\\\Escritorio\\\\pena-kit\\\\middleware.ts\" \"C:\\\\Users\\\\Jorge\\\\OneDrive\\\\Escritorio\\\\pena-kit\\\\proxy.ts\")",
+      "Bash(rm \"C:\\\\Users\\\\Jorge\\\\OneDrive\\\\Escritorio\\\\pena-kit\\\\middleware.ts\")",
+      "Bash(ls /mnt/c/Users/Jorge/OneDrive/Escritorio/portfolioWeb/assets/projects/fragatina/)"
     ]
   }
 }

@@ -56,11 +56,9 @@
     .aside-value { font-size:15px;font-weight:600;color:var(--text);line-height:1.6; }
     .aside-divider { height:1px;background:var(--border); }
 
-    .gallery-grid { display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:0 80px 120px; }
-    .gallery-grid img { width:100%;border-radius:10px;object-fit:cover;aspect-ratio:4/3;cursor:zoom-in;transition:transform .4s,opacity .3s;border:1px solid var(--border); }
+    .gallery-grid { display:grid;grid-template-columns:repeat(9,1fr);gap:4px;padding:0 80px 120px; }
+    .gallery-grid img { width:100%;border-radius:4px;object-fit:cover;aspect-ratio:1;cursor:zoom-in;transition:transform .4s,opacity .3s;border:1px solid var(--border); }
     .gallery-grid img:hover { transform:scale(1.02);opacity:.88; }
-    .gallery-grid img.wide { grid-column:span 4;aspect-ratio:21/7; }
-    .gallery-grid img.half { grid-column:span 1; }
 
     .proj-nav { display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--border); }
     .proj-nav-item { padding:48px 80px;display:flex;flex-direction:column;gap:12px;text-decoration:none;transition:background .3s; }
@@ -83,7 +81,7 @@
       #nav{padding:0 24px;}.hero-content{padding:0 32px 56px;}.hero-scroll{right:32px;}
       .overview{grid-template-columns:1fr 1fr;}.ov-item:nth-child(2){border-right:none;}.ov-item:nth-child(3){border-top:1px solid var(--border);}
       .section{padding:80px 32px;}.section-sm{padding:56px 32px 0;}.desc-grid{grid-template-columns:1fr;gap:48px;}
-      .gallery-grid{grid-template-columns:1fr 1fr;padding:0 32px 80px;}.gallery-grid img.wide{grid-column:span 2;}.proj-nav-item{padding:40px 32px;}
+      .gallery-grid{grid-template-columns:repeat(4,1fr);padding:0 32px 80px;}.proj-nav-item{padding:40px 32px;}
     }
   /* ── LANGUAGE SWITCHER ── */
   #lang-switcher{position:fixed;bottom:28px;right:28px;z-index:999;display:flex;flex-direction:column;gap:7px;background:rgba(13,13,13,.92);border:1px solid var(--border);border-radius:14px;padding:10px 9px;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 8px 28px rgba(0,0,0,.5);}
@@ -151,7 +149,8 @@
   <h2 class="s-title reveal">Todas las piezas</h2>
 </div>
 <div class="gallery-grid">
-  <img class="wide" src="../assets/projects/fragatina/1.webp" alt="Fragatina portada">
+  <img src="../assets/projects/fragatina/HugoSanchez.webp" alt="Hugo Sánchez">
+  <img src="../assets/projects/fragatina/1.webp" alt="Fragatina portada">
   <img src="../assets/projects/fragatina/2.webp" alt="">
   <img src="../assets/projects/fragatina/3.webp" alt="">
   <img src="../assets/projects/fragatina/4.webp" alt="">
@@ -172,6 +171,7 @@
   <img src="../assets/projects/fragatina/PeñaMequi.webp" alt="">
   <img src="../assets/projects/fragatina/PPlanaja.webp" alt="">
   <img src="../assets/projects/fragatina/DespedidaRodrigo.webp" alt="">
+  <img src="../assets/projects/fragatina/Presentaciones.webp" alt="Presentaciones">
 </div>
 
 <div class="proj-nav">
@@ -186,7 +186,7 @@
   gsap.from('.hero-cat',{opacity:0,y:20,duration:.8,delay:.3});
   gsap.from('.hero-title',{opacity:0,y:40,duration:1,delay:.5,ease:'power3.out'});
   gsap.from('.hero-tags',{opacity:0,y:20,duration:.7,delay:.8});
-  gsap.utils.toArray('.gallery-grid img').forEach((img,i)=>gsap.from(img,{scrollTrigger:{trigger:img,start:'top 90%',once:true},opacity:0,y:24,scale:.98,duration:.6,delay:i*.05,ease:'power3.out'}));
+  gsap.utils.toArray('.gallery-grid img').forEach((img,i)=>gsap.from(img,{scrollTrigger:{trigger:img,start:'top 92%',once:true},opacity:0,y:20,scale:.97,duration:.6,delay:(i%9)*.04,ease:'power3.out'}));
 
 </script>
 <script src="../assets/shared-gallery.js"></script>

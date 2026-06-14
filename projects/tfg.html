@@ -78,92 +78,16 @@
 
     /* ── GALLERY GRIDS ── */
 
-    /* Cartel principal destacado */
-    .gallery-featured {
-      padding: 0 80px 16px; display: flex; justify-content: center;
+    .gallery-all {
+      display: grid; grid-template-columns: repeat(9, 1fr);
+      gap: 4px; padding: 0 80px 120px;
     }
-    .gallery-featured img {
-      max-height: 70vh; max-width: 420px; width: 100%; border-radius: 12px;
-      object-fit: contain; cursor: zoom-in; border: 1px solid var(--border);
-      transition: transform .4s, opacity .3s;
-    }
-    .gallery-featured img:hover { transform: scale(1.015); opacity: .9; }
-
-    /* Poster/cartelería: portrait */
-    .gallery-poster {
-      display: grid; grid-template-columns: repeat(5, 1fr);
-      gap: 8px; padding: 0 80px 56px;
-    }
-    .gallery-poster img {
-      width: 100%; border-radius: 8px; object-fit: cover;
-      aspect-ratio: 3/4; cursor: zoom-in;
-      transition: transform .4s, opacity .3s; border: 1px solid var(--border);
-    }
-    .gallery-poster img:hover { transform: scale(1.02); opacity: .88; }
-    .gallery-poster img.landscape { aspect-ratio: 3/1; grid-column: span 2; }
-
-    /* Señalética / infografías: mixed */
-    .gallery-info {
-      display: grid; grid-template-columns: repeat(4, 1fr);
-      gap: 8px; padding: 0 80px 56px;
-    }
-    .gallery-info img {
-      width: 100%; border-radius: 8px; object-fit: cover;
-      aspect-ratio: 4/3; cursor: zoom-in;
-      transition: transform .4s, opacity .3s; border: 1px solid var(--border);
-    }
-    .gallery-info img:hover { transform: scale(1.02); opacity: .88; }
-    .gallery-info img.square { aspect-ratio: 1; }
-
-    /* Publicidad exterior: mockups landscape */
-    .gallery-exterior {
-      display: grid; grid-template-columns: repeat(4, 1fr);
-      gap: 8px; padding: 0 80px 56px;
-    }
-    .gallery-exterior img {
-      width: 100%; border-radius: 8px; object-fit: cover;
-      aspect-ratio: 4/3; cursor: zoom-in;
-      transition: transform .4s, opacity .3s; border: 1px solid var(--border);
-    }
-    .gallery-exterior img:hover { transform: scale(1.02); opacity: .88; }
-
-    /* Artistas: square grid */
-    .gallery-artists {
-      display: grid; grid-template-columns: repeat(6, 1fr);
-      gap: 8px; padding: 0 80px 56px;
-    }
-    .gallery-artists img {
-      width: 100%; border-radius: 8px; object-fit: cover;
+    .gallery-all img {
+      width: 100%; border-radius: 4px; object-fit: cover;
       aspect-ratio: 1; cursor: zoom-in;
       transition: transform .4s, opacity .3s; border: 1px solid var(--border);
     }
-    .gallery-artists img:hover { transform: scale(1.02); opacity: .88; }
-
-    /* Merch: portrait product shots */
-    .gallery-merch {
-      display: grid; grid-template-columns: repeat(6, 1fr);
-      gap: 8px; padding: 0 80px 56px;
-    }
-    .gallery-merch img {
-      width: 100%; border-radius: 8px; object-fit: cover;
-      aspect-ratio: 3/4; cursor: zoom-in;
-      transition: transform .4s, opacity .3s; border: 1px solid var(--border);
-    }
-    .gallery-merch img:hover { transform: scale(1.02); opacity: .88; }
-    .gallery-merch img.wide { aspect-ratio: 4/3; grid-column: span 2; }
-
-    /* Digital / RRSS */
-    .gallery-digital {
-      display: grid; grid-template-columns: repeat(4, 1fr);
-      gap: 8px; padding: 0 80px 56px;
-    }
-    .gallery-digital img {
-      width: 100%; border-radius: 8px; object-fit: cover;
-      aspect-ratio: 4/3; cursor: zoom-in;
-      transition: transform .4s, opacity .3s; border: 1px solid var(--border);
-    }
-    .gallery-digital img:hover { transform: scale(1.02); opacity: .88; }
-    .gallery-digital img.square { aspect-ratio: 1; }
+    .gallery-all img:hover { transform: scale(1.02); opacity: .88; }
 
     /* ── PROJECT NAV ── */
     .proj-nav { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--border); }
@@ -195,12 +119,7 @@
       .section { padding: 80px 32px; }
       .section-sm { padding: 56px 32px 0; }
       .desc-grid { grid-template-columns: 1fr; gap: 48px; }
-      .gallery-featured { padding: 0 32px 12px; }
-      .gallery-featured img { max-height: 55vh; }
-      .gallery-poster, .gallery-info, .gallery-exterior, .gallery-digital { grid-template-columns: 1fr 1fr; padding: 0 32px 40px; }
-      .gallery-artists, .gallery-merch { grid-template-columns: repeat(3, 1fr); padding: 0 32px 40px; }
-      .gallery-poster img.landscape { grid-column: span 2; }
-      .gallery-merch img.wide { grid-column: span 2; }
+      .gallery-all { grid-template-columns: repeat(4, 1fr); padding: 0 32px 80px; }
       .proj-nav-item { padding: 40px 32px; }
     }
 
@@ -279,53 +198,27 @@
   </div>
 </div>
 
-<!-- IDENTIDAD VISUAL -->
+<!-- GALERÍA -->
 <div class="section-sm">
-  <p class="s-label reveal">Identidad Visual</p>
-  <h2 class="s-title reveal">Cartelería y<br>sistema gráfico</h2>
+  <p class="s-label reveal">Galería</p>
+  <h2 class="s-title reveal">Todas las piezas</h2>
 </div>
-<div class="gallery-featured">
+<div class="gallery-all">
   <img src="../assets/projects/DEPROPIO/CartelV1.webp" alt="Cartel principal DEPROPIO">
-</div>
-<div class="gallery-poster">
   <img src="../assets/projects/DEPROPIO/Flyer.webp" alt="Flyer DEPROPIO">
   <img src="../assets/projects/DEPROPIO/FlyerFuera.webp" alt="Flyer exterior">
-  <img src="../assets/projects/DEPROPIO/Banderas.webp" alt="Banderas del festival" class="landscape">
-</div>
-
-<!-- SEÑALÉTICA E INFORMACIÓN -->
-<div class="section-sm">
-  <p class="s-label reveal">Señalética</p>
-  <h2 class="s-title reveal">Mapas, horarios<br>y acreditaciones</h2>
-</div>
-<div class="gallery-info">
-  <img src="../assets/projects/DEPROPIO/MapaFestival.webp" alt="Mapa del festival" class="square">
+  <img src="../assets/projects/DEPROPIO/Banderas.webp" alt="Banderas del festival">
+  <img src="../assets/projects/DEPROPIO/MapaFestival.webp" alt="Mapa del festival">
   <img src="../assets/projects/DEPROPIO/Horarios.webp" alt="Horarios del festival">
-  <img src="../assets/projects/DEPROPIO/Acreditación.webp" alt="Acreditación de prensa" class="square">
+  <img src="../assets/projects/DEPROPIO/Acreditación.webp" alt="Acreditación de prensa">
   <img src="../assets/projects/DEPROPIO/PulseraRecargable1.webp" alt="Pulsera recargable">
   <img src="../assets/projects/DEPROPIO/PulserasPapel.webp" alt="Pulseras de papel">
-</div>
-
-<!-- PUBLICIDAD EXTERIOR -->
-<div class="section-sm">
-  <p class="s-label reveal">Publicidad Exterior</p>
-  <h2 class="s-title reveal">Presencia en<br>el espacio urbano</h2>
-</div>
-<div class="gallery-exterior">
   <img src="../assets/projects/DEPROPIO/PostersCalle.webp" alt="Posters en calle">
   <img src="../assets/projects/DEPROPIO/MarquesinaBusBunbury.webp" alt="Marquesina de bus — Bunbury">
   <img src="../assets/projects/DEPROPIO/Lona Edificio.webp" alt="Lona de edificio">
   <img src="../assets/projects/DEPROPIO/Fence_Banner_Mockup_3.webp" alt="Banner de valla">
   <img src="../assets/projects/DEPROPIO/Cube_Banner_Mockup_1.webp" alt="Banner cúbico">
   <img src="../assets/projects/DEPROPIO/Free_Sign_Mockup_1.webp" alt="Señal informativa">
-</div>
-
-<!-- ARTISTAS -->
-<div class="section-sm">
-  <p class="s-label reveal">Cartel de Artistas</p>
-  <h2 class="s-title reveal">Anuncios del<br>lineup</h2>
-</div>
-<div class="gallery-artists">
   <img src="../assets/projects/DEPROPIO/Artistas/bunbury2.webp" alt="Bunbury">
   <img src="../assets/projects/DEPROPIO/Artistas/Amaral.webp" alt="Amaral">
   <img src="../assets/projects/DEPROPIO/Artistas/KaseO22.webp" alt="Kase.O">
@@ -335,28 +228,12 @@
   <img src="../assets/projects/DEPROPIO/Artistas/Presentacion_Artista_Mallacan.webp" alt="Mallacán">
   <img src="../assets/projects/DEPROPIO/Artistas/Presentacion_Artista_RondadeBoltana.webp" alt="Ronda de Boltaña">
   <img src="../assets/projects/DEPROPIO/Artistas/XoRai.webp" alt="XoRai">
-</div>
-
-<!-- COMUNICACIÓN DIGITAL -->
-<div class="section-sm">
-  <p class="s-label reveal">Comunicación Digital</p>
-  <h2 class="s-title reveal">Redes sociales<br>y campaña de entradas</h2>
-</div>
-<div class="gallery-digital">
   <img src="../assets/projects/DEPROPIO/InstaNMockup.webp" alt="Mockup Instagram">
-  <img src="../assets/projects/DEPROPIO/Anuncios/Fases.webp" alt="Fases de venta" class="square">
-  <img src="../assets/projects/DEPROPIO/Anuncios/Tickets1.webp" alt="Campaña de tickets" class="square">
-  <img src="../assets/projects/DEPROPIO/Anuncios/Fase1AgotadaCasi.webp" alt="Fase 1 casi agotada" class="square">
-  <img src="../assets/projects/DEPROPIO/Anuncios/Fase%202.webp" alt="Fase 2" class="square">
-  <img src="../assets/projects/DEPROPIO/Anuncios/Fase250%.webp" alt="Fase 2 50%" class="square">
-</div>
-
-<!-- MERCHANDISING -->
-<div class="section-sm">
-  <p class="s-label reveal">Merchandising</p>
-  <h2 class="s-title reveal">Producto y<br>colección oficial</h2>
-</div>
-<div class="gallery-merch">
+  <img src="../assets/projects/DEPROPIO/Anuncios/Fases.webp" alt="Fases de venta">
+  <img src="../assets/projects/DEPROPIO/Anuncios/Tickets1.webp" alt="Campaña de tickets">
+  <img src="../assets/projects/DEPROPIO/Anuncios/Fase1AgotadaCasi.webp" alt="Fase 1 casi agotada">
+  <img src="../assets/projects/DEPROPIO/Anuncios/Fase%202.webp" alt="Fase 2">
+  <img src="../assets/projects/DEPROPIO/Anuncios/Fase250%.webp" alt="Fase 2 50%">
   <img src="../assets/projects/DEPROPIO/Cami1-web.webp" alt="Camiseta oficial DEPROPIO">
   <img src="../assets/projects/DEPROPIO/Gorro1-web.webp" alt="Gorro DEPROPIO">
   <img src="../assets/projects/DEPROPIO/Gafas1-web.webp" alt="Gafas DEPROPIO">
@@ -390,11 +267,9 @@
   gsap.from('.hero-title', { opacity: 0, y: 40, duration: 1,  delay: .5, ease: 'power3.out' });
   gsap.from('.hero-tags',  { opacity: 0, y: 20, duration: .7, delay: .8 });
 
-  const allImgs = [
-    ...document.querySelectorAll('.gallery-featured img, .gallery-poster img, .gallery-info img, .gallery-exterior img, .gallery-artists img, .gallery-merch img, .gallery-digital img')
-  ];
+  const allImgs = [...document.querySelectorAll('.gallery-all img')];
   allImgs.forEach((img, i) => {
-    gsap.from(img, { scrollTrigger: { trigger: img, start: 'top 92%', once: true }, opacity: 0, y: 20, scale: .97, duration: .6, delay: (i % 5) * .07, ease: 'power3.out' });
+    gsap.from(img, { scrollTrigger: { trigger: img, start: 'top 92%', once: true }, opacity: 0, y: 20, scale: .97, duration: .6, delay: (i % 9) * .04, ease: 'power3.out' });
   });
 
   /* Lightbox */
@@ -403,19 +278,8 @@
   let lbArr = [], lbIdx = 0;
   function lbOpen(imgs, idx) { lbArr = imgs; lbIdx = idx; lbImg.src = lbArr[lbIdx].src; lb.classList.add('open'); document.body.style.overflow = 'hidden'; }
   function lbClose() { lb.classList.remove('open'); document.body.style.overflow = ''; }
-  document.querySelectorAll('img[class*="gallery"]').forEach(img => {
-    img.addEventListener('click', () => {
-      const parent = img.closest('[class^="gallery"]') || img.closest('[class*=" gallery"]') || img.parentElement;
-      const imgs = Array.from(parent.querySelectorAll('img'));
-      lbOpen(imgs, imgs.indexOf(img));
-    });
-  });
-  document.querySelectorAll('.gallery-featured img, .gallery-poster img, .gallery-info img, .gallery-exterior img, .gallery-artists img, .gallery-merch img, .gallery-digital img').forEach(img => {
-    img.addEventListener('click', e => {
-      const section = img.parentElement;
-      const sectionImgs = Array.from(section.querySelectorAll('img'));
-      lbOpen(sectionImgs, sectionImgs.indexOf(img));
-    });
+  document.querySelectorAll('.gallery-all img').forEach(img => {
+    img.addEventListener('click', () => lbOpen(allImgs, allImgs.indexOf(img)));
   });
   document.getElementById('lbClose').addEventListener('click', lbClose);
   document.getElementById('lbPrev').addEventListener('click', () => { lbIdx = (lbIdx - 1 + lbArr.length) % lbArr.length; lbImg.src = lbArr[lbIdx].src; });
