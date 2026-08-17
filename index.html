@@ -1001,7 +1001,24 @@
       <div class="pgc-accent-line"></div>
     </div>
 
-    <!-- 04 IKEA -->
+    <!-- 04 Torneo F7 -->
+    <div class="proj-grid-card" data-project="torneoF7">
+      <div class="pgc-img-wrap">
+        <img src="assets/projects/torneoF7/posterhorarios.webp" alt="Torneo F7" class="pgc-img" loading="lazy">
+        <div class="pgc-shine"></div>
+        <span class="pgc-tag" data-i18n="card.torneoF7.tag">Diseño Gráfico · Redes Sociales</span>
+      </div>
+      <div class="pgc-info">
+        <div class="pgc-info-text">
+          <h3 class="pgc-title">Torneo F7</h3>
+          <p class="pgc-desc" data-i18n="card.torneoF7.desc">Identidad visual completa para un torneo de fútbol 7: jornadas, clasificaciones, finales y contenido para redes sociales.</p>
+        </div>
+        <div class="pgc-arrow"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 11L11 3M11 3H5M11 3V9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+      <div class="pgc-accent-line"></div>
+    </div>
+
+    <!-- 05 IKEA -->
     <div class="proj-grid-card" data-project="ikea">
       <div class="pgc-img-wrap">
         <img src="assets/projects/ikea/portada.webp" alt="IKEA" class="pgc-img" loading="lazy">
@@ -1290,6 +1307,8 @@ const TRANSLATIONS = {
     'card.tfg.tag': 'Identidad Visual · TFG',
     'card.tfg.title': 'DEPROPIO',
     'card.tfg.desc': 'Identidad completa para un festival de música aragonés: sistema visual, señalética, merch y producción con IA. TFG, CITM UPC.',
+    'card.torneoF7.tag': 'Diseño Gráfico · Redes Sociales',
+    'card.torneoF7.desc': 'Identidad visual completa para un torneo de fútbol 7: jornadas, clasificaciones, finales y contenido para redes sociales.',
     'card.fragatina.tag': 'Diseño Gráfico · Identidad Visual',
     'card.fragatina.desc': 'Cuatro temporadas como responsable de la imagen del club: identidad, matchday graphics y contenido para redes.',
     'card.beyond.desc': 'Entorno de realidad virtual en Unity: modelado, iluminación y diseño de interacción.',
@@ -1358,6 +1377,8 @@ const TRANSLATIONS = {
     'card.tfg.tag': 'Visual Identity · Final Degree Project',
     'card.tfg.title': 'DEPROPIO',
     'card.tfg.desc': 'Complete identity for an Aragonese music festival: visual system, wayfinding, merch and AI production. Final Degree Project, CITM UPC.',
+    'card.torneoF7.tag': 'Graphic Design · Social Media',
+    'card.torneoF7.desc': 'Complete visual identity for a 7-a-side football tournament: matchday graphics, standings, knockouts and social media content.',
     'card.fragatina.tag': 'Graphic Design · Visual Identity',
     'card.fragatina.desc': 'Four seasons as the club\'s visual identity lead: branding, matchday graphics and ongoing social content.',
     'card.beyond.desc': 'Virtual reality environment in Unity: modelling, lighting and interaction design.',
@@ -1618,6 +1639,17 @@ const projects = {
       'assets/projects/beyond/estanteria3.webp','assets/projects/beyond/logo.png'
     ]
   },
+  torneoF7: {
+    cat: 'Diseño Gráfico · Redes Sociales',
+    title: 'Torneo F7',
+    desc: 'Identidad visual completa para un torneo de fútbol 7. Diseño de jornadas, clasificaciones, eliminatorias y contenido para redes sociales.',
+    imgs: [
+      'assets/projects/torneoF7/posterhorarios.webp','assets/projects/torneoF7/equipos.webp',
+      'assets/projects/torneoF7/jornada1.webp','assets/projects/torneoF7/jornada2.webp',
+      'assets/projects/torneoF7/clasificacion1.webp','assets/projects/torneoF7/cuartos.webp',
+      'assets/projects/torneoF7/semis.webp','assets/projects/torneoF7/finales.webp'
+    ]
+  },
   fragatina: {
     cat: 'Diseño Gráfico · Identidad Visual',
     title: 'Fútbol Peña Fragatina',
@@ -1710,6 +1742,7 @@ const projectPages = {
   portfolio: 'projects/portfolio.html',
   beyond:    'projects/beyond.html',
   fragatina: 'projects/fragatina.html',
+  torneoF7:  'projects/torneoF7.html',
   tfg:       'projects/tfg.html',
   ikea:      'projects/ikea.html',
   bagon:     'projects/bagon.html',
